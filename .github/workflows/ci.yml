@@ -56,7 +56,7 @@ jobs:
         if: ${{ !steps.cache-restore.outputs.cache-hit }}
         run: yarn --frozen-lockfile
       - name: Run ESLint
-        uses: yarn lint --fix=false
+        run: yarn lint --fix=false
 
   Building:
     name: Compile source code
