@@ -3,7 +3,7 @@ name: Continuous Integration
 on:
   push:
     branches:
-      - master
+      - main
       - 1.5.0
     paths:
       - '**.ts'
