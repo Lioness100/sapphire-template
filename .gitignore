@@ -1,0 +1,8 @@
+# Ignore a blackhole
+node_modules/
+
+# Ignore the dist output
+dist/
+
+# Environment variables
+.env
