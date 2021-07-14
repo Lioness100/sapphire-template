@@ -19,8 +19,7 @@
     "build": "node scripts/build.mjs",
     "watch": "node scripts/watch.mjs",
     "clean": "node scripts/clean.mjs",
-    "typecheck": "tsc -p src --noEmit",
-    "dev": "run-s build start"
+    "typecheck": "tsc -p src --noEmit"
   },
   "dependencies": {
     "dotenv": "^10.0.0",
@@ -32,7 +31,6 @@
     "@lioness100/ts-config": "^1.0.1",
     "@types/node": "^16.0.0",
     "esbuild": "^0.12.9",
-    "npm-run-all": "^4.1.5",
     "typescript": "^4.3.4"
   },
   "engines": {
