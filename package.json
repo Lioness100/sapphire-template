@@ -6,35 +6,34 @@
   "repository": "https://github.com/Lioness100/~name~",
   "author": "Lioness100 <jchickmm2@gmail.com>",
   "license": "MIT",
-  "private": true,
   "type": "module",
-  "imports": {
-    "#root/*": "./dist/*.js"
-  },
+  "private": true,
   "scripts": {
-    "start": "node . -r dotenv/register",
+    "start": "node -r dotenv/config .",
     "lint": "eslint src --ext ts --fix",
     "format": "prettier --write --loglevel=warn \"src/**/*.ts\"",
     "update": "yarn upgrade-interactive --latest",
     "build": "node scripts/build.mjs",
     "watch": "node scripts/watch.mjs",
-    "clean": "node scripts/clean.mjs",
+    "clean": "rm -rf dist",
     "typecheck": "tsc -p src --noEmit"
   },
   "dependencies": {
     "dotenv": "^10.0.0",
+    "tsconfig-paths": "^3.10.1",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@lioness100/eslint-config": "^1.0.2",
+    "@lioness100/eslint-config": "^1.0.4",
     "@lioness100/prettier-config": "^1.0.0",
-    "@lioness100/ts-config": "^1.0.1",
-    "@types/node": "^16.0.0",
-    "esbuild": "^0.12.9",
+    "@lioness100/ts-config": "^1.0.2",
+    "@types/node": "^16.3.3",
+    "esbuild": "^0.12.15",
     "typescript": "^4.3.4"
   },
   "engines": {
     "node": ">=14",
     "npm": ">=6"
-  }
+  },
+  "prettier": "@lioness100/prettier-config"
 }

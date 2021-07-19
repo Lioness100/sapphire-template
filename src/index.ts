@@ -1,1 +1,3 @@
-// code your heart out
+import './register.ts';
+
+// code your heart out...
