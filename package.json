@@ -8,6 +8,13 @@
   "license": "MIT",
   "type": "module",
   "private": true,
+  "imports": {
+    "#lib/*": "./dist/lib/*.js",
+    "#env": "./dist/lib/env/index.js",
+    "#root/*": "./dist/*.js",
+    "#ext": "./dist/lib/extensions/index.js",
+    "#ext/*": "./dist/lib/extensions/*.js"
+  },
   "scripts": {
     "start": "node -r dotenv/config .",
     "lint": "eslint src --ext ts --fix",
@@ -15,12 +22,20 @@
     "update": "yarn upgrade-interactive --latest",
     "build": "node scripts/build.mjs",
     "watch": "node scripts/watch.mjs",
-    "clean": "rm -rf dist",
+    "clean": "node scripts/clean.mjs",
+    "setup": "run-s clean build start",
     "typecheck": "tsc -p src --noEmit"
   },
   "dependencies": {
+    "@sapphire/decorators": "^2.1.5",
+    "@sapphire/discord.js-utilities": "^2.0.2",
+    "@sapphire/framework": "^1.0.2",
+    "@sapphire/type": "^2.0.11",
+    "@sapphire/utilities": "^2.0.0",
+    "@skyra/editable-commands": "^1.0.0",
+    "colorette": "^1.2.2",
+    "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
-    "tsconfig-paths": "^3.10.1",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
@@ -28,7 +43,9 @@
     "@lioness100/prettier-config": "^1.0.0",
     "@lioness100/ts-config": "^1.0.2",
     "@types/node": "^16.3.3",
+    "@types/ws": "^7.4.6",
     "esbuild": "^0.12.15",
+    "npm-run-all": "^4.1.5",
     "typescript": "^4.3.4"
   },
   "engines": {

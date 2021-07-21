@@ -5,7 +5,11 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@root/*": ["*"]
+      "#root/*": ["*"],
+      "#lib/*": ["lib/*"],
+      "#env": ["lib/env"],
+      "#ext": ["lib/extensions"],
+      "#ext/*": ["lib/extensions/*"],
     }
   },
   "include": ["."]

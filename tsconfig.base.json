@@ -1,3 +1,4 @@
 {
-  "extends": "@lioness100/ts-config"
+  "extends": "@lioness100/ts-config",
+  "compilerOptions": {"lib":["ESNext"], "module": "ESNext", "target": "ESNext"}
 }
