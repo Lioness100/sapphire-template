@@ -13,7 +13,9 @@
     "#env": "./dist/lib/env/index.js",
     "#root/*": "./dist/*.js",
     "#ext": "./dist/lib/extensions/index.js",
-    "#ext/*": "./dist/lib/extensions/*.js"
+    "#ext/*": "./dist/lib/extensions/*.js",
+    "#utils": "./dist/lib/utils/index.js",
+    "#utils/*": "./dist/lib/utils/*.js"
   },
   "scripts": {
     "start": "node -r dotenv/config .",
@@ -33,6 +35,7 @@
     "@sapphire/type": "^2.0.11",
     "@sapphire/utilities": "^2.0.0",
     "colorette": "^1.2.2",
+    "discord-api-types": "^0.20.2",
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
     "tslib": "^2.3.0"

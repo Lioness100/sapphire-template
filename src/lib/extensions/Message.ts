@@ -26,7 +26,7 @@ class CustomMessage extends Structures.get('Message') {
 
   public error(title: string, desc?: string, modifyFn?: EmbedModifyFunction): Promise<Message> {
     return this.embed(`❌ ${title}`, (embed) => {
-      embed.setColor('RED').setDescription(desc);
+      desc && embed.setColor('RED').setDescription(desc);
       modifyFn?.(embed);
     });
   }
