@@ -18,7 +18,7 @@ class CustomMessage extends Structures.get('Message') {
       if (isFunction(fn)) {
         fn(embed);
       }
-      return this.send(embed);
+      return this.channel.send(embed);
     }
 
     return embed;
