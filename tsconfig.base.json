@@ -1,7 +1,6 @@
 {
   "extends": "@lioness100/ts-config",
   "compilerOptions": { 
-    "module": "ESNext",
     "skipLibCheck": true
   }
 }

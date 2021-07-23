@@ -98,10 +98,10 @@
   resolved "https://registry.yarnpkg.com/@lioness100/prettier-config/-/prettier-config-1.0.0.tgz#8c5125c90da715af2f67dd94f4519b9412feef75"
   integrity sha512-kfr+surdJtTS/X7SI9PvG67chHzMgmeplIr1VHfilltm4biX6Dr7vmYY1mHcCI8qw7OPztFA42Koj/HirnyOnA==
 
-"@lioness100/ts-config@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@lioness100/ts-config/-/ts-config-1.0.2.tgz#2e98ff9a2e52363d7044265e8cec0d2866e97244"
-  integrity sha512-w6AhrmWlBEESqj1ggc44auy4C8qdGyphKlG1ZmjZutcf8NOZ2g7SCA0FmUUeNuZ4a09ZaldWhPPzJyg/g8PTUA==
+"@lioness100/ts-config@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@lioness100/ts-config/-/ts-config-1.0.3.tgz#43a208873764633011ef04097c75cf75c7f6c666"
+  integrity sha512-oK+NybjHJGHvFRwR2YEYzwWJikAzGpIgZagFZPAJPBnXhCDa1gOGKZtX1yPVwlapClqB3hP6LLFQi74k5jLjHg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
