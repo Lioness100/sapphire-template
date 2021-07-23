@@ -2,7 +2,7 @@ import type { Events } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 import { Event } from '@sapphire/framework';
 
-export default class extends Event<Events.MessageUpdate> {
+export default class UserEvent extends Event<Events.MessageUpdate> {
   public run(old: Message, message: Message) {
     if (
       old.content === message.content ||

@@ -5,7 +5,7 @@ import { blue, gray, green, magenta, magentaBright, bold } from 'colorette';
 import { readFileSync } from 'fs';
 
 @ApplyOptions<EventOptions>({ once: true })
-export default class extends Event<Events.Ready> {
+export default class UserEvent extends Event<Events.Ready> {
   public run() {
     this.printBanner();
     this.printStoreDebugInformation();
