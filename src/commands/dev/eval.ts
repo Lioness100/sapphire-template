@@ -12,7 +12,7 @@ import { Preconditions } from '#types/Enums';
   quotes: [],
   preconditions: [Preconditions.OwnerOnly],
   strategyOptions: {
-    flags: ['async', 'hidden', 'showHidden', 'silent', 's'],
+    flags: ['async', 'silent', 's'],
     options: ['depth'],
   },
 })
@@ -23,7 +23,7 @@ export default class UserCommand extends Command {
       'Please provide code to evaluate'
     );
 
-    const { result, success, type } = await this.eval(message, code, {
+    const { result, success, type } = await this.eval(code, {
       async: args.getFlags('async'),
       depth: Number(args.getOption('depth')) ?? 0,
     });
@@ -47,13 +47,10 @@ export default class UserCommand extends Command {
     return message.channel.send(`${output}\n${typeFooter}`);
   }
 
-  private async eval(message: Message, code: string, flags: { async: boolean; depth: number }) {
+  private async eval(code: string, flags: { async: boolean; depth: number }) {
     if (flags.async) {
       code = `(async () => {\n${code}\n})();`;
     }
-    // @ts-expect-error value is never read, this is so `msg` is possible as an alias when sending the eval.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const msg = message;
 
     let success = true;
     let result = null;
