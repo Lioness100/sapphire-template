@@ -40,5 +40,5 @@ has('TOKEN', (val) => !TokenRegex.test(val) && 'is not a valid token');
 has('COLOR', (val) => !Util.resolveColor(val) && 'is not a valid color');
 has('PRESENCE_NAME', (val) => val && !type && 'must be coupled with "BOT_PRESENCE_TYPE"', false);
 has('PRESENCE_TYPE', (val) => val && !name && 'must be coupled with "BOT_PRESENCE_NAME"', false);
-has('PRESENCE_TYPE', (val) => !types.includes(val) && `Must be one of ${types.join(', ')}`, false);
+has('PRESENCE_TYPE', (val) => !types.includes(val) && `must be one of ${types.join(', ')}`, false);
 has('OWNER_ID', (val) => !SnowflakeRegex.test(val) && 'is not a valid user ID');
