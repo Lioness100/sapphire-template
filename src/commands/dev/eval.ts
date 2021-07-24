@@ -5,11 +5,12 @@ import { codeBlock, isThenable } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import { inspect } from 'util';
 import Command from '#structures/Command';
+import { Preconditions } from '#types/Enums';
 
 @ApplyOptions<CommandOptions>({
   description: 'Evals any JavaScript code',
   quotes: [],
-  preconditions: ['OwnerOnly'],
+  preconditions: [Preconditions.OwnerOnly],
   strategyOptions: {
     flags: ['async', 'hidden', 'showHidden', 'silent', 's'],
     options: ['depth'],

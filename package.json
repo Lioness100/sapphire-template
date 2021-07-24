@@ -15,7 +15,8 @@
     "#ext": "./dist/lib/extensions/index.js",
     "#ext/*": "./dist/lib/extensions/*.js",
     "#structures": "./dist/lib/structures/index.js",
-    "#structures/*": "./dist/lib/structures/*.js"
+    "#structures/*": "./dist/lib/structures/*.js",
+    "#types/*": "./dist/lib/types/*.js"
   },
   "scripts": {
     "start": "node -r dotenv/config .",

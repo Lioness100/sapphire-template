@@ -12,6 +12,7 @@
       "#ext/*": ["lib/extensions/*"],
       "#structures": ["lib/structures"],
       "#structures/*": ["lib/structures/*"],
+      "#types/*": ["lib/types/*"]
     }
   },
   "include": ["."]
