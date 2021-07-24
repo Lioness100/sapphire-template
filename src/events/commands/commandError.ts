@@ -7,7 +7,11 @@ import { bold, redBright } from 'colorette';
 const ignoredCodes = [RESTJSONErrorCodes.UnknownChannel, RESTJSONErrorCodes.UnknownMessage];
 
 export class UserEvent extends Event<Events.CommandError> {
-  public run(error: Error, { message, piece }: CommandErrorPayload) {
+  public run(error: Error | string, { message, piece }: CommandErrorPayload) {
+    if (typeof error === 'string') {
+      return message.error(error);
+    }
+
     if (error instanceof ArgumentError) {
       return message.error(error.message);
     }
