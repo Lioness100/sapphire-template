@@ -9,7 +9,7 @@ import Command from '#structures/Command';
 @ApplyOptions<CommandOptions>({
   description: 'Evals any JavaScript code',
   quotes: [],
-  preconditions: ['ownerOnly'],
+  preconditions: ['OwnerOnly'],
   strategyOptions: {
     flags: ['async', 'hidden', 'showHidden', 'silent', 's'],
     options: ['depth'],
