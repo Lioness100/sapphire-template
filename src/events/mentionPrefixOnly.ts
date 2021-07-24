@@ -4,8 +4,10 @@ import type { Message } from 'discord.js';
 
 export default class UserEvent extends Event<Events.MentionPrefixOnly> {
   public run(message: Message) {
-    void message.embed('', (embed) =>
-      embed.setDescription(`My prefix is \`${process.env.PREFIX}\``)
-    );
+    void message.embed(`My prefix is \`${process.env.PREFIX}\``, (embed) => {
+      if (!message.guild) {
+        embed.setDescription("However, you don't need a prefix in DMs!");
+      }
+    });
   }
 }

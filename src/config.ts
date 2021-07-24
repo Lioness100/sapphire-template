@@ -2,23 +2,25 @@ import type { SapphireClientOptions } from '@sapphire/framework';
 import { LogLevel } from '@sapphire/framework';
 import type { ClientOptions } from 'discord.js';
 
+const prefix = process.env.PREFIX;
+const name = process.env.PRESENCE_NAME;
+const type = process.env.PRESENCE_TYPE;
+
 const options: SapphireClientOptions & ClientOptions = {
   allowedMentions: { parse: ['users', 'roles'] },
   caseInsensitiveCommands: true,
   caseInsensitivePrefixes: true,
-  defaultPrefix: process.env.PREFIX,
+  fetchPrefix: (message) => (message.guild ? prefix : [prefix, '']),
+  loadDefaultErrorEvents: false,
   logger: {
     level: LogLevel.Trace,
   },
   messageCacheMaxSize: 0,
   messageEditHistoryMaxSize: 0,
   ws: {
-    intents: ['GUILDS', 'GUILD_MESSAGES'],
+    intents: ['GUILDS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'],
   },
 };
-
-const name = process.env.PRESENCE_NAME;
-const type = process.env.PRESENCE_TYPE;
 
 if (name && type) {
   options.presence = { activity: { name, type } };
