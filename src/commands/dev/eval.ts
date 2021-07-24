@@ -23,7 +23,7 @@ export default class UserCommand extends Command {
       'Please provide code to evaluate'
     );
 
-    const { result, success, type } = await this.eval(code, {
+    const { result, success, type } = await this.eval(message, code, {
       async: args.getFlags('async'),
       depth: Number(args.getOption('depth')) ?? 0,
     });
@@ -47,10 +47,13 @@ export default class UserCommand extends Command {
     return message.channel.send(`${output}\n${typeFooter}`);
   }
 
-  private async eval(code: string, flags: { async: boolean; depth: number }) {
+  private async eval(message: Message, code: string, flags: { async: boolean; depth: number }) {
     if (flags.async) {
       code = `(async () => {\n${code}\n})();`;
     }
+
+    // does nothing
+    (() => message)();
 
     let success = true;
     let result = null;
