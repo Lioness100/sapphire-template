@@ -1,11 +1,10 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import { Command } from '@sapphire/framework';
 import type { Args, CommandOptions } from '@sapphire/framework';
 import { Type } from '@sapphire/type';
 import { codeBlock, isThenable } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import { inspect } from 'util';
-import { handleArg } from '#utils';
+import Command from '#structures/Command';
 
 @ApplyOptions<CommandOptions>({
   description: 'Evals any JavaScript code',
@@ -18,7 +17,10 @@ import { handleArg } from '#utils';
 })
 export default class UserCommand extends Command {
   public async run(message: Message, args: Args) {
-    const code = await handleArg(args.restResult('string'), 'Please provide code to evaluate');
+    const code = await this.handleArgs(
+      args.restResult('string'),
+      'Please provide code to evaluate'
+    );
 
     const { result, success, type } = await this.eval(message, code, {
       async: args.getFlags('async'),
