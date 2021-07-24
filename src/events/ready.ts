@@ -1,6 +1,6 @@
-import { ApplyOptions } from '@sapphire/decorators';
 import type { EventOptions, Events, Piece } from '@sapphire/framework';
 import { Event, Store } from '@sapphire/framework';
+import { ApplyOptions } from '@sapphire/decorators';
 import { blue, gray, green, magenta, magentaBright, bold } from 'colorette';
 import { readFileSync } from 'fs';
 

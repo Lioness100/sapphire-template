@@ -42,7 +42,7 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@lioness100/eslint-config": "^1.0.4",
+    "@lioness100/eslint-config": "^1.0.6",
     "@lioness100/prettier-config": "^1.0.0",
     "@lioness100/ts-config": "^1.0.3",
     "@types/node": "^16.3.3",

@@ -1,14 +1,20 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import type { Args, CommandOptions } from '@sapphire/framework';
+import type { Args } from '@sapphire/framework';
 import { Type } from '@sapphire/type';
 import { codeBlock, isThenable } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import { inspect } from 'util';
-import Command from '#structures/Command';
+import type { CommandOptions } from '#structures/Command';
+import { Command } from '#structures/Command';
 import { Preconditions } from '#types/Enums';
 
 @ApplyOptions<CommandOptions>({
   description: 'Evals any JavaScript code',
+  detailedDescription: [
+    'Evaluates any JavaScript code and sends the result',
+    'or error accompanied by a return type.',
+  ].join(' '),
+  usage: '<code> [--async] [--silent|--s]',
   quotes: [],
   preconditions: [Preconditions.OwnerOnly],
   strategyOptions: {

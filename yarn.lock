@@ -81,10 +81,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
-"@lioness100/eslint-config@^1.0.4":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@lioness100/eslint-config/-/eslint-config-1.0.5.tgz#ca1bbb7fded047bcc7ce572b6ec269a37e14311e"
-  integrity sha512-6kapFctFK2HY/QCxyDz8cMygooG+e1PJPecSdAp07t+XGdIBNo5CM3iOD5ObjMP8wHeNkdNi8sEkrQ4LpnHNCQ==
+"@lioness100/eslint-config@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@lioness100/eslint-config/-/eslint-config-1.0.6.tgz#b64566371ec35a1309a5c953db4e2ea481544d64"
+  integrity sha512-Q+4EXZJyrvBWBc/Uf3mfIPol6KHdu4wzvILcJuxy71lsODm1TUxKoOIWmC6GawtZfh2hhJUJt1+w8/va0tVoGQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^4.28.3"
     "@typescript-eslint/parser" "^4.28.3"
