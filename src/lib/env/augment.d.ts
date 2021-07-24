@@ -1,4 +1,4 @@
-import IProcessEnv from '#types/IProcessEnv';
+import IProcessEnv from '#env';
 
 declare global {
   namespace NodeJS {
