@@ -33,7 +33,7 @@ const has = (key: keyof IProcessEnv, validate?: (value: string) => unknown, requ
 
 const name = process.env.PRESENCE_NAME;
 const type = process.env.PRESENCE_TYPE;
-const types = ['PLAYING', 'LISTENING', 'WATCHING'];
+const types = ['PLAYING', 'LISTENING', 'WATCHING', 'COMPETING'];
 
 has('PREFIX');
 has('TOKEN', (val) => !TokenRegex.test(val) && 'is not a valid token');
