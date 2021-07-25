@@ -12,9 +12,10 @@ import { Command } from '#structures/Command';
 })
 export class UserCommand extends Command {
   public async run(message: Message) {
-    const msg = await message.embed('Ping?', true);
+    const msg = await message.embed('', { title: 'Ping?' });
     const embed = message
-      .embed('Pong! 🏓')
+      .embed()
+      .setTitle('Pong!')
       .setDescription(
         `Bot Latency - ${Math.round(this.context.client.ws.ping)}ms. API Latency - ${
           msg.createdTimestamp - message.createdTimestamp

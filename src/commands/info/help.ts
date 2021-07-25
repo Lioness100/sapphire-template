@@ -30,7 +30,7 @@ export class UserCommand extends Command {
     const prefix = process.env.PREFIX;
 
     const embed = message
-      .embed('')
+      .embed()
       .addField(
         '❯ Usage',
         `\`${prefix}${command.name}${command.usage ? ` ${command.usage}` : ''}\``
@@ -49,7 +49,7 @@ export class UserCommand extends Command {
   }
 
   private menu(message: Message) {
-    const embed = message.embed('').setTimestamp();
+    const embed = message.embed().setTimestamp();
     const categories = new Set<string>(commands.map((command) => (command as Command).category));
 
     for (const cat of categories) {

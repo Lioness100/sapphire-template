@@ -1,43 +1,47 @@
-import { isFunction } from '@sapphire/utilities';
-import type { Message } from 'discord.js';
+import { isGuildBasedChannel } from '@sapphire/discord.js-utilities';
+import { isFunction, isObject } from '@sapphire/utilities';
+import type { Message, MessageEmbedOptions } from 'discord.js';
 import { Structures, MessageEmbed } from 'discord.js';
 
 // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-type EmbedModifyFunction = <T extends MessageEmbed>(embed: T) => void | T;
+type EmbedModifier = (<T extends MessageEmbed>(embed: T) => void | T) | MessageEmbedOptions;
 
 class CustomMessage extends Structures.get('Message') {
-  public embed(title: string, fn: EmbedModifyFunction | true): Promise<Message>;
-  public embed(title: string, fn?: false): MessageEmbed;
-  public embed(title: string, fn?: EmbedModifyFunction | boolean): Promise<Message> | MessageEmbed {
+  public embed(desc: string, mod: EmbedModifier | true): Promise<Message>;
+  public embed(desc?: string, mod?: false): MessageEmbed;
+  public embed(desc?: string, mod?: EmbedModifier | boolean): Promise<Message> | MessageEmbed {
     const embed = new MessageEmbed({
-      title,
+      description: desc,
       color: process.env.COLOR,
     });
 
-    if (fn) {
-      if (isFunction(fn)) {
-        fn(embed);
+    if (isGuildBasedChannel(this.channel)) {
+      embed.setAuthor(this.author.tag, this.author.displayAvatarURL({ dynamic: true }));
+    }
+
+    if (mod) {
+      if (isFunction(mod)) {
+        mod(embed);
+      } else if (isObject(mod)) {
+        Object.assign(embed, mod);
       }
+
       return this.channel.send(embed);
     }
 
     return embed;
   }
 
-  public error(title: string, desc?: string, modifyFn?: EmbedModifyFunction): Promise<Message> {
-    return this.embed(`❌ ${title}`, (embed) => {
-      desc && embed.setColor('RED').setDescription(desc);
-      modifyFn?.(embed);
-    });
+  public error(desc: string, mod?: EmbedModifier): Promise<Message> {
+    return this.embed(`❌ ${desc}`, mod || true);
   }
 }
 
 declare module 'discord.js' {
   export interface Message {
-    embed(title: string, fn: EmbedModifyFunction | true): Promise<Message>;
-    embed(title: string, fn?: false): MessageEmbed;
-    embed(title: string, fn?: EmbedModifyFunction | boolean): Promise<Message> | MessageEmbed;
-    error(title: string, desc?: string, modifyFn?: EmbedModifyFunction): Promise<Message>;
+    embed(desc: string, mod: EmbedModifier | true): Promise<Message>;
+    embed(desc?: string, mod?: false): MessageEmbed;
+    error(desc: string, mod?: EmbedModifier): Promise<Message>;
   }
 }
 
