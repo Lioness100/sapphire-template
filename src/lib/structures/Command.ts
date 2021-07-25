@@ -1,9 +1,7 @@
 import type {
-  Result,
   ArgType,
   CommandOptions as BaseCommandOptions,
   PieceContext,
-  UserError,
 } from '@sapphire/framework';
 import { Command as BaseCommand } from '@sapphire/framework';
 import { toTitleCase } from '@sapphire/utilities';
@@ -19,16 +17,13 @@ export abstract class Command extends BaseCommand {
     this.category = toTitleCase(this.path.split(sep).reverse()[1]);
   }
 
-  protected async handleArgs<T extends ArgType[keyof ArgType]>(
-    getArg: Promise<Result<T, UserError>>,
+  protected handleArgs<T extends ArgType[keyof ArgType]>(
+    getArg: Promise<T>,
     message: string
   ): Promise<T> {
-    const res = await getArg;
-    if (res.success) {
-      return res.value;
-    }
-
-    throw message;
+    return getArg.catch(() => {
+      throw message;
+    });
   }
 }
 

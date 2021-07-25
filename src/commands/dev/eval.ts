@@ -24,10 +24,7 @@ import { Preconditions } from '#types/Enums';
 })
 export default class UserCommand extends Command {
   public async run(message: Message, args: Args) {
-    const code = await this.handleArgs(
-      args.restResult('string'),
-      'Please provide code to evaluate'
-    );
+    const code = await this.handleArgs(args.rest('string'), 'Please provide code to evaluate');
 
     const { result, success, type } = await this.eval(message, code, {
       async: args.getFlags('async'),
