@@ -14,7 +14,7 @@ import { Preconditions } from '#types/Enums';
     'Evaluates any JavaScript code and sends the result',
     'or error accompanied by a return type.',
   ].join(' '),
-  usage: '<code> [--async] [--silent|--s]',
+  usage: '<...code> [--async] [--silent|--s]',
   quotes: [],
   preconditions: [Preconditions.OwnerOnly],
   strategyOptions: {
