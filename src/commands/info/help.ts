@@ -48,17 +48,31 @@ export class UserCommand extends Command {
     return message.channel.send(embed);
   }
 
-  private menu(message: Message) {
+  private async menu(message: Message) {
     const embed = message.embed().setTimestamp();
     const categories = new Set<string>(commands.map((command) => (command as Command).category));
 
     for (const cat of categories) {
-      embed.addField(
-        `❯ ${toTitleCase(cat)}`,
-        commands
-          .filter((cmd) => (cmd as Command).category.toLowerCase() === cat.toLowerCase())
-          .map((cmd) => `\`${cmd.name}\` → *${cmd.description || 'No description was provided.'}*`)
+      const categoryCommands = commands.filter(
+        (cmd) => (cmd as Command).category.toLowerCase() === cat.toLowerCase()
       );
+      const displayed = [];
+
+      for (const command of categoryCommands.values()) {
+        const displayable = await command.preconditions.run(message, command, { command: null });
+        if (displayable.success) {
+          displayed.push(command);
+        }
+      }
+
+      if (displayed.length) {
+        embed.addField(
+          `❯ ${toTitleCase(cat)}`,
+          displayed.map(
+            (cmd) => `\`${cmd.name}\` → *${cmd.description || 'No description was provided.'}*`
+          )
+        );
+      }
     }
 
     return message.channel.send(embed);
