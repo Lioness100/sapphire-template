@@ -7,6 +7,13 @@ import { inspect } from 'util';
 import type { CommandOptions } from '#structures/Command';
 import { Command } from '#structures/Command';
 import { Preconditions } from '#types/Enums';
+import { Stopwatch } from '@sapphire/stopwatch';
+
+interface EvalFlags {
+  async: boolean;
+  depth: number;
+  decimals?: number;
+}
 
 @ApplyOptions<CommandOptions>({
   description: 'Evals any JavaScript code',
@@ -19,16 +26,17 @@ import { Preconditions } from '#types/Enums';
   preconditions: [Preconditions.OwnerOnly],
   strategyOptions: {
     flags: ['async', 'silent', 's'],
-    options: ['depth'],
+    options: ['depth', 'decimals'],
   },
 })
 export default class UserCommand extends Command {
   public async run(message: Message, args: Args) {
     const code = await this.handleArgs(args.rest('string'), 'Please provide code to evaluate');
 
-    const { result, success, type } = await this.eval(message, code, {
+    const { result, success, type, stopwatch } = await this.eval(message, code, {
       async: args.getFlags('async'),
       depth: Number(args.getOption('depth')) ?? 0,
+      decimals: Number(args.getOptions('decimals')),
     });
 
     const output = success ? codeBlock('js', result) : `**ERROR**: ${codeBlock('bash', result)}`;
@@ -37,6 +45,7 @@ export default class UserCommand extends Command {
     }
 
     const typeFooter = `**Type**: ${codeBlock('typescript', type)}`;
+    const timeFooter = `${stopwatch} ⏱`;
 
     if (output.length > 2000) {
       return message.channel.send(
@@ -47,24 +56,32 @@ export default class UserCommand extends Command {
       );
     }
 
-    return message.channel.send(`${output}\n${typeFooter}`);
+    return message.channel.send(`${output}\n${typeFooter}\n${timeFooter}`);
   }
 
-  private async eval(message: Message, code: string, flags: { async: boolean; depth: number }) {
+  private async eval(message: Message, code: string, flags: EvalFlags) {
     if (flags.async) {
       code = `(async () => {\n${code}\n})();`;
     }
 
-    // does nothing
-    (() => message)();
-
     let success = true;
     let result = null;
 
+    const stopwatch = new Stopwatch(flags.decimals);
+
     try {
+      // @ts-expect-error 6133
+      const msg = message;
+
       // eslint-disable-next-line no-eval
       result = eval(code);
+      if (isThenable(result)) {
+        result = await result;
+      }
+
+      stopwatch.stop();
     } catch (error) {
+      stopwatch.stop();
       if (error && error.stack) {
         this.context.client.logger.error(error);
       }
@@ -73,9 +90,6 @@ export default class UserCommand extends Command {
     }
 
     const type = new Type(result).toString();
-    if (isThenable(result)) {
-      result = await result;
-    }
 
     if (typeof result !== 'string') {
       result = inspect(result, {
@@ -83,6 +97,6 @@ export default class UserCommand extends Command {
       });
     }
 
-    return { result, success, type };
+    return { result, success, type, stopwatch };
   }
 }
