@@ -25,10 +25,7 @@ export class UserEvent extends Event<Events.CommandError> {
     }
 
     if (error.name === 'AbortError' || error.message === 'Internal Server Error') {
-      return message.error(
-        'Aborted',
-        'I had an issue communicating with Discord- please try again!'
-      );
+      return message.error('I had an issue communicating with Discord- please try again!');
     }
 
     if (error instanceof DiscordAPIError || error instanceof HTTPError) {
@@ -40,6 +37,6 @@ export class UserEvent extends Event<Events.CommandError> {
     this.context.logger.fatal(
       `${redBright(bold(`[${piece.name}]`))}\n${error.stack || error.message}`
     );
-    return message.error('Something went wrong!', error.message);
+    return message.error(error.message, { title: 'Something went wrong!' });
   }
 }
