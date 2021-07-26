@@ -35,7 +35,7 @@
     "@sapphire/framework": "^1.0.2",
     "@sapphire/stopwatch": "^1.1.4",
     "@sapphire/type": "^2.0.11",
-    "@sapphire/utilities": "^2.0.0",
+    "@sapphire/utilities": "^2.0.1",
     "colorette": "^1.2.2",
     "discord-api-types": "^0.20.2",
     "discord.js": "^12.5.3",
