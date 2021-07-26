@@ -1,3 +1,9 @@
 export const enum Preconditions {
-  OwnerOnly = 'ownerOnly',
+  Cooldown = 'Cooldown',
+  DMOnly = 'DMOnly',
+  Enabled = 'Enabled',
+  GuildOnly = 'GuildOnly',
+  NSFW = 'NSFW',
+  Permissions = 'Permissions',
+  OwnerOnly = 'OwnerOnly',
 }
