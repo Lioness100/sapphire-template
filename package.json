@@ -36,6 +36,7 @@
     "@sapphire/stopwatch": "^1.1.4",
     "@sapphire/type": "^2.0.11",
     "@sapphire/utilities": "^2.0.0",
+    "@skyra/editable-commands": "^1.0.0",
     "colorette": "^1.2.2",
     "discord-api-types": "^0.20.2",
     "discord.js": "^12.5.3",

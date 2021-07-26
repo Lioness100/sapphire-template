@@ -48,15 +48,12 @@ export default class UserCommand extends Command {
     const timeFooter = `${stopwatch} ⏱`;
 
     if (output.length > 2000) {
-      return message.channel.send(
-        `Output was too long... sent the result as a file.\n\n${typeFooter}`,
-        {
-          files: [{ attachment: Buffer.from(output), name: 'output.txt' }],
-        }
-      );
+      return message.send(`Output was too long... sent the result as a file.\n\n${typeFooter}`, {
+        files: [{ attachment: Buffer.from(output), name: 'output.txt' }],
+      });
     }
 
-    return message.channel.send(`${output}\n${typeFooter}\n${timeFooter}`);
+    return message.send(`${output}\n${typeFooter}\n${timeFooter}`);
   }
 
   private async eval(message: Message, code: string, flags: EvalFlags) {

@@ -15,8 +15,7 @@ const options: SapphireClientOptions & ClientOptions = {
   logger: {
     level: LogLevel.Trace,
   },
-  messageCacheMaxSize: 0,
-  messageEditHistoryMaxSize: 0,
+  messageCacheMaxSize: 25,
   ws: {
     intents: ['GUILDS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'],
   },

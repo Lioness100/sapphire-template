@@ -45,7 +45,7 @@ export class UserCommand extends Command {
       embed.setDescription(command.description);
     }
 
-    return message.channel.send(embed);
+    return message.send(embed);
   }
 
   private async menu(message: Message) {
@@ -75,6 +75,6 @@ export class UserCommand extends Command {
       }
     }
 
-    return message.channel.send(embed);
+    return message.send(embed);
   }
 }
