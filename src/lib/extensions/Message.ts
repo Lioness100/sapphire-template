@@ -1,7 +1,7 @@
 import { isGuildBasedChannel } from '@sapphire/discord.js-utilities';
 import { isFunction, isObject } from '@sapphire/utilities';
 import type { Message, MessageEmbedOptions } from 'discord.js';
-import { Structures, MessageEmbed } from 'discord.js';
+import { Structures, MessageEmbed, Util } from 'discord.js';
 
 // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 type EmbedModifier = (<T extends MessageEmbed>(embed: T) => void | T) | MessageEmbedOptions;
@@ -26,14 +26,26 @@ class CustomMessage extends Structures.get('Message') {
         Object.assign(embed, mod);
       }
 
-      return this.channel.send(embed);
+      return this.send(embed);
     }
 
     return embed;
   }
 
   public error(desc: string, mod?: EmbedModifier): Promise<Message> {
-    return this.embed(`❌ ${desc}`, mod || true);
+    const color = Util.resolveColor('RED');
+
+    return this.embed(
+      `❌ ${desc}`,
+      mod
+        ? isFunction(mod)
+          ? (embed) => {
+              embed.setColor('RED');
+              mod(embed);
+            }
+          : { color, ...mod }
+        : { color }
+    );
   }
 }
 
