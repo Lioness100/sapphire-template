@@ -6,9 +6,12 @@ import { readFileSync } from 'fs';
 
 @ApplyOptions<EventOptions>({ once: true })
 export default class UserEvent extends Event<Events.Ready> {
-  public run() {
+  public async run() {
     this.printBanner();
     this.printStoreDebugInformation();
+
+    const application = await this.context.client.fetchApplication();
+    Store.injectedContext.owner = application.owner?.id;
   }
 
   private printBanner() {
