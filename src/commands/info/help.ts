@@ -45,6 +45,10 @@ export class UserCommand extends Command {
     return message.send(embed);
   }
 
+  /**
+   * create a menu of all commands
+   * @param message - the message that executed the command
+   */
   private async menu(message: Message) {
     const embed = message.embed().setTimestamp();
     const categories = new Set<string>(this.store.map((command) => (command as Command).category));

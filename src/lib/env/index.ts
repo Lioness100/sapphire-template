@@ -14,6 +14,11 @@ export default interface IProcessEnv {
   PRESENCE_TYPE: ActivityType;
 }
 
+/**
+ * check if the local env has a value and optionally validate it
+ * @param key - the key to check
+ * @param [validate] - an optional validator to make sure everything runs smoothly
+ */
 const has = (key: keyof IProcessEnv, validate?: (value: string) => unknown, required = true) => {
   const value = process.env[key];
   if (required && isNullishOrEmpty(value)) {

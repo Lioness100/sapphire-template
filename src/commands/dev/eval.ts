@@ -56,6 +56,12 @@ export default class UserCommand extends Command {
     return message.send(`${output}\n${typeFooter}\n${timeFooter}`);
   }
 
+  /**
+   * executes javascript code, times it, types it, and handles the result
+   * @param message - the message that triggered the command. this can be referenced inside the eval
+   * @param code - the code to eval (if {@link EvalFlags.async}, this will be wrapped in an async function)
+   * @param flags - code/result modifiers
+   */
   private async eval(message: Message, code: string, flags: EvalFlags) {
     if (flags.async) {
       code = `(async () => {\n${code}\n})();`;

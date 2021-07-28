@@ -21,7 +21,10 @@ export default class UserCommand extends Command {
     const type = isStore ? 'store' : 'piece';
 
     const arg = await this.handleArgs(args.pick('string'), `Please provide a ${type} to reload!`);
-    const promise = isStore ? this.reloadStore(arg) : this.reloadPiece(arg);
+
+    const promise = isStore
+      ? this.reloadPiece(arg)
+      : this.reloadStore(arg as keyof StoreRegistryEntries);
 
     const stopwatch = new Stopwatch();
     await promise;
@@ -29,8 +32,12 @@ export default class UserCommand extends Command {
     void message.embed(`The \`${arg}\` ${type} has been reloaded\n${stopwatch.stop()} ⏱`, true);
   }
 
-  private reloadStore(storeKey: string) {
-    const store = this.context.stores.get(storeKey as keyof StoreRegistryEntries);
+  /**
+   * reload a store
+   * @param storeKey - name of store to query `stores.get()`
+   */
+  private reloadStore(storeKey: keyof StoreRegistryEntries) {
+    const store = this.context.stores.get(storeKey);
     if (!store) {
       throw 'Please provide a valid store to reload!';
     }
@@ -38,6 +45,10 @@ export default class UserCommand extends Command {
     return store.loadAll();
   }
 
+  /**
+   * reloads a piece (searches through all stores to find a match)
+   * @param piece - name of piece to query `store.get()`
+   */
   private reloadPiece(pieceKey: string) {
     const piece = this.context.stores.find((store) => store.has(pieceKey))?.get(pieceKey);
     if (!piece) {

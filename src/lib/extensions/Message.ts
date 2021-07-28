@@ -7,6 +7,17 @@ import { Structures, MessageEmbed, Util } from 'discord.js';
 type EmbedModifier = (<T extends MessageEmbed>(embed: T) => void | T) | MessageEmbedOptions;
 
 class CustomMessage extends Structures.get('Message') {
+  /**
+   * send a base embed with the branding color and author displayed (if in guilds)
+   * @param [desc] - the description for the embed
+   * @param [mod] - the embed modifier
+   * @example
+   * message.embed().setTitle('hello');
+   * message.embed('hello');
+   * message.embed('hello', true);
+   * message.embed('hello', { title: 'hello' });
+   * message.embed('hello', (embed) => embed.setTitle('hello'));
+   */
   public embed(desc: string, mod: EmbedModifier | true): Promise<Message>;
   public embed(desc?: string, mod?: false): MessageEmbed;
   public embed(desc?: string, mod?: EmbedModifier | boolean): Promise<Message> | MessageEmbed {
@@ -32,6 +43,15 @@ class CustomMessage extends Structures.get('Message') {
     return embed;
   }
 
+  /**
+   * internally calls {@link CustomMessage#embed} but sets the color red and appends "❌ "
+   * @param desc - the error description
+   * @param [mod] - the embed modifier
+   * @example
+   * message.error('nope');
+   * message.embed('nope', { title: 'nope' });
+   * message.embed('nope', (embed) => embed.setTitle('nope'));
+   */
   public error(desc: string, mod?: EmbedModifier): Promise<Message> {
     const color = Util.resolveColor('RED');
 

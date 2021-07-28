@@ -14,6 +14,9 @@ export default class UserEvent extends Event<Events.Ready> {
     Store.injectedContext.owner = application.owner?.id;
   }
 
+  /**
+   * print a colorful banner with the version and name
+   */
   private printBanner() {
     const { version, name }: Record<string, string> = JSON.parse(
       readFileSync('./package.json').toString()
@@ -37,6 +40,9 @@ ${line} ${pad}
     );
   }
 
+  /**
+   * print how many pieces are in each store colorfully
+   */
   private printStoreDebugInformation() {
     const { client, logger } = this.context;
     const stores = [...client.stores.values()];
@@ -48,6 +54,9 @@ ${line} ${pad}
     logger.info(this.styleStore(last, true));
   }
 
+  /**
+   * style how the {@link UserEvent#printStoreDebugInformation} is displayed
+   */
   private styleStore(store: Store<Piece>, last: boolean) {
     return gray(
       `${last ? '└─' : '├─'} Loaded ${blue(store.size.toString().padEnd(3, ' '))} ${store.name}`
