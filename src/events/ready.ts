@@ -1,17 +1,14 @@
-import type { EventOptions, Events, Piece } from '@sapphire/framework';
-import { Event, Store } from '@sapphire/framework';
+import type { EventOptions, Events, Piece, Store } from '@sapphire/framework';
+import { Event } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { blue, gray, green, magenta, magentaBright, bold } from 'colorette';
 import { readFileSync } from 'fs';
 
 @ApplyOptions<EventOptions>({ once: true })
 export default class UserEvent extends Event<Events.Ready> {
-  public async run() {
+  public run() {
     this.printBanner();
     this.printStoreDebugInformation();
-
-    const application = await this.context.client.fetchApplication();
-    Store.injectedContext.owner = application.owner?.id;
   }
 
   /**
