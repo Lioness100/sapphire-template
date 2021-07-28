@@ -1,6 +1,7 @@
 import type { SapphireClientOptions } from '@sapphire/framework';
 import { LogLevel } from '@sapphire/framework';
 import type { ClientOptions } from 'discord.js';
+import { Intents } from 'discord.js';
 
 const prefix = process.env.PREFIX;
 const name = process.env.PRESENCE_NAME;
@@ -17,7 +18,7 @@ const options: SapphireClientOptions & ClientOptions = {
   },
   messageCacheMaxSize: 25,
   ws: {
-    intents: ['GUILDS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'],
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES],
   },
 };
 
