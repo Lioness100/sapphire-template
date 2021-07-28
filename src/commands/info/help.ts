@@ -1,9 +1,11 @@
-import type { Args, CommandStore } from '@sapphire/framework';
+import { Args, Store } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import type { Message } from 'discord.js';
 import type { CommandOptions } from '#structures/Command';
 import { Command } from '#structures/Command';
 import { toTitleCase } from '@sapphire/utilities';
+
+const store = Store.injectedContext.stores.get('commands');
 
 @ApplyOptions<CommandOptions>({
   aliases: ['commands', 'cmds'],
@@ -19,7 +21,7 @@ export class UserCommand extends Command {
       return this.menu(message);
     }
 
-    const command = this.store.get(commandName.toLowerCase()) as Command | undefined;
+    const command = store.get(commandName.toLowerCase());
     if (!command) {
       throw 'Please input a valid command';
     }
@@ -51,12 +53,12 @@ export class UserCommand extends Command {
    */
   private async menu(message: Message) {
     const embed = message.embed().setTimestamp();
-    const categories = new Set<string>(this.store.map((command) => (command as Command).category));
+    const categories = new Set(store.map((cmd) => cmd.category));
 
     for (const cat of categories) {
-      const categoryCommands = this.store.filter(
-        (cmd) => (cmd as Command).category.toLowerCase() === cat.toLowerCase()
-      ) as CommandStore;
+      const categoryCommands = store.filter(
+        (cmd) => cmd.category.toLowerCase() === cat.toLowerCase()
+      );
       const displayed = [];
 
       for (const command of categoryCommands.values()) {
