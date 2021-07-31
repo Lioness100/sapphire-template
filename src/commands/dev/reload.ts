@@ -23,8 +23,8 @@ export default class UserCommand extends Command {
     const arg = await this.handleArgs(args.pick('string'), `Please provide a ${type} to reload!`);
 
     const promise = isStore
-      ? this.reloadPiece(arg)
-      : this.reloadStore(arg as keyof StoreRegistryEntries);
+      ? this.reloadStore(arg as keyof StoreRegistryEntries)
+      : this.reloadPiece(arg);
 
     const stopwatch = new Stopwatch();
     await promise;
