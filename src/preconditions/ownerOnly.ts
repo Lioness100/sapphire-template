@@ -22,6 +22,6 @@ export default class UserPrecondition extends Precondition {
   public run(message: Message) {
     return this.owner === message.author.id
       ? this.ok()
-      : this.error({ message: 'This command can only be used by the owner.' });
+      : this.error({ message: 'This command can only be used by my owner.' });
   }
 }
