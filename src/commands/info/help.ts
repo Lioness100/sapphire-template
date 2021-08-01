@@ -3,7 +3,7 @@ import { ApplyOptions } from '@sapphire/decorators';
 import type { Message } from 'discord.js';
 import type { CommandOptions } from '#structures/Command';
 import { Command } from '#structures/Command';
-import { toTitleCase } from '@sapphire/utilities';
+import { inlineCodeBlock, toTitleCase } from '@sapphire/utilities';
 
 const store = Store.injectedContext.stores.get('commands');
 
@@ -28,23 +28,26 @@ export class UserCommand extends Command {
 
     const prefix = process.env.PREFIX;
 
-    const embed = message
-      .embed()
-      .addField(
-        '❯ Usage',
-        `\`${prefix}${command.name}${command.usage ? ` ${command.usage}` : ''}\``
-      )
-      .addField(
-        '❯ Detailed Description',
-        command.detailedDescription || 'No detailed description was provided.'
-      )
-      .setTimestamp();
+    void message.embed(command.description, (embed) => {
+      embed.addField('❯ Category', command.category);
 
-    if (command.description) {
+      if (command.aliases.length) {
+        embed.addField('❯ Aliases', command.aliases.map(inlineCodeBlock).join(' '));
+      }
+
+      embed
+        .addField(
+          '❯ Usage',
+          `\`${prefix}${command.name}${command.usage ? ` ${command.usage}` : ''}\``
+        )
+        .addField(
+          '❯ Detailed Description',
+          command.detailedDescription || 'No detailed description was provided.'
+        )
+        .setTimestamp();
+
       embed.setDescription(command.description);
-    }
-
-    return message.send(embed);
+    });
   }
 
   /**

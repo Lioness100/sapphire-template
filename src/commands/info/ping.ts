@@ -4,6 +4,7 @@ import type { CommandOptions } from '#structures/Command';
 import { Command } from '#structures/Command';
 
 @ApplyOptions<CommandOptions>({
+  aliases: ['pong', 'latency'],
   description: 'Shows my latency',
   detailedDescription: [
     'Shows the bot latency (the ping of the websocket)',
