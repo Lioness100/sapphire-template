@@ -25,7 +25,7 @@ const has = (key: keyof IProcessEnv, validate?: (value: string) => unknown, requ
     console.error(bold(red(`"${key}" in .env is required, but is empty or undefined`)));
     process.exit(1);
   }
-  if (validate) {
+  if (value && validate) {
     const error = validate(value);
     if (typeof error === 'string') {
       console.error(bold(red(`"${key}" in .env ${error}`)));
