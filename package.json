@@ -30,7 +30,7 @@
     "typecheck": "tsc -p src --noEmit"
   },
   "dependencies": {
-    "@sapphire/decorators": "^2.1.5",
+    "@sapphire/decorators": "^2.2.0",
     "@sapphire/discord.js-utilities": "^2.0.2",
     "@sapphire/framework": "^1.0.2",
     "@sapphire/stopwatch": "^1.1.4",
