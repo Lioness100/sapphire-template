@@ -36,7 +36,7 @@ export default class UserCommand extends Command {
     const { result, success, type, stopwatch } = await this.eval(message, code, {
       async: args.getFlags('async'),
       depth: Number(args.getOption('depth')) ?? 0,
-      decimals: Number(args.getOptions('decimals')),
+      decimals: Number(args.getOption('decimals')),
     });
 
     const output = success ? codeBlock('js', result) : `**ERROR**: ${codeBlock('bash', result)}`;
