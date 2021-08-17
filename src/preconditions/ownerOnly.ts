@@ -1,26 +1,13 @@
-import { Precondition } from '@sapphire/framework';
 import type { Message } from 'discord.js';
+import { Precondition } from '@sapphire/framework';
 
 export default class UserPrecondition extends Precondition {
-  private owner?: string;
-
-  public onLoad() {
-    const setOwner = async () => {
-      const application = await this.context.client.fetchApplication();
-      this.owner = application.owner?.id;
-    };
-
-    if (this.context.client.readyTimestamp) {
-      void setOwner();
-    } else {
-      this.context.client.once('ready', () => {
-        void setOwner();
-      });
+  public async run(message: Message) {
+    if (!this.container.client.application!.owner) {
+      await this.container.client.application!.fetch();
     }
-  }
 
-  public run(message: Message) {
-    return this.owner === message.author.id
+    return this.container.client.application!.owner?.id === message.author.id
       ? this.ok()
       : this.error({ message: 'This command can only be used by my owner.' });
   }

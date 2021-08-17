@@ -7,12 +7,9 @@
     "paths": {
       "#root/*": ["*"],
       "#lib/*": ["lib/*"],
-      "#env": ["lib/env"],
-      "#ext": ["lib/extensions"],
-      "#ext/*": ["lib/extensions/*"],
-      "#structures": ["lib/structures"],
       "#structures/*": ["lib/structures/*"],
-      "#types/*": ["lib/types/*"]
+      "#types/*": ["lib/types/*"],
+      "#factories/*": ["lib/factories/*"]
     }
   },
   "include": ["."]

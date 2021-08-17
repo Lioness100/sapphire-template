@@ -9,17 +9,14 @@
   "type": "module",
   "private": true,
   "imports": {
-    "#lib/*": "./dist/lib/*.js",
-    "#env": "./dist/lib/env/index.js",
     "#root/*": "./dist/*.js",
-    "#ext": "./dist/lib/extensions/index.js",
-    "#ext/*": "./dist/lib/extensions/*.js",
-    "#structures": "./dist/lib/structures/index.js",
+    "#lib/*": "./dist/lib/*.js",
     "#structures/*": "./dist/lib/structures/*.js",
-    "#types/*": "./dist/lib/types/*.js"
+    "#types/*": "./dist/lib/types/*.js",
+    "#factories/*": "./dist/lib/factories/*.js"
   },
   "scripts": {
-    "start": "node -r dotenv/config .",
+    "start": "node .",
     "lint": "eslint src --ext ts --fix",
     "format": "prettier --write --loglevel=warn \"src/**/*.ts\"",
     "update": "yarn upgrade-interactive --latest",
@@ -27,34 +24,41 @@
     "watch": "node scripts/watch.mjs",
     "clean": "node scripts/clean.mjs",
     "setup": "run-s clean build start",
-    "typecheck": "tsc -p src --noEmit"
+    "test": "run-s lint typecheck",
+    "typecheck": "tsc -p src --noEmit",
+    "cmd-gen": "node scripts/generators/command.mjs",
+    "piece-gen": "node scripts/generators/piece.mjs"
   },
   "dependencies": {
     "@sapphire/decorators": "^2.2.0",
-    "@sapphire/discord.js-utilities": "^2.0.2",
-    "@sapphire/framework": "^1.0.2",
+    "@sapphire/discord.js-utilities": "next",
+    "@sapphire/framework": "next",
+    "@sapphire/plugin-editable-commands": "next",
     "@sapphire/stopwatch": "^1.1.4",
-    "@sapphire/type": "^2.0.11",
+    "@sapphire/type": "^2.1.0",
     "@sapphire/utilities": "^2.0.1",
-    "@skyra/editable-commands": "^1.0.0",
-    "colorette": "^1.2.2",
-    "discord-api-types": "^0.20.2",
-    "discord.js": "^12.5.3",
+    "colorette": "^1.3.0",
+    "discord-api-types": "^0.22.0",
+    "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
-    "tslib": "^2.3.0"
+    "prompts": "^2.4.1",
+    "tslib": "^2.3.1",
+    "tslog": "^3.2.0",
+    "wordwrapjs": "^5.0.2",
+    "yargs": "^17.1.1"
   },
   "devDependencies": {
-    "@lioness100/eslint-config": "^1.0.6",
+    "@lioness100/eslint-config": "^1.0.9",
     "@lioness100/prettier-config": "^1.0.0",
-    "@lioness100/ts-config": "^1.0.3",
-    "@types/node": "^16.4.0",
-    "esbuild": "^0.12.15",
+    "@lioness100/ts-config": "1.0.3",
+    "@types/node": "^16.6.1",
+    "esbuild": "^0.12.20",
     "npm-run-all": "^4.1.5",
     "typescript": "^4.3.4"
   },
   "engines": {
-    "node": ">=14",
-    "npm": ">=6"
+    "node": ">=16.6",
+    "npm": ">=7"
   },
   "prettier": "@lioness100/prettier-config"
 }

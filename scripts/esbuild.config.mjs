@@ -3,12 +3,6 @@ import { opendir } from 'fs/promises';
 import { join } from 'path';
 import { fileURLToPath, URL } from 'url';
 
-/**
- * scan a directory recursively and return the file names
- * @param {string} path - the directory path to scan
- * @param {(file: string) => boolean} cb - the callback to validate file names
- * @returns {AsyncGenerator<string, void, undefined>}
- */
 async function* scan(path, cb) {
   const dir = await opendir(path);
 
@@ -24,10 +18,6 @@ async function* scan(path, cb) {
   }
 }
 
-/**
- * build ts files into esm js files in /dist (with various settings)
- * @param [watch=false] - whether to rebuild on save
- */
 export async function build(watch = false) {
   const rootFolder = new URL('../', import.meta.url);
   const distFolder = new URL('dist/', rootFolder);

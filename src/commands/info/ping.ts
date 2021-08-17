@@ -1,7 +1,7 @@
+import type { CommandOptions } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
-import type { CommandOptions } from '#structures/Command';
-import { Command } from '#structures/Command';
+import Command from '#structures/Command';
 
 @ApplyOptions<CommandOptions>({
   aliases: ['pong', 'latency'],
@@ -13,16 +13,15 @@ import { Command } from '#structures/Command';
 })
 export class UserCommand extends Command {
   public async run(message: Message) {
-    const msg = await message.embed('', { title: 'Ping?' });
-    const embed = message
-      .embed()
-      .setTitle('Pong!')
+    const msg = await this.embed(message, '', { title: 'Ping? 🏓' });
+    const embed = this.embed(message)
+      .setTitle('Pong! 🏓')
       .setDescription(
-        `Bot Latency - ${Math.round(this.context.client.ws.ping)}ms. API Latency - ${
+        `Bot Latency - ${Math.round(this.client.ws.ping)}ms. API Latency - ${
           msg.createdTimestamp - message.createdTimestamp
         }ms.`
       );
 
-    return msg.edit(embed);
+    return msg.edit({ embeds: [embed] });
   }
 }

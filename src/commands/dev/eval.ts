@@ -1,13 +1,11 @@
-import { ApplyOptions } from '@sapphire/decorators';
-import type { Args } from '@sapphire/framework';
-import { Type } from '@sapphire/type';
-import { codeBlock, isThenable } from '@sapphire/utilities';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import type { Message } from 'discord.js';
-import { inspect } from 'util';
-import type { CommandOptions } from '#structures/Command';
-import { Command } from '#structures/Command';
-import { Preconditions } from '#types/Enums';
+import { codeBlock, isThenable } from '@sapphire/utilities';
+import { ApplyOptions } from '@sapphire/decorators';
 import { Stopwatch } from '@sapphire/stopwatch';
+import { Type } from '@sapphire/type';
+import { inspect } from 'util';
+import Command from '#structures/Command';
 
 interface EvalFlags {
   async: boolean;
@@ -23,11 +21,9 @@ interface EvalFlags {
   ].join(' '),
   usage: '<...code> [--async] [--silent|--s]',
   quotes: [],
-  preconditions: [Preconditions.OwnerOnly],
-  strategyOptions: {
-    flags: ['async', 'silent', 's'],
-    options: ['depth', 'decimals'],
-  },
+  preconditions: ['OwnerOnly'],
+  flags: ['async', 'silent', 's'],
+  options: ['depth', 'decimals'],
 })
 export default class UserCommand extends Command {
   public async run(message: Message, args: Args) {
@@ -48,20 +44,15 @@ export default class UserCommand extends Command {
     const timeFooter = `${stopwatch} ⏱`;
 
     if (output.length > 2000) {
-      return message.send(`Output was too long... sent the result as a file.\n\n${typeFooter}`, {
+      return message.channel.send({
+        content: `Output was too long... sent the result as a file.\n\n${typeFooter}`,
         files: [{ attachment: Buffer.from(output), name: 'output.txt' }],
       });
     }
 
-    return message.send(`${output}\n${typeFooter}\n${timeFooter}`);
+    return message.channel.send(`${output}\n${typeFooter}\n${timeFooter}`);
   }
 
-  /**
-   * executes javascript code, times it, types it, and handles the result
-   * @param message - the message that triggered the command. this can be referenced inside the eval
-   * @param code - the code to eval (if {@link EvalFlags.async}, this will be wrapped in an async function)
-   * @param flags - code/result modifiers
-   */
   private async eval(message: Message, code: string, flags: EvalFlags) {
     if (flags.async) {
       code = `(async () => {\n${code}\n})();`;
@@ -86,7 +77,7 @@ export default class UserCommand extends Command {
     } catch (error) {
       stopwatch.stop();
       if (error && error.stack) {
-        this.context.client.logger.error(error);
+        this.container.logger.error(error);
       }
       result = error;
       success = false;

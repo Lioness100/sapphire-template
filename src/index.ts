@@ -1,6 +1,4 @@
-import '#env';
-import '#ext';
-import '@skyra/editable-commands';
+import '#root/setup';
 import { SapphireClient } from '@sapphire/framework';
 import { yellow, green, bold } from 'colorette';
 import config from '#root/config';

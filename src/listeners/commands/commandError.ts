@@ -1,19 +1,21 @@
-import type { CommandErrorPayload, Events } from '@sapphire/framework';
-import { Event, UserError, ArgumentError } from '@sapphire/framework';
+import type { CommandErrorPayload } from '@sapphire/framework';
+import { Listener, Events, UserError, ArgumentError } from '@sapphire/framework';
 import { DiscordAPIError, HTTPError } from 'discord.js';
-import { RESTJSONErrorCodes } from 'discord-api-types/v8';
+import { RESTJSONErrorCodes } from 'discord-api-types/v9';
 import { bold, redBright } from 'colorette';
 
 const ignoredCodes = [RESTJSONErrorCodes.UnknownChannel, RESTJSONErrorCodes.UnknownMessage];
 
-export class UserEvent extends Event<Events.CommandError> {
+export default class UserEvent extends Listener<typeof Events.CommandError> {
   public run(error: Error | string, { message, piece }: CommandErrorPayload) {
+    const sendError = this.container.error.bind(null, message);
+
     if (typeof error === 'string') {
-      return message.error(error);
+      return sendError(error);
     }
 
     if (error instanceof ArgumentError) {
-      return message.error(error.message);
+      return sendError(error.message);
     }
 
     if (error instanceof UserError) {
@@ -21,11 +23,11 @@ export class UserEvent extends Event<Events.CommandError> {
         return;
       }
 
-      return message.error(error.message);
+      return sendError(error.message);
     }
 
     if (error.name === 'AbortError' || error.message === 'Internal Server Error') {
-      return message.error('I had an issue communicating with Discord- please try again!');
+      return sendError('I had an issue communicating with Discord- please try again!');
     }
 
     if (error instanceof DiscordAPIError || error instanceof HTTPError) {
@@ -34,9 +36,10 @@ export class UserEvent extends Event<Events.CommandError> {
       }
     }
 
-    this.context.logger.fatal(
-      `${redBright(bold(`[${piece.name}]`))}\n${error.stack || error.message}`
+    this.container.logger.fatal(
+      new Error(`${redBright(bold(`[${piece.name}]`))}\n${error.stack || error.message}`)
     );
-    return message.error(error.message, { title: 'Something went wrong!' });
+
+    return sendError(error.message, { title: 'Something went wrong!' });
   }
 }
