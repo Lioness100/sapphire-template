@@ -27,7 +27,7 @@ export default class UserEvent extends Listener<typeof Events.CommandError> {
     }
 
     if (error.name === 'AbortError' || error.message === 'Internal Server Error') {
-      return sendError('I had an issue communicating with Discord- please try again!');
+      return sendError('I had an issue communicating with Discord- please try again');
     }
 
     if (error instanceof DiscordAPIError || error instanceof HTTPError) {

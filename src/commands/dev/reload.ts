@@ -32,7 +32,7 @@ export default class UserCommand extends Command {
   private reloadStore(storeKey: string) {
     const store = this.container.stores.get(storeKey as keyof StoreRegistryEntries);
     if (!store) {
-      throw 'Please provide a valid store to reload!';
+      throw 'Please provide a valid store to reload';
     }
 
     return store.loadAll();
@@ -41,7 +41,7 @@ export default class UserCommand extends Command {
   private reloadPiece(pieceKey: string) {
     const piece = this.container.stores.find((store) => store.has(pieceKey))?.get(pieceKey);
     if (!piece) {
-      throw 'Please provide a valid piece to reload!';
+      throw 'Please provide a valid piece to reload';
     }
 
     return piece.reload();

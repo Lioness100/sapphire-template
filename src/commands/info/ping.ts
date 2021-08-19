@@ -14,13 +14,12 @@ import Command from '#structures/Command';
 export class UserCommand extends Command {
   public async run(message: Message) {
     const msg = await this.embed(message, '', { title: 'Ping? 🏓' });
+
+    const bot = Math.round(this.client.ws.ping);
+    const api = msg.createdTimestamp - message.createdTimestamp;
     const embed = this.embed(message)
       .setTitle('Pong! 🏓')
-      .setDescription(
-        `Bot Latency - ${Math.round(this.client.ws.ping)}ms. API Latency - ${
-          msg.createdTimestamp - message.createdTimestamp
-        }ms.`
-      );
+      .setDescription(`Bot Latency - ${bot}ms. API Latency - ${api}ms.`);
 
     return msg.edit({ embeds: [embed] });
   }

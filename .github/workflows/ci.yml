@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - v2
+      - mikro-orm
     paths:
       - '**.ts'
       - 'yarn.lock'
@@ -42,15 +42,15 @@ jobs:
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
-      - name: Use Node.js 14
+      - name: Use Node.js 16
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 16.6
       - name: Restore CI Cache
         uses: actions/cache@v1
         with:
           path: node_modules
-          key: ${{ runner.os }}-14-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-16.6-${{ hashFiles('**/yarn.lock') }}
       - name: Install Dependencies if Cache Miss
         if: ${{ !steps.cache-restore.outputs.cache-hit }}
         run: yarn --frozen-lockfile
@@ -65,15 +65,15 @@ jobs:
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
-      - name: Use Node.js 14
+      - name: Use Node.js 16
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 16.6
       - name: Restore CI Cache
         uses: actions/cache@v1
         with:
           path: node_modules
-          key: ${{ runner.os }}-14-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-16.6-${{ hashFiles('**/yarn.lock') }}
       - name: Install Dependencies if Cache Miss
         if: ${{ !steps.cache-restore.outputs.cache-hit }}
         run: yarn --frozen-lockfile

@@ -54,7 +54,7 @@ export const error = (message: Message, desc: string, mod?: EmbedModifier): Prom
 
   return embed(
     message,
-    `❌ ${desc}`,
+    `❌ ${desc}!`,
     mod
       ? isFunction(mod)
         ? (embed) => {
