@@ -6,3 +6,6 @@ dist/
 
 # Environment variables
 .env
+
+# Temp files
+yarn-error.log
