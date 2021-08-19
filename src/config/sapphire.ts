@@ -1,6 +1,7 @@
 import type { SapphireClientOptions } from '@sapphire/framework';
 import type { ClientOptions } from 'discord.js';
-import { Intents } from 'discord.js';
+import { Intents, Constants } from 'discord.js';
+import loggerOptions from '#config/logger';
 import Logger from '#structures/Logger';
 
 const prefix = process.env.PREFIX;
@@ -15,10 +16,10 @@ const options: SapphireClientOptions & ClientOptions = {
   fetchPrefix: (message) => (message.guild ? prefix : [prefix, '']),
   loadDefaultErrorListeners: false,
   logger: {
-    instance: new Logger({ displayFilePath: 'hidden', displayFunctionName: false }),
+    instance: new Logger(loggerOptions),
   },
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES],
-  partials: ['CHANNEL'],
+  partials: [Constants.PartialTypes.CHANNEL],
 };
 
 if (name && type) {

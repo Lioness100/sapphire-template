@@ -1,5 +1,6 @@
 import '@sapphire/plugin-editable-commands/register';
 import 'dotenv/config';
+import 'reflect-metadata';
 import '#lib/env/index';
 
 import { container } from '@sapphire/framework';

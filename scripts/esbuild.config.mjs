@@ -1,7 +1,12 @@
-import esbuild from 'esbuild';
-import { opendir } from 'fs/promises';
+import { opendir, readFile } from 'fs/promises';
 import { join } from 'path';
 import { fileURLToPath, URL } from 'url';
+import typescript from 'typescript';
+import esbuild from 'esbuild';
+
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const tsConfig = require('@lioness100/ts-config');
 
 async function* scan(path, cb) {
   const dir = await opendir(path);
@@ -30,19 +35,31 @@ export async function build(watch = false) {
     tsFiles.push(path);
   }
 
+  const tsconfig = join(fileURLToPath(srcFolder), 'tsconfig.json');
+  const outdir = fileURLToPath(distFolder);
+
   await esbuild.build({
     logLevel: 'info',
     entryPoints: tsFiles,
     format: 'esm',
     resolveExtensions: ['.ts', '.js'],
     write: true,
-    outdir: fileURLToPath(distFolder),
+    outdir,
     platform: 'node',
-    tsconfig: join(fileURLToPath(srcFolder), 'tsconfig.json'),
+    tsconfig,
     watch,
+    plugins: [{ name: 'tsc', setup: pluginTsc }],
     incremental: watch,
     sourcemap: true,
     external: [],
     minify: process.env.NODE_ENV === 'production',
+  });
+}
+
+function pluginTsc(build) {
+  build.onLoad({ filter: /entities/ }, async (args) => {
+    const ts = await readFile(args.path, 'utf8');
+    const program = typescript.transpileModule(ts, tsConfig);
+    return { contents: program.outputText };
   });
 }

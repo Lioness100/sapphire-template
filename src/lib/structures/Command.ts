@@ -1,3 +1,4 @@
+import { RequestContext } from '@mikro-orm/core';
 import type { ArgType, CommandOptions, PieceContext } from '@sapphire/framework';
 import { Command } from '@sapphire/framework';
 import { toTitleCase } from '@sapphire/utilities';
@@ -11,6 +12,15 @@ export default abstract class CustomCommand extends Command {
     super(context, { generateDashLessAliases: true, ...options });
     this.usage = options.usage;
     this.category = toTitleCase(this.path.split(sep).reverse()[1]);
+
+    const runRef = this.run.bind(this);
+    const run = (...args: Parameters<typeof runRef>) => {
+      return RequestContext.createAsync(this.container.em, async () => {
+        await runRef(...args);
+      });
+    };
+
+    this.run = run;
   }
 
   protected handleArgs<T extends ArgType[keyof ArgType]>(

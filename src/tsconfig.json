@@ -6,11 +6,14 @@
     "baseUrl": ".",
     "paths": {
       "#root/*": ["*"],
-      "#lib/*": ["lib/*"],
-      "#structures/*": ["lib/structures/*"],
+      "#config/*": ["config/*"],
+      "#lib/*": ["lib/types/*"],
       "#types/*": ["lib/types/*"],
-      "#factories/*": ["lib/factories/*"]
+      "#structures/*": ["lib/structures/*"],
+      "#factories/*": ["lib/factories/*"],
+      "#entities/*": ["lib/database/entities/*"],
+      "#repositories/*": ["lib/database/repositories/*"]
     }
   },
-  "include": ["."]
+  "include": [".", "../BaseEntity.ts"]
 }

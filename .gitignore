@@ -6,3 +6,7 @@ dist/
 
 # Environment variables
 .env
+
+# Ignore temp info
+temp/
+yarn-error.log

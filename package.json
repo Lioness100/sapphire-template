@@ -10,10 +10,13 @@
   "private": true,
   "imports": {
     "#root/*": "./dist/*.js",
+    "#config/*": "./dist/config/*.js",
     "#lib/*": "./dist/lib/*.js",
-    "#structures/*": "./dist/lib/structures/*.js",
     "#types/*": "./dist/lib/types/*.js",
-    "#factories/*": "./dist/lib/factories/*.js"
+    "#structures/*": "./dist/lib/structures/*.js",
+    "#factories/*": "./dist/lib/factories/*.js",
+    "#entities/*": "./dist/lib/database/entities/*.js",
+    "#repositories/*": "./dist/lib/database/repositories/*.js"
   },
   "scripts": {
     "start": "node .",
@@ -30,6 +33,8 @@
     "piece-gen": "node scripts/generators/piece.mjs"
   },
   "dependencies": {
+    "@mikro-orm/core": "^4.5.7",
+    "@mikro-orm/mongodb": "^4.5.7",
     "@sapphire/decorators": "^2.2.0",
     "@sapphire/discord.js-utilities": "next",
     "@sapphire/framework": "next",
@@ -42,13 +47,14 @@
     "discord.js": "^13.1.0",
     "dotenv": "^10.0.0",
     "prompts": "^2.4.1",
+    "reflect-metadata": "^0.1.13",
     "tslib": "^2.3.1",
     "tslog": "^3.2.0",
     "wordwrapjs": "^5.0.2",
     "yargs": "^17.1.1"
   },
   "devDependencies": {
-    "@lioness100/eslint-config": "^1.0.9",
+    "@lioness100/eslint-config": "^1.0.10",
     "@lioness100/prettier-config": "^1.0.0",
     "@lioness100/ts-config": "1.0.3",
     "@types/node": "^16.6.1",
