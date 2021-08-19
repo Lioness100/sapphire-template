@@ -197,7 +197,7 @@
     "@sapphire/utilities" "^1.6.0"
     tslib "^2.3.0"
 
-"@sapphire/plugin-editable-commands@^0.1.0-next.5e97bc7.0":
+"@sapphire/plugin-editable-commands@next":
   version "0.1.0-next.5e97bc7.0"
   resolved "https://registry.yarnpkg.com/@sapphire/plugin-editable-commands/-/plugin-editable-commands-0.1.0-next.5e97bc7.0.tgz#10f54ab6d905006b633faccb9f432719bd966cf2"
   integrity sha512-EAq0hDItWgS2p+DwsAlUw5+FesFggTqOQJJQSh4+QKP4zAMIZt75O+oV0Utm3vXEuAlrLxAEce8hIpNsfX4DJg==
