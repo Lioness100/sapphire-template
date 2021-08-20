@@ -7,7 +7,7 @@
     "paths": {
       "#root/*": ["*"],
       "#config/*": ["config/*"],
-      "#lib/*": ["lib/types/*"],
+      "#lib/*": ["lib/*"],
       "#types/*": ["lib/types/*"],
       "#structures/*": ["lib/structures/*"],
       "#factories/*": ["lib/factories/*"],
@@ -15,5 +15,5 @@
       "#repositories/*": ["lib/database/repositories/*"]
     }
   },
-  "include": [".", "../BaseEntity.ts"]
+  "include": ["."]
 }

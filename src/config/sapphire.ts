@@ -13,7 +13,6 @@ const options: SapphireClientOptions & ClientOptions = {
   caseInsensitiveCommands: true,
   caseInsensitivePrefixes: true,
   enableLoaderTraceLoggings: false,
-  fetchPrefix: (message) => (message.guild ? prefix : [prefix, '']),
   loadDefaultErrorListeners: false,
   logger: {
     instance: new Logger(loggerOptions),
