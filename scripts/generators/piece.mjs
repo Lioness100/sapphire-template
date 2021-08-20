@@ -71,8 +71,8 @@ if (!results.name) {
 const uppercase = toTitleCase(nonPlural);
 const content = `${
   results.options ? `import type { ${uppercase}Options } from '@sapphire/framework';\n` : ''
-}${
-  nonPlural === 'precondition' ? "import type { Message } from 'discord.js';\n" : ''
+}${nonPlural === 'precondition' ? "import type { Message } from 'discord.js';\n" : ''}${
+  nonPlural === 'listener' ? "import type { Events } from '@sapphire/framework';\n" : ''
 }import { ${uppercase}${nonPlural === 'listener' ? ', Events' : ''} } from '@sapphire/framework';${
   results.options ? "\nimport { ApplyOptions } from '@sapphire/decorators';" : ''
 }
