@@ -15,5 +15,5 @@
       "#repositories/*": ["lib/database/repositories/*"]
     }
   },
-  "include": [".", "../BaseEntity.ts"]
+  "include": ["."]
 }
