@@ -9,7 +9,7 @@ const store = container.stores.get('commands');
 
 @ApplyOptions<CommandOptions>({
   aliases: ['commands', 'cmds'],
-  description: 'Displays all commands or the description of one',
+  description: 'Display all commands or the description of one',
   usage: '[command]',
 })
 export class UserCommand extends Command {

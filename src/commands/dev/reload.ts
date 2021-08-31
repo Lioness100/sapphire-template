@@ -6,7 +6,7 @@ import Command from '#structures/Command';
 
 @ApplyOptions<CommandOptions>({
   aliases: ['r'],
-  description: 'Reloads a piece or store',
+  description: 'Reload a piece or store',
   usage: '<<piece> | <store> --store>',
   preconditions: ['OwnerOnly'],
   flags: ['store'],
