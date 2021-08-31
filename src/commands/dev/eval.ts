@@ -16,7 +16,7 @@ interface EvalFlags {
 @ApplyOptions<CommandOptions>({
   description: 'Evals any JavaScript code',
   detailedDescription: [
-    'Evaluates any JavaScript code and sends the result',
+    'Evaluate any JavaScript code and send the result',
     'or error accompanied by a return type.',
   ].join(' '),
   usage: '<...code> [--async] [--silent|--s]',
