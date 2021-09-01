@@ -37,13 +37,13 @@ export const embed = ((
       Object.assign(embed, mod);
     }
 
-    const sent = send(message, { embeds: [embed] });
+    const sendEmbed = send.bind(null, message, { embeds: [embed] });
 
     if (isThenable(promise)) {
-      return promise.then(() => sent);
+      return promise.then(sendEmbed);
     }
 
-    return sent;
+    return sendEmbed();
   }
 
   return embed;
