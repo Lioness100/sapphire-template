@@ -1,12 +1,16 @@
-# Ignore a blackhole
+# Dependencies
 node_modules/
+
+# Coverage
+coverage/
+
+# Yarn files
+yarn-error.log
+.yarn/install-state.gz
+.yarn/build-state.yml
 
 # Ignore the dist output
 dist/
 
 # Environment variables
 .env
-
-# Ignore temp info
-temp/
-yarn-error.log
