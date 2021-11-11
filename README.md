@@ -4,4 +4,4 @@
 
 </div>
 
-Replace `~name~` and `~description~`
+This is a very cool bot with some dare I say poggers features

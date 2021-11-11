@@ -1,6 +1,11 @@
 {
-  "extends": "@lioness100/ts-config",
-  "compilerOptions": { 
-    "skipLibCheck": true
-  }
+	"extends": "@sapphire/ts-config",
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"importHelpers": true,
+		"noEmitHelpers": true,
+		"noImplicitOverride": true,
+		"importsNotUsedAsValues": "error"
+	}
 }

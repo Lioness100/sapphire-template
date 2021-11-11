@@ -1,16 +1,16 @@
 {
-  "extends": "../tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "../dist",
-    "rootDir": ".",
-    "baseUrl": ".",
-    "paths": {
-      "#root/*": ["*"],
-      "#lib/*": ["lib/*"],
-      "#structures/*": ["lib/structures/*"],
-      "#types/*": ["lib/types/*"],
-      "#factories/*": ["lib/factories/*"]
-    }
-  },
-  "include": ["."]
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "../dist",
+		"rootDir": ".",
+		"baseUrl": ".",
+		"paths": {
+			"#root/*": ["*"],
+			"#lib/*": ["lib/*"],
+			"#types/*": ["lib/types/*"],
+			"#structures/*": ["lib/structures/*"],
+			"#utils/*": ["lib/utils/*"]
+		}
+	},
+	"include": ["."]
 }

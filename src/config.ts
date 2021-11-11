@@ -1,28 +1,32 @@
+import type { ClientOptions, ActivityOptions, Message } from 'discord.js';
 import type { SapphireClientOptions } from '@sapphire/framework';
-import type { ClientOptions } from 'discord.js';
-import { Intents } from 'discord.js';
-import Logger from '#structures/Logger';
+import { isGuildBasedChannel } from '@sapphire/discord.js-utilities';
+import { GatewayIntentBits } from 'discord-api-types/v9';
+import { Constants } from 'discord.js';
+import { getEnv } from '#utils/env';
 
-const prefix = process.env.PREFIX;
-const name = process.env.PRESENCE_NAME;
-const type = process.env.PRESENCE_TYPE;
+const prefix = getEnv('PREFIX').required().asString();
+const name = getEnv('PRESENCE_NAME').asString();
+const type = getEnv('PRESENCE_TYPE').asString() as ActivityOptions['type'];
 
-const options: SapphireClientOptions & ClientOptions = {
-  allowedMentions: { parse: ['users', 'roles'] },
-  caseInsensitiveCommands: true,
-  caseInsensitivePrefixes: true,
-  enableLoaderTraceLoggings: false,
-  fetchPrefix: (message) => (message.guild ? prefix : [prefix, '']),
-  loadDefaultErrorListeners: false,
-  logger: {
-    instance: new Logger({ displayFilePath: 'hidden', displayFunctionName: false }),
-  },
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES],
-  partials: ['CHANNEL'],
+const fetchPrefix = (message: Message) => {
+	if (!isGuildBasedChannel(message.channel)) {
+		return [prefix, ''];
+	}
+
+	return prefix;
 };
 
-if (name && type) {
-  options.presence = { activities: [{ name, type }] };
-}
+const options: SapphireClientOptions & ClientOptions = {
+	allowedMentions: { parse: ['users', 'roles'] },
+	caseInsensitiveCommands: true,
+	caseInsensitivePrefixes: true,
+	enableLoaderTraceLoggings: false,
+	fetchPrefix,
+	loadDefaultErrorListeners: false,
+	intents: GatewayIntentBits.Guilds | GatewayIntentBits.GuildMessages | GatewayIntentBits.DirectMessages,
+	partials: [Constants.PartialTypes.CHANNEL],
+	presence: name && type ? { activities: [{ name, type }] } : undefined
+};
 
 export default options;
