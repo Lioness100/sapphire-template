@@ -1,0 +1,17 @@
+{
+  "category": "commands"
+}
+---
+import type { Args } from '@sapphire/framework';
+import type { Message } from 'discord.js';
+import { ApplyOptions } from '@sapphire/decorators';
+import { Command } from '#structures/Command';
+
+@ApplyOptions<Command.Options>({
+	description: '',
+})
+export class UserCommand extends Command {
+	public async messageRun(message: Message, args: Command.Args) {
+        
+	}
+}

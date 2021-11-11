@@ -1,42 +1,54 @@
-import { RequestContext } from '@mikro-orm/core';
-import type { ArgType, CommandOptions, PieceContext } from '@sapphire/framework';
-import { Command } from '@sapphire/framework';
-import { toTitleCase } from '@sapphire/utilities';
-import { sep } from 'path';
+import type { Args as SapphireArgs, CommandContext, CommandOptions, PieceContext } from '@sapphire/framework';
+import { Command as SapphireCommand, UserError } from '@sapphire/framework';
+import { PermissionFlagsBits } from 'discord-api-types/v9';
 
-export default abstract class CustomCommand extends Command {
-  public category: string;
-  public usage?: string;
+// type Compute<T> = { [P in keyof T]: T[P] };
+// type ArgumentDescriptions<U extends string /* command usage */> = `${U} ` extends `${
+// 	| `<${infer Name}> `
+// 	| `[${infer Name}] `
+// 	| `--${infer Name} `}${infer Rest}`
+// 	? Compute<{ [P in Name extends `${infer Flag}=${string}` ? Flag : Name]: string } & ArgumentDescriptions<Rest>>
+// 	: unknown;
 
-  public constructor(context: PieceContext, options: CommandOptions) {
-    super(context, { generateDashLessAliases: true, ...options });
-    this.usage = options.usage;
-    this.category = toTitleCase(this.path.split(sep).reverse()[1]);
+export abstract class Command extends SapphireCommand {
+	public usages?: string[];
+	public examples?: string[];
+	public tip?: string;
 
-    const runRef = this.run.bind(this);
-    const run = (...args: Parameters<typeof runRef>) => {
-      return RequestContext.createAsync(this.container.em, async () => {
-        await runRef(...args);
-      });
-    };
+	public constructor(context: PieceContext, options: Command.Options) {
+		super(context, {
+			generateDashLessAliases: true,
+			requiredClientPermissions: (options.requiredClientPermissions ?? 0n) | PermissionFlagsBits.EmbedLinks,
+			...options
+		});
 
-    this.run = run;
-  }
+		this.usages = options.usages;
+		this.examples = options.examples;
+		this.tip = options.tip;
+	}
 
-  protected handleArgs<T extends ArgType[keyof ArgType]>(
-    getArg: Promise<T>,
-    message: string
-  ): Promise<T> {
-    return getArg.catch(() => {
-      throw message;
-    });
-  }
+	public error(message: string | UserError, context?: unknown): never {
+		throw typeof message === 'string' ? new UserError({ message, context, identifier: 'CustomUserError' }) : message;
+	}
 
-  public get client() {
-    return this.container.client;
-  }
+	public get client() {
+		return this.container.client;
+	}
 
-  public get embed() {
-    return this.container.embed;
-  }
+	public get embed() {
+		return this.container.embed;
+	}
+}
+
+export namespace Command {
+	export type Args = SapphireArgs;
+	export type Context = CommandContext;
+
+	export interface Options extends Omit<CommandOptions, 'requiredClientPermissions' | 'requiredUserPermissions'> {
+		requiredClientPermissions?: bigint;
+		requireUserPermissions?: bigint;
+		usages?: string[];
+		examples?: string[];
+		tip?: string;
+	}
 }

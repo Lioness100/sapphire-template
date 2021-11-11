@@ -1,7 +1,18 @@
 {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll": true
-    },
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+	"eslint.validate": ["typescript"],
+	"editor.tabSize": 4,
+	"editor.useTabStops": true,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/dist/": true,
+		"**/.git/": true
+	},
+	"editor.codeActionsOnSave": {
+		"source.fixAll": true
+	},
+	"[prisma]": {
+		"editor.defaultFormatter": "Prisma.prisma"
+	}
 }

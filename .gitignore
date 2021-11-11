@@ -6,8 +6,10 @@ coverage/
 
 # Yarn files
 yarn-error.log
-.yarn/install-state.gz
-.yarn/build-state.yml
+.yarn/*
+!.yarn/plugins
+!.yarn/releases
+!.yarn/patches
 
 # Ignore the dist output
 dist/

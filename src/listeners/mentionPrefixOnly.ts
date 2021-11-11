@@ -1,23 +1,17 @@
 import type { Message } from 'discord.js';
 import { Listener, Events } from '@sapphire/framework';
 import { isDMChannel } from '@sapphire/discord.js-utilities';
+import { inlineCode } from '@discordjs/builders';
+import { getEnv } from '#utils/env';
 
 export default class UserEvent extends Listener<typeof Events.MentionPrefixOnly> {
-  public async run(message: Message) {
-    const guildPrefix =
-      message.guild &&
-      (await this.container.guilds.findOne(message.guild.id, { fields: ['prefix'] }));
+	public run(message: Message) {
+		const prefix = getEnv('PREFIX').required().asString();
 
-    void this.container.embed(
-      message,
-      `My prefix ${guildPrefix ? 'in this guild ' : ''}is \`${
-        guildPrefix?.prefix ?? process.env.PREFIX
-      }\``,
-      (embed) => {
-        if (isDMChannel(message.channel)) {
-          embed.setFooter("TIP: you don't need a prefix in DMs!");
-        }
-      }
-    );
-  }
+		return this.container.embed(message, `My prefix is ${inlineCode(prefix)}`, (embed) => {
+			if (isDMChannel(message.channel)) {
+				embed.setFooter("💡 Tip! You don't need a prefix in DMs!");
+			}
+		});
+	}
 }

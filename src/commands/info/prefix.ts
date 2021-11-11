@@ -1,14 +1,14 @@
-import type { CommandOptions } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
-import Command from '#structures/Command';
+import { Command } from '#structures/Command';
 
-@ApplyOptions<CommandOptions>({
-  aliases: ['p'],
-  description: 'View my prefix',
+@ApplyOptions<Command.Options>({
+	aliases: ['p'],
+	description: 'View my prefix',
+	tip: 'You can also access this command by mentioning me!'
 })
 export class UserCommand extends Command {
-  public run(message: Message) {
-    return this.container.client.emit('mentionPrefixOnly', message);
-  }
+	public messageRun(message: Message) {
+		return this.container.client.emit('mentionPrefixOnly', message);
+	}
 }
