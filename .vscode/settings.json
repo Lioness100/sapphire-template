@@ -11,8 +11,5 @@
 	},
 	"editor.codeActionsOnSave": {
 		"source.fixAll": true
-	},
-	"[prisma]": {
-		"editor.defaultFormatter": "Prisma.prisma"
 	}
 }
