@@ -5,7 +5,7 @@
 	"main": "dist/index.js",
 	"repository": "https://github.com/Lioness100/~name~",
 	"author": "Lioness100 <jchickmm2@gmail.com>",
-	"license": "MIT",
+	"license": "Apache-2.0",
 	"type": "module",
 	"private": true,
 	"imports": {
