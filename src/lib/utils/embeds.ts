@@ -7,6 +7,9 @@ import { send } from '@sapphire/plugin-editable-commands';
 
 type EmbedModifier = ((embed: MessageEmbed) => unknown) | MessageEmbedOptions;
 
+/**
+ * Creates, edits, and optionally sends an embed with preferred presets
+ */
 export function embed(message: Message, desc: string, mod: EmbedModifier | true): Promise<Message>;
 export function embed(message: Message, desc?: string, mod?: false): MessageEmbed;
 export function embed(message: Message, desc?: string, mod?: EmbedModifier | boolean) {
@@ -42,19 +45,26 @@ export function embed(message: Message, desc?: string, mod?: EmbedModifier | boo
 	return embed;
 }
 
+/**
+ * Creates, edits, and sends an error message with preferred presets. Uses the {@link embed} function.
+ */
 export const error = (message: Message, desc: string, mod: EmbedModifier = {}): Promise<Message> => {
 	return embed(
 		message,
+		// core sapphire errors end in ".", so that needs to be accounted for
 		`❌ ${desc.replace(/.$/, '!')}`,
 		isFunction(mod)
 			? (embed) => {
 					embed.setColor('RED');
 					return mod(embed);
 			  }
-			: { color: 15548997, ...mod }
+			: { color: 15548997 /* RED */, ...mod }
 	);
 };
 
+/**
+ * Adds any amount of fields and prefixes the "❯" character to each field name for visuals
+ */
 export const addFields = (embed: MessageEmbed, fields: [name: string, value: string][]) => {
 	return embed.addFields(fields.map(([name, value]) => ({ name: `❯ ${name}`, value })));
 };

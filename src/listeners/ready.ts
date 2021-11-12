@@ -5,11 +5,12 @@ import { ApplyOptions } from '@sapphire/decorators';
 import { readFile } from 'node:fs/promises';
 import { rootURL } from '#utils/constants';
 import { getEnv } from '#utils/env';
+import { URL } from 'node:url';
 
 @ApplyOptions<ListenerOptions>({ once: true })
 export default class UserEvent extends Listener<typeof Events.ClientReady> {
 	public async run() {
-		const raw = await readFile(rootURL, 'utf8');
+		const raw = await readFile(new URL('package.json', rootURL), 'utf8');
 		const { version } = JSON.parse(raw);
 
 		const environment = getEnv('NODE_ENV').default('development').asString();

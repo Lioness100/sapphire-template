@@ -2,14 +2,6 @@ import type { Args as SapphireArgs, CommandContext, CommandOptions, PieceContext
 import { Command as SapphireCommand, UserError } from '@sapphire/framework';
 import { PermissionFlagsBits } from 'discord-api-types/v9';
 
-// type Compute<T> = { [P in keyof T]: T[P] };
-// type ArgumentDescriptions<U extends string /* command usage */> = `${U} ` extends `${
-// 	| `<${infer Name}> `
-// 	| `[${infer Name}] `
-// 	| `--${infer Name} `}${infer Rest}`
-// 	? Compute<{ [P in Name extends `${infer Flag}=${string}` ? Flag : Name]: string } & ArgumentDescriptions<Rest>>
-// 	: unknown;
-
 export abstract class Command extends SapphireCommand {
 	public usages?: string[];
 	public examples?: string[];
@@ -17,8 +9,9 @@ export abstract class Command extends SapphireCommand {
 
 	public constructor(context: PieceContext, options: Command.Options) {
 		super(context, {
-			generateDashLessAliases: true,
+			// all commands use embeds and thus require this permissions
 			requiredClientPermissions: (options.requiredClientPermissions ?? 0n) | PermissionFlagsBits.EmbedLinks,
+			generateDashLessAliases: true,
 			...options
 		});
 
@@ -44,6 +37,7 @@ export namespace Command {
 	export type Args = SapphireArgs;
 	export type Context = CommandContext;
 
+	// override options to make permission properties only accept bigints because I think they're cool
 	export interface Options extends Omit<CommandOptions, 'requiredClientPermissions' | 'requiredUserPermissions'> {
 		requiredClientPermissions?: bigint;
 		requireUserPermissions?: bigint;

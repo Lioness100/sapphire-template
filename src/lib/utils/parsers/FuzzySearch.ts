@@ -93,7 +93,7 @@ export default class FuzzySearch<K extends string, V> {
 
 		const filter = async (interaction: MessageComponentInteraction) => {
 			if (interaction.user.id !== message.author.id) {
-				await interaction.reply({ content: 'Only the command executor can use this select menu!', ephemeral: true });
+				await interaction.reply({ content: '❌ Only the command executor can use this select menu!', ephemeral: true });
 				return false;
 			}
 

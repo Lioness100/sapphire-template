@@ -57,6 +57,7 @@ export default class UserCommand extends Command {
 	}
 
 	private static piece = Args.make<Piece>((parameter, { argument }) => {
+		// flatten all pieces into one collection
 		const pieces = new Collection<string, Piece>().concat(...container.stores.values());
 		const piece = pieces.get(parameter.toLowerCase());
 

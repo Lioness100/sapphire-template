@@ -122,6 +122,7 @@ export class UserCommand extends Command {
 		const filtered = new Collection<string, Command[]>();
 		await Promise.all(
 			commands.map(async (command) => {
+				// external: true will ignore the cooldown precondition
 				const result = await command.preconditions.run(message, command, { external: true });
 				if (isErr(result)) {
 					return;

@@ -1,3 +1,9 @@
+/**
+ * @license Apache License 2.0
+ * @copyright 2020 Favware
+ * Modified for use in this project.
+ */
+
 import { fileURLToPath, URL } from 'node:url';
 import { opendir } from 'node:fs/promises';
 import { join } from 'node:path';

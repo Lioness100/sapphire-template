@@ -19,6 +19,8 @@ export default class UserEvent extends Listener<typeof Events.CommandError> {
 		};
 
 		if (error instanceof ArgumentError || error instanceof UserError) {
+			// an example of an error that shouldn't be acknowledged is one
+			// created by the `eval` command with the `--silent` flag
 			if (Reflect.get(Object(error.context), 'silent')) {
 				return;
 			}
