@@ -31,7 +31,7 @@
 		"prepare": "husky install"
 	},
 	"dependencies": {
-		"@discordjs/builders": "0.7.0",
+		"@discordjs/builders": "0.8.2",
 		"@sapphire/decorators": "^3.1.4",
 		"@sapphire/discord.js-utilities": "^4.1.1",
 		"@sapphire/framework": "^2.1.4",
