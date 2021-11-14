@@ -2,7 +2,6 @@
 	"extends": "@sapphire",
 	"rules": {
 		"curly": "error",
-		"no-duplicate-imports": "off",
-		"@typescript-eslint/no-namespace": "off"
+		"no-duplicate-imports": "off"
 	}
 }
