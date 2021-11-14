@@ -18,7 +18,7 @@ const fetchPrefix = (message: Message) => {
 	return prefix;
 };
 
-const options: SapphireClientOptions & ClientOptions = {
+export const config: SapphireClientOptions & ClientOptions = {
 	// don't mention @everyone
 	allowedMentions: { parse: ['users', 'roles'] },
 	caseInsensitiveCommands: true,
@@ -38,5 +38,3 @@ const options: SapphireClientOptions & ClientOptions = {
 	// only input a present if both `name` and `type` are present
 	presence: name && type ? { activities: [{ name, type }] } : undefined
 };
-
-export default options;

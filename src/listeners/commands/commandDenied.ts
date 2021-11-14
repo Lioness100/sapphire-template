@@ -3,7 +3,7 @@ import type { PermissionString } from 'discord.js';
 import { Listener, Identifiers, UserError } from '@sapphire/framework';
 import { send } from '@skyra/editable-commands';
 
-export default class UserEvent extends Listener<typeof Events.CommandDenied> {
+export class UserEvent extends Listener<typeof Events.CommandDenied> {
 	public run(error: UserError, { message, context }: CommandDeniedPayload) {
 		if (Reflect.get(Object(error.context), 'silent')) {
 			return;

@@ -12,7 +12,7 @@ import { embed } from '#utils/embeds';
 
 type Accessor<V> = (access: V) => string;
 
-export default class FuzzySearch<K extends string, V> {
+export class FuzzySearch<K extends string, V> {
 	public constructor(private readonly collection: Map<K, V>, private readonly access: Accessor<V>, private readonly description?: Accessor<V>) {}
 
 	public run(message: Message, query: string) {

@@ -4,7 +4,7 @@ import { isDMChannel } from '@sapphire/discord.js-utilities';
 import { inlineCode } from '@discordjs/builders';
 import { getEnv } from '#utils/env';
 
-export default class UserEvent extends Listener<typeof Events.MentionPrefixOnly> {
+export class UserEvent extends Listener<typeof Events.MentionPrefixOnly> {
 	public run(message: Message) {
 		const prefix = getEnv('PREFIX').required().asString();
 

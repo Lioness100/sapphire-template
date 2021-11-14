@@ -16,7 +16,7 @@ import { Command } from '#structures/Command';
 	preconditions: ['OwnerOnly'],
 	flags: ['store']
 })
-export default class UserCommand extends Command {
+export class UserCommand extends Command {
 	public async messageRun(message: Message, args: Args) {
 		const piece = await args.pickResult(UserCommand.piece);
 		if (isOk(piece)) {

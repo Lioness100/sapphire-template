@@ -3,12 +3,12 @@ import { container, isOk, isErr, Args } from '@sapphire/framework';
 import { PaginatedMessage } from '@sapphire/discord.js-utilities';
 import { bold, inlineCode } from '@discordjs/builders';
 import { ApplyOptions } from '@sapphire/decorators';
+import { FuzzySearch } from '#utils/parsers/FuzzySearch';
 import { toTitleCase } from '@sapphire/utilities';
 import { Collection } from 'discord.js';
 import { commaList } from '#utils/strings';
 import { getPrefix } from '#utils/discord';
 import { Command } from '#structures/Command';
-import FuzzySearch from '#utils/parsers/FuzzySearch';
 
 @ApplyOptions<Command.Options>({
 	aliases: ['commands', 'cmds'],

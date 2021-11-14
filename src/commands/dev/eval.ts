@@ -33,7 +33,7 @@ interface EvalFlags {
 	flags: ['async', 'silent'],
 	options: ['depth', 'decimals']
 })
-export default class UserCommand extends Command {
+export class UserCommand extends Command {
 	public async messageRun(message: Message, args: Command.Args) {
 		const code = await args.rest('string');
 

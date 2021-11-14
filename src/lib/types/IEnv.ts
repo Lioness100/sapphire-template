@@ -1,4 +1,4 @@
-export default interface IEnv {
+export interface IEnv {
 	TOKEN: string;
 	PREFIX: string;
 	COLOR: string;

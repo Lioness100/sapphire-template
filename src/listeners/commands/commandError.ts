@@ -8,7 +8,7 @@ import { getPrefix } from '#utils/discord';
 
 const ignoredCodes = [RESTJSONErrorCodes.UnknownChannel, RESTJSONErrorCodes.UnknownMessage];
 
-export default class UserEvent extends Listener<typeof Events.CommandError> {
+export class UserEvent extends Listener<typeof Events.CommandError> {
 	public run(error: Error, { message, command, context }: CommandErrorPayload) {
 		const sendError = (content: string) => {
 			this.container.error(message, content, (embed) => {

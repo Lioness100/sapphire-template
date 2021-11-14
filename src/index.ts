@@ -2,7 +2,7 @@ import '#root/setup';
 import { yellow, green, bold } from 'colorette';
 import { SapphireClient } from '@sapphire/framework';
 import { getEnv } from '#utils/env';
-import config from '#root/config';
+import { config } from '#root/config';
 
 const client = new SapphireClient(config);
 
