@@ -52,7 +52,7 @@ export class UserCommand extends Command {
 		registry.registerChatInputCommand(
 			(builder) =>
 				builder
-					.setName('eval')
+					.setName(this.name)
 					.setDescription('[owner only] Evaluate any JavaScript code')
 					.addStringOption((builder) =>
 						builder //
