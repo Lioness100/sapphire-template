@@ -14,7 +14,7 @@ export class UserEvent extends Listener<typeof Events.ClientReady> {
 		const { version } = JSON.parse(raw);
 
 		this.container.logger.info(
-			`
+			String.raw`
 
 ___________                   .__          __           __________        __   
 \__    ___/___   _____ ______ |  | _____ _/  |_  ____   \______   \ _____/  |_ 
@@ -27,7 +27,7 @@ ___________                   .__          __           __________        __
   [${green('+')}] Gateway
   ${magenta('<')}${magentaBright('/')}${magenta('>')} ${bold(`${env.isProduction ? 'DEV' : 'PROD'} MODE`)}
   
-  ${this.storeDebugInformation()}
+${this.storeDebugInformation()}
   `
 		);
 	}
