@@ -1,19 +1,17 @@
-import type { ListenerOptions, Piece, Store } from '@sapphire/framework';
+import type { Piece, Store } from '@sapphire/framework';
 import { blue, gray, green, magenta, magentaBright, bold } from 'colorette';
 import { Listener, Events } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { readFile } from 'node:fs/promises';
 import { rootURL } from '#utils/constants';
-import { getEnv } from '#utils/env';
+import { env } from '#root/config';
 import { URL } from 'node:url';
 
-@ApplyOptions<ListenerOptions>({ once: true })
+@ApplyOptions<Listener.Options>({ once: true })
 export class UserEvent extends Listener<typeof Events.ClientReady> {
 	public async run() {
-		const raw = await readFile(new URL('package.json', rootURL), 'utf8');
+		const raw = await readFile(new URL('./package.json', rootURL), 'utf8');
 		const { version } = JSON.parse(raw);
-
-		const environment = getEnv('NODE_ENV').default('development').asString();
 
 		this.container.logger.info(
 			`
@@ -27,7 +25,7 @@ ___________                   .__          __           __________        __
 
   ${magenta(version)}
   [${green('+')}] Gateway
-  ${magenta('<')}${magentaBright('/')}${magenta('>')} ${bold(`${environment.toUpperCase()} MODE`)}
+  ${magenta('<')}${magentaBright('/')}${magenta('>')} ${bold(`${env.isProduction ? 'DEV' : 'PROD'} MODE`)}
   
   ${this.storeDebugInformation()}
   `

@@ -1,23 +1,35 @@
-import type { Message } from 'discord.js';
+import type { CommandInteraction, Message } from 'discord.js';
+import type { CommandOptions } from '@sapphire/framework';
+import { RegisterBehavior } from '@sapphire/framework';
+import { BrandingColors } from '#utils/constants';
 import { ApplyOptions } from '@sapphire/decorators';
+import { createEmbed } from '#utils/responses';
+import { inlineCode } from '@discordjs/builders';
 import { Command } from '#structures/Command';
 
-@ApplyOptions<Command.Options>({
-	aliases: ['pong', 'latency'],
+@ApplyOptions<CommandOptions>({
 	description: 'View my latency',
-	detailedDescription: [
-		'Shows the bot latency (the ping of the websocket)',
-		'and the API latency (how quickly I can communicate with Discord)'
-	].join(' ')
+	chatInputCommand: {
+		register: true,
+		behaviorWhenNotIdentical: RegisterBehavior.Overwrite,
+		guildIds: ['919288852131217419']
+	}
 })
 export class UserCommand extends Command {
-	public async messageRun(message: Message) {
-		const msg = await this.embed(message, '', { title: 'Ping? 🏓' });
+	public override async chatInputRun(interaction: CommandInteraction) {
+		const embed = createEmbed('', BrandingColors.Secondary).setTitle('Ping? 🏓');
+		const message = (await interaction.reply({ embeds: [embed], fetchReply: true })) as Message;
 
-		const bot = Math.round(this.client.ws.ping);
-		const api = msg.createdTimestamp - message.createdTimestamp;
-		const embed = this.embed(message, `Bot Latency - ${bot}ms\nAPI Latency - ${api}ms.`).setTitle('Pong! 🏓');
+		const botLatency = Math.round(this.client.ws.ping);
+		const apiLatency = message.createdTimestamp - message.createdTimestamp;
 
-		return msg.edit({ embeds: [embed] });
+		const displays = [
+			['Bot Latency', botLatency],
+			['API Latency', apiLatency]
+		].map(([name, value]) => `${name} ➡️ ${inlineCode(`${value.toString()}ms`)}`);
+
+		const updatedEmbed = embed.setColor(BrandingColors.Primary).setTitle('Pong! 🏓').setDescription(displays.join('\n'));
+
+		await interaction.editReply({ embeds: [updatedEmbed] });
 	}
 }

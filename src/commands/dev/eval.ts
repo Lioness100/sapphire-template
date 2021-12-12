@@ -1,58 +1,43 @@
-import type { Message } from 'discord.js';
+import type { CommandOptions, ApplicationCommandRegistry } from '@sapphire/framework';
+import type { CommandInteraction } from 'discord.js';
 import { codeBlock, inlineCode } from '@discordjs/builders';
+import { RegisterBehavior } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
+import { createEmbed } from '#utils/responses';
 import { isThenable } from '@sapphire/utilities';
 import { Stopwatch } from '@sapphire/stopwatch';
-import { addFields } from '#utils/embeds';
 import { Command } from '#structures/Command';
-import { Type } from '@sapphire/type';
 import { inspect } from 'node:util';
+import { Type } from '@sapphire/type';
 
-interface EvalFlags {
-	async: boolean;
-	depth: number;
-	decimals?: number;
-}
-
-@ApplyOptions<Command.Options>({
+// In the future, this may be converted to/accompanied with a context menu interaction
+// This way, users can naturally send multiline code. Or, modals could be used instead
+// when they're released
+@ApplyOptions<CommandOptions>({
 	description: 'Evaluate any JavaScript code',
 	detailedDescription: [
 		'Evaluate any JavaScript code and send the result, or error accompanied by a return type.',
 		`${inlineCode('await')} can only be used with the ${inlineCode('async')} flag,`,
 		'for which the result to show must be returned.'
 	].join(' '),
-	usages: ['code', 'code --async', 'code --silent', 'code --async --silent'],
-	examples: [
-		'"foo"',
-		'return Promise.resolve("foo") --async',
-		'console.log("foo") --silent',
-		'console.log(await Promise.resolve("foo")) --silent --async'
-	],
-	quotes: [],
 	preconditions: ['OwnerOnly'],
-	flags: ['async', 'silent'],
+	flags: ['async', 'ephemeral'],
 	options: ['depth', 'decimals']
 })
 export class UserCommand extends Command {
-	public async messageRun(message: Message, args: Command.Args) {
-		const code = await args.rest('string');
+	public override async chatInputRun(interaction: CommandInteraction) {
+		const code = interaction.options.getString('code', true);
+		const depth = interaction.options.getInteger('depth');
+		const isAsync = interaction.options.getBoolean('async');
+		const ephemeral = interaction.options.getBoolean('ephemeral') ?? false;
 
-		const { result, success, type, elapsed } = await this.eval(message, code, {
-			async: args.getFlags('async'),
-			depth: Number(args.getOption('depth')) ?? 0,
-			decimals: Number(args.getOption('decimals'))
-		});
-
+		const { result, success, type, elapsed } = await this.eval(interaction, code, { isAsync, depth });
 		const output = success ? codeBlock('js', result) : codeBlock('bash', result);
-		if (args.getFlags('silent')) {
-			return null;
-		}
 
 		const embedLimitReached = output.length > 4096;
-		const embed = addFields(this.embed(message, embedLimitReached ? 'Output was too long! The result has been sent as a file.' : output), [
-			['Type 📝', codeBlock('ts', type)],
-			['Elapsed ⏱', elapsed]
-		]);
+		const embed = createEmbed(embedLimitReached ? 'Output was too long! The result has been sent as a file.' : output)
+			.addField('Type 📝', codeBlock('ts', type), true)
+			.addField('Elapsed ⏱', elapsed, true);
 
 		if (success) {
 			embed.setTitle('Eval Result ✨');
@@ -60,23 +45,58 @@ export class UserCommand extends Command {
 			embed.setColor('RED').setTitle('Eval Error 💀');
 		}
 
-		return message.channel.send({ embeds: [embed], files: embedLimitReached ? [Buffer.from(output)] : [] });
+		return interaction.reply({ embeds: [embed], files: embedLimitReached ? [Buffer.from(output)] : [], ephemeral });
 	}
 
-	private async eval(message: Message, code: string, flags: EvalFlags) {
-		if (flags.async) {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+		registry.registerChatInputCommand(
+			(builder) =>
+				builder
+					.setName('eval')
+					.setDescription('[owner only] Evaluate any JavaScript code')
+					.addStringOption((builder) =>
+						builder //
+							.setName('code')
+							.setDescription('The code to evaluate')
+							.setRequired(true)
+					)
+					.addBooleanOption((builder) =>
+						builder //
+							.setName('async')
+							.setDescription('Whether to allow use of async/await. If set, the result will have to be returned')
+							.setRequired(false)
+					)
+					.addBooleanOption((builder) =>
+						builder //
+							.setName('ephemeral')
+							.setDescription('Whether to show the result ephemerally')
+							.setRequired(false)
+					)
+					.addIntegerOption((builder) =>
+						builder //
+							.setName('depth')
+							.setDescription('The depth of the displayed return type')
+							.setRequired(false)
+					),
+			{ behaviorWhenNotIdentical: RegisterBehavior.Overwrite, idHints: ['919288851674050590'] }
+		);
+	}
+
+	private async eval(interaction: CommandInteraction, code: string, { isAsync, depth }: { isAsync: boolean | null; depth: number | null }) {
+		if (isAsync) {
 			code = `(async () => {\n${code}\n})();`;
 		}
 
 		let success = true;
 		let result = null;
 
-		const stopwatch = new Stopwatch(flags.decimals);
+		const stopwatch = new Stopwatch();
 		let elapsed = '';
 
 		try {
+			// This will serve as an alias for ease of use in the eval code
 			// @ts-expect-error 6133
-			const msg = message;
+			const i = interaction;
 
 			// eslint-disable-next-line no-eval
 			result = eval(code);
@@ -92,7 +112,7 @@ export class UserCommand extends Command {
 				elapsed = stopwatch.toString();
 			}
 
-			result = error;
+			result = (error as Error).message ?? error;
 			success = false;
 		}
 
@@ -101,9 +121,7 @@ export class UserCommand extends Command {
 		const type = new Type(result).toString();
 
 		if (typeof result !== 'string') {
-			result = inspect(result, {
-				depth: flags.depth
-			});
+			result = inspect(result, { depth });
 		}
 
 		return { result, success, type, elapsed };

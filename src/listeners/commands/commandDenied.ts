@@ -1,21 +1,13 @@
-import type { Events, CommandDeniedPayload } from '@sapphire/framework';
-import type { PermissionString } from 'discord.js';
-import { Listener, Identifiers, UserError } from '@sapphire/framework';
-import { send } from '@skyra/editable-commands';
+import type { Events, ChatInputCommandDeniedPayload } from '@sapphire/framework';
+import { Listener, UserError } from '@sapphire/framework';
+import { sendError } from '#utils/responses';
 
-export class UserEvent extends Listener<typeof Events.CommandDenied> {
-	public run(error: UserError, { message, context }: CommandDeniedPayload) {
+export class UserEvent extends Listener<typeof Events.ChatInputCommandDenied> {
+	public run(error: UserError, { interaction }: ChatInputCommandDeniedPayload) {
 		if (Reflect.get(Object(error.context), 'silent')) {
 			return;
 		}
 
-		if (
-			error.identifier === Identifiers.PreconditionClientPermissions && //
-			(context.missing as PermissionString[]).includes('EMBED_LINKS')
-		) {
-			return send(message, `❌ ${error.message.slice(0, -1)}!`);
-		}
-
-		return this.container.error(message, error.message);
+		return sendError(interaction, error.message);
 	}
 }

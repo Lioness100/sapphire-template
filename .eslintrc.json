@@ -1,7 +1,6 @@
 {
 	"extends": "@sapphire",
 	"rules": {
-		"curly": "error",
-		"no-duplicate-imports": "off"
+		"curly": "error"
 	}
 }
