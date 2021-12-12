@@ -54,7 +54,7 @@
 		"@sapphire/ts-config": "^3.1.6",
 		"@types/jest": "^27.0.3",
 		"@types/node": "^16.11.12",
-		"esbuild": "^0.14.2",
+		"esbuild": "^0.14.3",
 		"eslint": "^8.4.1",
 		"husky": "^7.0.4",
 		"jest": "^27.4.4",
@@ -79,5 +79,5 @@
 		]
 	},
 	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@3.1.0"
+	"packageManager": "yarn@3.1.1"
 }
