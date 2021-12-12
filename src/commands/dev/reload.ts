@@ -70,11 +70,11 @@ export class UserCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
 		registry.registerChatInputCommand(
 			(builder) =>
-				builder //
+				builder
 					.setName(this.name)
 					.setDescription('[owner only] Reload a piece, or a store, or all of both')
 					.addSubcommand((builder) =>
-						builder //
+						builder
 							.setName('piece')
 							.setDescription('Reload a piece')
 							.addStringOption((builder) =>
@@ -86,7 +86,7 @@ export class UserCommand extends Command {
 							)
 					)
 					.addSubcommand((builder) =>
-						builder //
+						builder
 							.setName('store')
 							.setDescription('Reload a store')
 							.addStringOption((builder) =>
@@ -98,8 +98,7 @@ export class UserCommand extends Command {
 							)
 					)
 					.addSubcommand((builder) =>
-						builder
-							//
+						builder //
 							.setName('all')
 							.setDescription('Reload all stores and pieces')
 					),

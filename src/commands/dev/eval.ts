@@ -61,7 +61,7 @@ export class UserCommand extends Command {
 							.setRequired(true)
 					)
 					.addBooleanOption((builder) =>
-						builder //
+						builder
 							.setName('async')
 							.setDescription('Whether to allow use of async/await. If set, the result will have to be returned')
 							.setRequired(false)
