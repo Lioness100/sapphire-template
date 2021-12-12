@@ -6863,6 +6863,47 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sapphire-template@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "sapphire-template@workspace:."
+  dependencies:
+    "@commitlint/cli": ^15.0.0
+    "@commitlint/config-conventional": ^15.0.0
+    "@discordjs/builders": 0.9.0
+    "@sapphire/cli": ^1.0.2
+    "@sapphire/decorators": ^3.1.4
+    "@sapphire/discord.js-utilities": ^4.1.5
+    "@sapphire/eslint-config": ^4.0.8
+    "@sapphire/framework": 2.3.0-pr-293.501f6a8.0
+    "@sapphire/plugin-logger": ^2.1.1
+    "@sapphire/prettier-config": ^1.2.7
+    "@sapphire/stopwatch": ^1.2.4
+    "@sapphire/ts-config": ^3.1.6
+    "@sapphire/type": ^2.1.2
+    "@sapphire/utilities": ^3.1.0
+    "@types/jest": ^27.0.3
+    "@types/node": ^16.11.12
+    colorette: ^2.0.16
+    discord-api-types: ^0.25.2
+    discord.js: ^13.3.1
+    dotenv: ^10.0.0
+    envalid: ^7.2.2
+    esbuild: ^0.14.2
+    eslint: ^8.4.1
+    fuse.js: ^6.4.6
+    husky: ^7.0.4
+    jest: ^27.4.4
+    lint-staged: ^12.1.2
+    npm-run-all: ^4.1.5
+    pm2: ^5.1.2
+    prettier: ^2.5.1
+    pretty-quick: ^3.1.2
+    ts-jest: ^27.1.1
+    tslib: ^2.3.1
+    typescript: ^4.5.3
+  languageName: unknown
+  linkType: soft
+
 "sax@npm:^1.2.4":
   version: 1.2.4
   resolution: "sax@npm:1.2.4"
@@ -7758,47 +7799,6 @@ __metadata:
   checksum: 99c11aaa8f45189fcfba6b8a4825fd684a321caa9bd7a76a27cf0c7732c174d198b99f449c52c3818107430b5f41c0ccbbfb75cb2ee3ca4a9451710986d61a60
   languageName: node
   linkType: hard
-
-"typescript-template@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "typescript-template@workspace:."
-  dependencies:
-    "@commitlint/cli": ^15.0.0
-    "@commitlint/config-conventional": ^15.0.0
-    "@discordjs/builders": 0.9.0
-    "@sapphire/cli": ^1.0.2
-    "@sapphire/decorators": ^3.1.4
-    "@sapphire/discord.js-utilities": ^4.1.5
-    "@sapphire/eslint-config": ^4.0.8
-    "@sapphire/framework": 2.3.0-pr-293.501f6a8.0
-    "@sapphire/plugin-logger": ^2.1.1
-    "@sapphire/prettier-config": ^1.2.7
-    "@sapphire/stopwatch": ^1.2.4
-    "@sapphire/ts-config": ^3.1.6
-    "@sapphire/type": ^2.1.2
-    "@sapphire/utilities": ^3.1.0
-    "@types/jest": ^27.0.3
-    "@types/node": ^16.11.12
-    colorette: ^2.0.16
-    discord-api-types: ^0.25.2
-    discord.js: ^13.3.1
-    dotenv: ^10.0.0
-    envalid: ^7.2.2
-    esbuild: ^0.14.2
-    eslint: ^8.4.1
-    fuse.js: ^6.4.6
-    husky: ^7.0.4
-    jest: ^27.4.4
-    lint-staged: ^12.1.2
-    npm-run-all: ^4.1.5
-    pm2: ^5.1.2
-    prettier: ^2.5.1
-    pretty-quick: ^3.1.2
-    ts-jest: ^27.1.1
-    tslib: ^2.3.1
-    typescript: ^4.5.3
-  languageName: unknown
-  linkType: soft
 
 "typescript@npm:^4.4.3, typescript@npm:^4.5.2, typescript@npm:^4.5.3":
   version: 4.5.3
