@@ -12,7 +12,7 @@ import { Command } from '#structures/Command';
 	chatInputCommand: {
 		register: true,
 		behaviorWhenNotIdentical: RegisterBehavior.Overwrite,
-		guildIds: ['919288852131217419']
+		idHints: ['919288852131217419']
 	}
 })
 export class UserCommand extends Command {
