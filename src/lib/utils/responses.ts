@@ -31,5 +31,5 @@ export const sendError = (interaction: CommandInteraction, description: string) 
 //  */
 // export const replyAndFetch = async (interaction: CommandInteraction, options: Omit<Parameters<CommandInteraction['reply']>, 'fetchReply'>) => {
 // 	const message = await interaction.reply({ ...options, fetchReply: true });
-// 	return message instanceof Message ? message : Reflect.construct(Message, message);
+// 	return message instanceof Message ? message : Reflect.construct(Message, [interaction.client, message]);
 // };
