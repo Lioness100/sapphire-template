@@ -40,7 +40,6 @@ export class UserCommand extends Command {
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
 		const type = interaction.options.getSubcommand(true);
 		const query = interaction.options.getFocused() as string;
-		console.log(query);
 
 		const options =
 			type === 'piece'
