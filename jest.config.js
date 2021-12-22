@@ -2,8 +2,10 @@
  * @type {import('ts-jest/dist/types').InitialOptionsTsJest}
  */
 const config = {
-	preset: 'ts-jest/presets/default-esm',
-	testEnvironment: 'node'
+	testEnvironment: 'node',
+	transform: {
+		'^.+\\.tsx?$': 'esbuild-jest'
+	}
 };
 
 export default config;
