@@ -1304,9 +1304,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/framework@npm:2.3.0-pr-293.f4a0d9e.0":
-  version: 2.3.0-pr-293.f4a0d9e.0
-  resolution: "@sapphire/framework@npm:2.3.0-pr-293.f4a0d9e.0"
+"@sapphire/framework@npm:2.3.0-pr-293.67baf15.0":
+  version: 2.3.0-pr-293.67baf15.0
+  resolution: "@sapphire/framework@npm:2.3.0-pr-293.67baf15.0"
   dependencies:
     "@sapphire/discord-utilities": ^2.3.0
     "@sapphire/discord.js-utilities": ^4.1.4
@@ -1315,7 +1315,7 @@ __metadata:
     "@sapphire/utilities": ^3.1.0
     lexure: ^0.17.0
     tslib: ^2.3.1
-  checksum: 6da4e1ddb76f5175f27aa5f6ac3019dca4e29171cdea7e19b106e88bb3107ae1eb4a61c9e594733db21a369b29e43bfa75ae2df48593583691667ead6e8f5400
+  checksum: 2c6f5ccb807629bcff26e145befd58c1a3231522a47234f00939b04dd5ce37fb576252476f87d758707ebf7e59456d41fbb551a5f17fc676ecc1778ebde313de
   languageName: node
   linkType: hard
 
@@ -8076,7 +8076,7 @@ __metadata:
     "@sapphire/decorators": ^3.1.4
     "@sapphire/discord.js-utilities": ^4.1.5
     "@sapphire/eslint-config": ^4.0.8
-    "@sapphire/framework": 2.3.0-pr-293.f4a0d9e.0
+    "@sapphire/framework": 2.3.0-pr-293.67baf15.0
     "@sapphire/plugin-logger": ^2.1.1
     "@sapphire/prettier-config": ^1.2.7
     "@sapphire/stopwatch": ^1.2.4

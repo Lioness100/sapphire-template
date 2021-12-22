@@ -1,6 +1,5 @@
 import type { CommandInteraction, Message } from 'discord.js';
 import type { CommandOptions } from '@sapphire/framework';
-import { RegisterBehavior } from '@sapphire/framework';
 import { BrandingColors } from '#utils/constants';
 import { ApplyOptions } from '@sapphire/decorators';
 import { createEmbed } from '#utils/responses';
@@ -11,7 +10,6 @@ import { Command } from '#structures/Command';
 	description: 'View my latency',
 	chatInputCommand: {
 		register: true,
-		behaviorWhenNotIdentical: RegisterBehavior.Overwrite,
 		idHints: ['919288852131217419']
 	}
 })

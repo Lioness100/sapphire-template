@@ -1,11 +1,11 @@
 import type { ApplicationCommandRegistry, CommandOptions, Store } from '@sapphire/framework';
 import type { AutocompleteInteraction, CommandInteraction } from 'discord.js';
-import { RegisterBehavior, Piece } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { createEmbed } from '#utils/responses';
 import { Collection } from 'discord.js';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { Command } from '#structures/Command';
+import { Piece } from '@sapphire/framework';
 import Fuse from 'fuse.js/dist/fuse.basic.min.js';
 
 @ApplyOptions<CommandOptions>({
@@ -102,7 +102,6 @@ export class UserCommand extends Command {
 							.setDescription('Reload all stores and pieces')
 					),
 			{
-				behaviorWhenNotIdentical: RegisterBehavior.Overwrite,
 				idHints: ['919288852072501299']
 			}
 		);

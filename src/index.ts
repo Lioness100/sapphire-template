@@ -1,8 +1,8 @@
 import '@sapphire/plugin-logger/register';
 import 'dotenv/config';
 
+import { SapphireClient, ApplicationCommandRegistries, RegisterBehavior } from '@sapphire/framework';
 import { GatewayIntentBits } from 'discord-api-types/v9';
-import { SapphireClient } from '@sapphire/framework';
 import { yellow, green, bold } from 'colorette';
 import { Constants } from 'discord.js';
 import { env } from '#root/config';
@@ -17,6 +17,8 @@ const client = new SapphireClient({
 	// `Constants.PartialTypes.CHANNEL` partial is required to receive direct messages
 	partials: [Constants.PartialTypes.CHANNEL]
 });
+
+ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
 
 try {
 	client.logger.info(yellow('Logging in'));

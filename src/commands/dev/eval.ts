@@ -1,7 +1,6 @@
 import type { CommandOptions, ApplicationCommandRegistry } from '@sapphire/framework';
 import type { CommandInteraction } from 'discord.js';
 import { codeBlock, inlineCode } from '@discordjs/builders';
-import { RegisterBehavior } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { createEmbed } from '#utils/responses';
 import { isThenable } from '@sapphire/utilities';
@@ -78,7 +77,7 @@ export class UserCommand extends Command {
 							.setDescription('The depth of the displayed return type')
 							.setRequired(false)
 					),
-			{ behaviorWhenNotIdentical: RegisterBehavior.Overwrite, idHints: ['919288851674050590'] }
+			{ idHints: ['919288851674050590'] }
 		);
 	}
 
