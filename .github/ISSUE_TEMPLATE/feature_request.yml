@@ -1,6 +1,5 @@
 name: Feature request
 description: Suggest an idea for this project
-title: 'request: '
 labels: ['Meta: Feature']
 body:
   - type: markdown
