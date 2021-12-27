@@ -10,9 +10,9 @@ import { inspect } from 'node:util';
 import { Buffer } from 'node:buffer';
 import { Type } from '@sapphire/type';
 
-// In the future, this may be converted to/accompanied with a context menu interaction
-// This way, users can naturally send multiline code. Or, modals could be used instead
-// when they're released
+// In the future, this may be converted to/accompanied with a context menu
+// interaction. That way, users could naturally send multiline code. Or, modals
+// could be used instead (when they're released).
 @ApplyOptions<Command.Options>({
 	description: 'Evaluate any JavaScript code',
 	detailedDescription: [

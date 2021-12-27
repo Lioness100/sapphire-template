@@ -23,5 +23,6 @@ export abstract class Command<O extends Command.Options = Command.Options> exten
 }
 
 export namespace Command {
+	// Convenience type to save imports.
 	export type Options = SapphireCommand.Options;
 }
