@@ -1,4 +1,4 @@
-import type { CommandOptions, ApplicationCommandRegistry } from '@sapphire/framework';
+import type { ApplicationCommandRegistry } from '@sapphire/framework';
 import type { CommandInteraction } from 'discord.js';
 import { codeBlock, inlineCode } from '@discordjs/builders';
 import { ApplyOptions } from '@sapphire/decorators';
@@ -12,7 +12,7 @@ import { Type } from '@sapphire/type';
 // In the future, this may be converted to/accompanied with a context menu interaction
 // This way, users can naturally send multiline code. Or, modals could be used instead
 // when they're released
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
 	description: 'Evaluate any JavaScript code',
 	detailedDescription: [
 		'Evaluate any JavaScript code and send the result, or error accompanied by a return type.',

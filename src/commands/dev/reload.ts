@@ -1,4 +1,4 @@
-import type { ApplicationCommandRegistry, CommandOptions, Store } from '@sapphire/framework';
+import type { ApplicationCommandRegistry, Store } from '@sapphire/framework';
 import type { AutocompleteInteraction, CommandInteraction } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { createEmbed } from '#utils/responses';
@@ -8,7 +8,7 @@ import { Command } from '#structures/Command';
 import { Piece } from '@sapphire/framework';
 import Fuse from 'fuse.js/dist/fuse.basic.min.js';
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
 	preconditions: ['OwnerOnly']
 })
 export class UserCommand extends Command {
