@@ -1,4 +1,4 @@
-import type { CommandInteraction } from 'discord.js';
+import { CommandInteraction, Team } from 'discord.js';
 import { Precondition } from '@sapphire/framework';
 
 // Discord slash command permissions are in the process of a overhaul, but
@@ -11,7 +11,12 @@ export class UserPrecondition extends Precondition {
 			await this.container.client.application!.fetch();
 		}
 
-		return this.container.client.application!.owner?.id === interaction.user.id
+		// `application.owner` is guarranteed to be populated after the above fetch.
+		const owner = this.container.client.application!.owner!;
+
+		// It will be a (partial) user or a team, and if it's a team, we should allow
+		// access to every member.
+		return (owner instanceof Team ? owner.members.has(interaction.user.id) : interaction.user.id === owner.id)
 			? this.ok()
 			: this.error({ message: 'This command can only be used by my owner' });
 	}
