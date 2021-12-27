@@ -6,6 +6,7 @@ import { GatewayIntentBits } from 'discord-api-types/v9';
 import { yellow, green, bold } from 'colorette';
 import { Constants } from 'discord.js';
 import { env } from '#root/config';
+import process from 'node:process';
 
 const client = new SapphireClient({
 	// Trace loggings clutter the console, and should only be used when debugging @sapphire/pieces specifically

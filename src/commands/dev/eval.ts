@@ -7,6 +7,7 @@ import { isThenable } from '@sapphire/utilities';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { Command } from '#structures/Command';
 import { inspect } from 'node:util';
+import { Buffer } from 'node:buffer';
 import { Type } from '@sapphire/type';
 
 // In the future, this may be converted to/accompanied with a context menu interaction
