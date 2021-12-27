@@ -3,11 +3,10 @@
 }
 ---
 import type { CommandInteraction } from 'discord.js';
-import type { CommandOptions } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '#structures/Command';
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
 	description: '',
 	chatInputCommand: {
 		register: true
