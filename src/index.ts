@@ -3,7 +3,6 @@ import 'dotenv/config';
 
 import { SapphireClient, ApplicationCommandRegistries, RegisterBehavior } from '@sapphire/framework';
 import { GatewayIntentBits } from 'discord-api-types/v9';
-import { yellow, green, bold } from 'colorette';
 import { Constants } from 'discord.js';
 import { env } from '#root/config';
 import process from 'node:process';
@@ -22,9 +21,7 @@ const client = new SapphireClient({
 ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
 
 try {
-	client.logger.info(yellow('Logging in'));
 	await client.login(env.TOKEN);
-	client.logger.info(bold(green('Logged in')));
 } catch (error) {
 	client.logger.fatal(error);
 	client.destroy();
