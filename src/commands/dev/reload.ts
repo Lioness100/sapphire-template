@@ -9,6 +9,7 @@ import { Piece } from '@sapphire/framework';
 import Fuse from 'fuse.js/dist/fuse.basic.min.js';
 
 @ApplyOptions<Command.Options>({
+	description: '[owner only] Reload a piece, or a store, or all of both',
 	preconditions: ['OwnerOnly']
 })
 export class UserCommand extends Command {
@@ -71,7 +72,7 @@ export class UserCommand extends Command {
 			(builder) =>
 				builder
 					.setName(this.name)
-					.setDescription('[owner only] Reload a piece, or a store, or all of both')
+					.setDescription(this.description)
 					.addSubcommand((builder) =>
 						builder
 							.setName('piece')
