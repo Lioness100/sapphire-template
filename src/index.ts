@@ -4,7 +4,7 @@ import 'dotenv/config';
 import { SapphireClient, ApplicationCommandRegistries, RegisterBehavior } from '@sapphire/framework';
 import { GatewayIntentBits } from 'discord-api-types/v9';
 import { Constants } from 'discord.js';
-import { env } from '#root/config';
+import { config } from '#root/config';
 import process from 'node:process';
 
 const client = new SapphireClient({
@@ -21,7 +21,7 @@ const client = new SapphireClient({
 ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
 
 try {
-	await client.login(env.TOKEN);
+	await client.login(config.TOKEN);
 } catch (error) {
 	client.logger.fatal(error);
 	client.destroy();
