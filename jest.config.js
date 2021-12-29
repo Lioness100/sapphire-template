@@ -1,8 +1,9 @@
-import type { InitialOptionsTsJest } from 'ts-jest';
-
+/**
+ * @type {import('ts-jest').InitialOptionsTsJest}
+ */
 export default {
 	testEnvironment: 'node',
 	transform: {
 		'^.+\\.tsx?$': 'esbuild-jest'
 	}
-} as InitialOptionsTsJest;
+};
