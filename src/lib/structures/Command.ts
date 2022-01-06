@@ -15,10 +15,6 @@ export abstract class Command<O extends Command.Options = Command.Options> exten
 	public error(message: string | UserError, context?: unknown): never {
 		throw typeof message === 'string' ? new UserError({ message, context, identifier: 'CustomUserError' }) : message;
 	}
-
-	public get client() {
-		return this.container.client;
-	}
 }
 
 export namespace Command {

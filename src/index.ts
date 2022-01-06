@@ -1,7 +1,7 @@
 import '@sapphire/plugin-logger/register';
 import 'dotenv/config';
 
-import { SapphireClient, ApplicationCommandRegistries, RegisterBehavior } from '@sapphire/framework';
+import { SapphireClient, ApplicationCommandRegistries, RegisterBehavior, Piece, container } from '@sapphire/framework';
 import { GatewayIntentBits } from 'discord-api-types/v9';
 import { Constants } from 'discord.js';
 import { config } from '#root/config';
@@ -20,19 +20,13 @@ const client = new SapphireClient({
 
 ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
 
+// Utility - saves a lot of characters. A lot.
+Object.defineProperty(Piece.prototype, 'client', { get: () => container.client });
+
 try {
 	await client.login(config.TOKEN);
 } catch (error) {
 	client.logger.fatal(error);
 	client.destroy();
 	process.exit(1);
-}
-
-// This should be placed in /lib/types/Augments.d.ts once there's a need to
-// import an external type, as declaring modules in ambient contexts (without
-// top-level imports) will result in an overwrite instead augmentation.
-declare module '@sapphire/framework' {
-	interface Preconditions {
-		OwnerOnly: never;
-	}
 }

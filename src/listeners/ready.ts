@@ -32,7 +32,7 @@ ${this.storeDebugInformation()}
 	}
 
 	private storeDebugInformation() {
-		const stores = [...this.container.client.stores.values()];
+		const stores = [...this.client.stores.values()];
 		return stores //
 			.reverse()
 			.reduce((list, store) => `${this.styleStore(store, false)}\n${list}`, this.styleStore(stores.pop()!, true));
