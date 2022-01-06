@@ -1,6 +1,5 @@
-import type { Piece, Store } from '@sapphire/framework';
 import { blue, gray, green, magenta, magentaBright, bold } from 'colorette';
-import { Listener, Events } from '@sapphire/framework';
+import { Listener, Events, type Piece, type Store } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { readFile } from 'node:fs/promises';
 import { rootURL } from '#utils/constants';

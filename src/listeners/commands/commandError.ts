@@ -1,5 +1,4 @@
-import type { ChatInputCommandErrorPayload } from '@sapphire/framework';
-import { Listener, Events, UserError } from '@sapphire/framework';
+import { Listener, Events, UserError, type ChatInputCommandErrorPayload } from '@sapphire/framework';
 import { bold, redBright } from 'colorette';
 import { sendError } from '#utils/responses';
 
