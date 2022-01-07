@@ -1,5 +1,5 @@
-import { Listener, Events, UserError, type ChatInputCommandErrorPayload } from '@sapphire/framework';
-import { bold, redBright } from 'colorette';
+import { Listener, UserError, type Events, type ChatInputCommandErrorPayload } from '@sapphire/framework';
+import { red, bold } from 'colorette';
 import { sendError } from '#utils/responses';
 
 export class UserEvent extends Listener<typeof Events.ChatInputCommandError> {
@@ -8,7 +8,7 @@ export class UserEvent extends Listener<typeof Events.ChatInputCommandError> {
 			return sendError(interaction, error.message);
 		}
 
-		this.container.logger.fatal(`${redBright(bold(`[${command.name}]`))}\n${error.stack || error.message}`);
+		this.container.logger.fatal(`${red(bold(`[/${command.name}]`))} ${error.stack || error.message}`);
 		return sendError(interaction, 'Something went wrong');
 	}
 }

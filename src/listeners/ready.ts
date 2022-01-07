@@ -9,7 +9,7 @@ import { URL } from 'node:url';
 @ApplyOptions<Listener.Options>({ once: true })
 export class UserEvent extends Listener<typeof Events.ClientReady> {
 	public async run() {
-		const raw = await readFile(new URL('./package.json', rootURL), 'utf8');
+		const raw = await readFile(new URL('../package.json', rootURL), 'utf8');
 		const { version } = JSON.parse(raw);
 
 		this.container.logger.info(
