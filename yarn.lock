@@ -3501,9 +3501,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:^13.5.0":
-  version: 13.5.0
-  resolution: "discord.js@npm:13.5.0"
+"discord.js@npm:^13.5.1":
+  version: 13.5.1
+  resolution: "discord.js@npm:13.5.1"
   dependencies:
     "@discordjs/builders": ^0.11.0
     "@discordjs/collection": ^0.4.0
@@ -3514,7 +3514,7 @@ __metadata:
     form-data: ^4.0.0
     node-fetch: ^2.6.1
     ws: ^8.4.0
-  checksum: 2c4e38b94ef2f19b8d63829cae753fac27e4aba06599871977499f04bb7384f03dbd158562967c624918a183396b592ef9d6c63c3c5e65e76eb4c62f398daaf0
+  checksum: bb38d2675688838b183ce7f273ac322b10b8eec9d38b44397334b5a9277efcfd25b04ef9393dcd805b00945690abc1960bc849181c53f40580729f7542df10b5
   languageName: node
   linkType: hard
 
@@ -6478,9 +6478,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.1.5":
-  version: 12.1.5
-  resolution: "lint-staged@npm:12.1.5"
+"lint-staged@npm:^12.1.7":
+  version: 12.1.7
+  resolution: "lint-staged@npm:12.1.7"
   dependencies:
     cli-truncate: ^3.1.0
     colorette: ^2.0.16
@@ -6497,7 +6497,7 @@ __metadata:
     yaml: ^1.10.2
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: e4d64e97769faf45adad9898c843ed8ef495469fc3edef0b8daff834ddb504ab47e33579763f8d85cbba6db993bd5cd86ac0bcaf92f6fd7486d4fb9a5fe774c6
+  checksum: 3d0757706c8b0ca3f004bb2ffa89a9d5fc97ccdebfa4cde29a9636c661538780e194b99cbc5e4b8b89b13986187b33c97e009b09014511bbd45ee05ba557d0eb
   languageName: node
   linkType: hard
 
@@ -8297,7 +8297,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.9.0
     colorette: ^2.0.16
     discord-api-types: ^0.26.1
-    discord.js: ^13.5.0
+    discord.js: ^13.5.1
     dotenv: ^10.0.0
     envalid: ^7.2.2
     esbuild-jest: ^0.5.0
@@ -8307,14 +8307,14 @@ __metadata:
     fuse.js: ^6.5.3
     husky: ^7.0.4
     jest: ^27.4.7
-    lint-staged: ^12.1.5
+    lint-staged: ^12.1.7
     npm-run-all: ^4.1.5
     pm2: ^5.1.2
     prettier: ^2.5.1
     pretty-quick: ^3.1.3
     ts-jest: ^27.1.2
     tslib: ^2.3.1
-    tsup: ^5.11.10
+    tsup: ^5.11.11
     typescript: ^4.5.4
   languageName: unknown
   linkType: soft
@@ -9281,9 +9281,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:^5.11.10":
-  version: 5.11.10
-  resolution: "tsup@npm:5.11.10"
+"tsup@npm:^5.11.11":
+  version: 5.11.11
+  resolution: "tsup@npm:5.11.11"
   dependencies:
     bundle-require: ^2.1.8
     cac: ^6.7.12
@@ -9307,7 +9307,7 @@ __metadata:
   bin:
     tsup: dist/cli-default.js
     tsup-node: dist/cli-node.js
-  checksum: 6ac0eb3c7429095a2bdaa611e4961cab3cd539717f0bd0fbfe024f78b18a01f85142f6809799341561d182758d9f7713fa33044177009c373decb9288bd70029
+  checksum: a12297926641d69ffaec16fa08a3b41c765c39091efe113528c376edef452c15a9dcb2ae26ab2c445de94da3853a6a705cdf54329cca991be238b1652ee94b33
   languageName: node
   linkType: hard
 
