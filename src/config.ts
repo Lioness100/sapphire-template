@@ -14,5 +14,6 @@ export const env = cleanEnv(process.env, {
 export const clientOptions: ClientOptions = {
 	// Intents dictate what events the client will receive.
 	intents: GatewayIntentBits.Guilds,
-	logger: { level: env.isProduction ? LogLevel.Info : LogLevel.Debug }
+	logger: { level: env.isProduction ? LogLevel.Info : LogLevel.Debug },
+	loadDefaultErrorListeners: false
 };
