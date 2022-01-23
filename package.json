@@ -29,7 +29,7 @@
 	},
 	"dependencies": {
 		"@discordjs/builders": "0.11.0",
-		"@sapphire/decorators": "^3.1.6",
+		"@sapphire/decorators": "^4.0.2",
 		"@sapphire/discord.js-utilities": "^4.4.0",
 		"@sapphire/framework": "2.3.0",
 		"@sapphire/plugin-logger": "^2.1.2",
