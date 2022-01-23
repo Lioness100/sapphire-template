@@ -25,6 +25,8 @@ export class UserCommand extends Command {
 		const isAsync = interaction.options.getBoolean('async');
 		const ephemeral = interaction.options.getBoolean('ephemeral') ?? false;
 
+		await interaction.deferReply({ ephemeral });
+
 		const { result, success, type, elapsed } = await this.eval(interaction, code, { isAsync, depth });
 		const output = success ? codeBlock('js', result) : codeBlock('bash', result);
 
@@ -39,7 +41,7 @@ export class UserCommand extends Command {
 			.addField('Type 📝', codeBlock('ts', type), true)
 			.addField('Elapsed ⏱', elapsed, true);
 
-		return interaction.reply({ embeds: [embed], files: embedLimitReached ? [Buffer.from(output)] : [], ephemeral });
+		return interaction.editReply({ embeds: [embed], files: embedLimitReached ? [Buffer.from(output)] : [] });
 	}
 
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
