@@ -2,7 +2,7 @@ import '@sapphire/plugin-logger/register';
 import 'dotenv/config';
 
 import { SapphireClient, ApplicationCommandRegistries, RegisterBehavior, Piece, container } from '@sapphire/framework';
-import { clientOptions, env } from '#root/config';
+import { clientOptions } from '#root/config';
 import process from 'node:process';
 
 const client = new SapphireClient(clientOptions);
@@ -13,7 +13,7 @@ ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior
 Object.defineProperty(Piece.prototype, 'client', { get: () => container.client });
 
 try {
-	await client.login(env.TOKEN);
+	await client.login();
 } catch (error) {
 	client.logger.fatal(error);
 	client.destroy();

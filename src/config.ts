@@ -8,7 +8,7 @@ import process from 'node:process';
 process.env.NODE_ENV ??= 'development';
 
 export const env = cleanEnv(process.env, {
-	TOKEN: str({ desc: 'The discord bot token' }),
+	DISCORD_TOKEN: str({ desc: 'The discord bot token' }),
 	DEV_SERVER_ID: str({ default: '' })
 });
 
