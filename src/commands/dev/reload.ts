@@ -4,16 +4,12 @@
 
 import { Collection, type AutocompleteInteraction, type CommandInteraction } from 'discord.js';
 import { Piece, type ApplicationCommandRegistry, type Store } from '@sapphire/framework';
-import { ApplyOptions } from '@sapphire/decorators';
 import { createEmbed } from '#utils/responses';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { Command } from '#structures/Command';
+import { env } from '#root/config';
 import Fuse from 'fuse.js/dist/fuse.basic.min.js';
 
-@ApplyOptions<Command.Options>({
-	description: '[owner only] Reload a piece, or a store, or all of both',
-	preconditions: ['OwnerOnly']
-})
 export class UserCommand extends Command {
 	public override async chatInputRun(interaction: CommandInteraction) {
 		const type = interaction.options.getSubcommand(true);
@@ -74,7 +70,7 @@ export class UserCommand extends Command {
 			(builder) =>
 				builder
 					.setName(this.name)
-					.setDescription(this.description)
+					.setDescription('[owner only] Reload a piece, or a store, or all of both')
 					.addSubcommand((builder) =>
 						builder
 							.setName('piece')
@@ -105,7 +101,8 @@ export class UserCommand extends Command {
 							.setDescription('[owner only] Reload all stores and pieces')
 					),
 			{
-				idHints: ['919288852072501299']
+				idHints: ['936381438117412894'],
+				guildIds: [env.DEV_SERVER_ID]
 			}
 		);
 	}
