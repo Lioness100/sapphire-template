@@ -5,20 +5,24 @@ import { BrandingColors } from '#utils/constants';
 /**
  * Creates an embed.
  */
-export const createEmbed = (description: string, color: ColorResolvable = BrandingColors.Primary) => {
+export const createEmbed = (description?: string, color: ColorResolvable = BrandingColors.Primary) => {
 	return new MessageEmbed({ color, description });
 };
 
 /**
  * Sends an error response from an interaction.
  */
-export const sendError = (interaction: CommandInteraction, description: string) => {
+export const sendError = (interaction: CommandInteraction, description: string, ephemeral = true) => {
 	// Core sapphire errors end in ".", so that needs to be accounted for.
 	const parsedDescription = `❌ ${description.endsWith('.') ? description.slice(0, -1) : description}!`;
-	return interaction.reply({
+	const payload = {
 		embeds: [createEmbed(parsedDescription, BrandingColors.Error)],
-		ephemeral: true
-	});
+		ephemeral
+	};
+
+	// eslint-disable-next-line @typescript-eslint/unbound-method
+	const replyFn = interaction.replied ? interaction.followUp : interaction.deferred ? interaction.editReply : interaction.reply;
+	return replyFn.call(interaction, payload);
 };
 
 // This method of resolving `Message` instances from interaction replies should
