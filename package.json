@@ -41,6 +41,7 @@
 		"discord.js": "^13.6.0",
 		"dotenv": "^14.2.0",
 		"envalid": "^7.2.2",
+		"eslint-plugin-unicorn": "^40.1.0",
 		"fuse.js": "^6.5.3",
 		"tslib": "^2.3.1"
 	},

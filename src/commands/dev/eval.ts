@@ -84,7 +84,7 @@ export class UserCommand extends Command {
 		}
 
 		let success = true;
-		let result = null;
+		let result;
 
 		const stopwatch = new Stopwatch();
 		let elapsed = '';
