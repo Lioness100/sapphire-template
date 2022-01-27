@@ -28,10 +28,6 @@ ___________                   .__          __           __________        __
 `
 		);
 
-		this.storeDebugInformation();
-	}
-
-	private storeDebugInformation() {
 		const stores = [...this.client.stores.values()];
 		const last = stores.pop()!;
 
