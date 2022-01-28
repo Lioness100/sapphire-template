@@ -1,4 +1,4 @@
-import { Command as SapphireCommand, UserError, type Args, type Piece } from '@sapphire/framework';
+import { Command as SapphireCommand, type Args, type Piece } from '@sapphire/framework';
 import { PermissionFlagsBits } from 'discord-api-types/v9';
 import { Permissions } from 'discord.js';
 import { env } from '#root/config';
@@ -21,10 +21,6 @@ export abstract class Command<O extends Command.Options = Command.Options> exten
 			// Automatically enable the OwnerOnly precondition.
 			this.preconditions.append('OwnerOnly');
 		}
-	}
-
-	public error(message: string | UserError, context?: unknown): never {
-		throw typeof message === 'string' ? new UserError({ message, context, identifier: 'CustomUserError' }) : message;
 	}
 }
 
