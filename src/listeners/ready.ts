@@ -25,6 +25,7 @@ ___________                   .__          __           __________        __
   ${magenta(version)}
   [${green('+')}] Gateway
   ${magenta('<')}${magentaBright('/')}${magenta('>')} ${bold(`${env.isProduction ? 'PROD' : 'DEV'} MODE`)}
+
 `
 		);
 
