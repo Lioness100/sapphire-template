@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { MessageEmbed, type ColorResolvable, type CommandInteraction } from 'discord.js';
-import { BrandingColors } from '#utils/constants';
+import { EmbedColor } from '#utils/constants';
 
 /**
  * Creates an embed.
  */
-export const createEmbed = (description?: string, color: ColorResolvable = BrandingColors.Primary) => {
+export const createEmbed = (description?: string, color: ColorResolvable = EmbedColor.Primary) => {
 	return new MessageEmbed({ color, description });
 };
 
@@ -16,7 +16,7 @@ export const sendError = async (interaction: CommandInteraction, description: st
 	// Core sapphire errors end in ".", so that needs to be accounted for.
 	const parsedDescription = `❌ ${description.endsWith('.') ? description.slice(0, -1) : description}!`;
 	const payload = {
-		embeds: [createEmbed(parsedDescription, BrandingColors.Error)],
+		embeds: [createEmbed(parsedDescription, EmbedColor.Error)],
 		ephemeral
 	};
 

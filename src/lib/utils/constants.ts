@@ -4,7 +4,7 @@ import { Constants } from 'discord.js';
 
 export const rootURL = pathToFileURL(`${getRootData().root}/`);
 
-export enum BrandingColors {
+export enum EmbedColor {
 	Primary = Constants.Colors.AQUA,
 	Secondary = Constants.Colors.BLUE,
 	Error = Constants.Colors.RED

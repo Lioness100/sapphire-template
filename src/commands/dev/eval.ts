@@ -1,5 +1,5 @@
-import { BrandingColors } from '#utils/constants';
 import { createEmbed } from '#utils/responses';
+import { EmbedColor } from '#utils/constants';
 import { isThenable } from '@sapphire/utilities';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { codeBlock } from '@discordjs/builders';
@@ -26,7 +26,7 @@ export class UserCommand extends Command {
 		const embedLimitReached = output.length > 4096;
 		const embed = createEmbed(
 			embedLimitReached ? 'Output was too long! The result has been sent as a file.' : output,
-			success ? BrandingColors.Primary : BrandingColors.Error
+			success ? EmbedColor.Primary : EmbedColor.Error
 		);
 
 		embed
