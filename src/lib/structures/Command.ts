@@ -1,16 +1,9 @@
 import { Command as SapphireCommand, type Args, type Piece } from '@sapphire/framework';
-import { PermissionFlagsBits } from 'discord-api-types/v9';
-import { Permissions } from 'discord.js';
 import { env } from '#root/config';
 
 export abstract class Command<O extends Command.Options = Command.Options> extends SapphireCommand<Args, O> {
 	public constructor(context: Piece.Context, options: O) {
-		super(context, {
-			// All commands use embeds and thus require this permissions
-			requiredClientPermissions: new Permissions(options.requiredClientPermissions).add(PermissionFlagsBits.EmbedLinks),
-			generateDashLessAliases: true,
-			...options
-		});
+		super(context, options);
 
 		// If this command is owner only:
 		if (this.category === 'dev') {
