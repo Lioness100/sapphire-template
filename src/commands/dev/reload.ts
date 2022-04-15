@@ -1,8 +1,8 @@
 /* eslint-disable unicorn/prefer-spread */
 // The lint rule should only apply when concatenating arrays, but instead flags down Collection#concat.
 
-import { Collection, type AutocompleteInteraction, type CommandInteraction } from 'discord.js';
-import { Piece, type ApplicationCommandRegistry, type Store } from '@sapphire/framework';
+import { Collection, type AutocompleteInteraction } from 'discord.js';
+import { Piece, type Store } from '@sapphire/framework';
 import { createEmbed } from '#utils/responses';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { Command } from '#structures/Command';
@@ -10,7 +10,7 @@ import { env } from '#root/config';
 import Fuse from 'fuse.js/dist/fuse.basic.min.js';
 
 export class UserCommand extends Command {
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: Command.Interaction) {
 		const type = interaction.options.getSubcommand(true);
 		const name = interaction.options.getString('name', true);
 
@@ -64,7 +64,7 @@ export class UserCommand extends Command {
 		);
 	}
 
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand(
 			(builder) =>
 				builder

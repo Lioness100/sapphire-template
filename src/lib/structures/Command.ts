@@ -1,8 +1,9 @@
-import { Command as SapphireCommand, type Args, type Piece } from '@sapphire/framework';
+import type { CacheType } from 'discord.js';
+import { Command as SapphireCommand, type ChatInputCommand, type Piece } from '@sapphire/framework';
 import { env } from '#root/config';
 
-export abstract class Command<O extends Command.Options = Command.Options> extends SapphireCommand<Args, O> {
-	public constructor(context: Piece.Context, options: O) {
+export abstract class Command extends SapphireCommand {
+	public constructor(context: Piece.Context, options: ChatInputCommand.Options) {
 		super(context, options);
 
 		// If this command is owner only:
@@ -15,9 +16,14 @@ export abstract class Command<O extends Command.Options = Command.Options> exten
 			this.preconditions.append('OwnerOnly');
 		}
 	}
+
+	// This is already present Command, but is marked as optional.
+	public abstract override chatInputRun(interaction: ChatInputCommand.Interaction, context: ChatInputCommand.RunContext): unknown;
 }
 
 export namespace Command {
 	// Convenience type to save imports.
-	export type Options = SapphireCommand.Options;
+	export type Options = ChatInputCommand.Options;
+	export type Interaction<Cache extends CacheType = CacheType> = ChatInputCommand.Interaction<Cache>;
+	export type Registry = ChatInputCommand.Registry;
 }
