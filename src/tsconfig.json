@@ -7,10 +7,9 @@
 		"noEmit": true,
 		"paths": {
 			"#root/*": ["*"],
-			"#lib/*": ["lib/*"],
 			"#types/*": ["lib/types/*"],
-			"#structures/*": ["lib/structures/*"],
-			"#utils/*": ["lib/utils/*"]
+			"#utils/*": ["lib/utils/*"],
+			"#structures/*": ["lib/structures/*"]
 		}
 	},
 	"include": ["."]

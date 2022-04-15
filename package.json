@@ -10,9 +10,8 @@
 	"private": true,
 	"imports": {
 		"#root/*": "./dist/*.js",
-		"#lib/*": "./dist/lib/*.js",
-		"#structures/*": "./dist/lib/structures/*.js",
-		"#utils/*": "./dist/lib/utils/*.js"
+		"#utils/*": "./dist/lib/utils/*.js",
+		"#structures/*": "./dist/lib/structures/*.js"
 	},
 	"scripts": {
 		"pm2": "pm2 start pm2.ecosystem.yml",
