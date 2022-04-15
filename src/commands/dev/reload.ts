@@ -9,7 +9,7 @@ import { Command } from '#structures/Command';
 import { env } from '#root/config';
 import Fuse from 'fuse.js/dist/fuse.basic.min.js';
 
-export class UserCommand extends Command {
+export class ReloadCommand extends Command {
 	public override async chatInputRun(interaction: Command.Interaction) {
 		const type = interaction.options.getSubcommand(true);
 		const name = interaction.options.getString('name', true);

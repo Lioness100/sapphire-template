@@ -12,7 +12,7 @@ import { Command } from '#structures/Command';
 		idHints: ['919288852131217419']
 	}
 })
-export class UserCommand extends Command {
+export class PingCommand extends Command {
 	public override async chatInputRun(interaction: Command.Interaction) {
 		const embed = createEmbed('', EmbedColor.Secondary).setTitle('Ping? 🏓');
 		const message = (await interaction.reply({ embeds: [embed], fetchReply: true })) as Message;

@@ -11,7 +11,7 @@ import { env } from '#root/config';
 
 // In the future, this may be converted to/accompanied with a context menu interaction. That way, users could naturally
 // send multiline code. Or, modals could be used instead (when they're released).
-export class UserCommand extends Command {
+export class EvalCommand extends Command {
 	public override async chatInputRun(interaction: Command.Interaction) {
 		const code = interaction.options.getString('code', true);
 		const depth = interaction.options.getInteger('depth');
