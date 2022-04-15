@@ -14,8 +14,8 @@ export abstract class Command<O extends Command.Options = Command.Options> exten
 
 		// If this command is owner only:
 		if (this.category === 'dev') {
-			// Enable it only if there is a development server on the assumption
-			// it would've been registered guild wide otherwise.
+			// Enable it only if there is a development server on the assumption it would've been registered guild wide
+			// otherwise.
 			this.enabled &&= Boolean(env.DEV_SERVER_ID);
 
 			// Automatically enable the OwnerOnly precondition.

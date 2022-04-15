@@ -11,9 +11,8 @@ import { Buffer } from 'node:buffer';
 import { Type } from '@sapphire/type';
 import { env } from '#root/config';
 
-// In the future, this may be converted to/accompanied with a context menu
-// interaction. That way, users could naturally send multiline code. Or, modals
-// could be used instead (when they're released).
+// In the future, this may be converted to/accompanied with a context menu interaction. That way, users could naturally
+// send multiline code. Or, modals could be used instead (when they're released).
 export class UserCommand extends Command {
 	public override async chatInputRun(interaction: CommandInteraction) {
 		const code = interaction.options.getString('code', true);
@@ -87,7 +86,7 @@ export class UserCommand extends Command {
 		let elapsed = '';
 
 		try {
-			// This will serve as an alias for ease of use in the eval code
+			// This will serve as an alias for ease of use in the eval code.
 			// @ts-expect-error 6133
 			const i = interaction;
 
