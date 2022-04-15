@@ -43,6 +43,11 @@
 		"envalid": "^7.3.1",
 		"fuse.js": "^6.5.3"
 	},
+	"optionalDependencies": {
+		"bufferutil": "^4.0.6",
+		"utf-8-validate": "^5.0.9",
+		"zlib-sync": "^0.1.7"
+	},
 	"devDependencies": {
 		"@commitlint/cli": "^16.2.3",
 		"@commitlint/config-conventional": "^16.2.1",
