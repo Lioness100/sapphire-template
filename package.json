@@ -26,7 +26,7 @@
 		"prepare": "husky install"
 	},
 	"dependencies": {
-		"@discordjs/builders": "0.12.0",
+		"@discordjs/builders": "0.13.0",
 		"@sapphire/decorators": "^4.3.4",
 		"@sapphire/discord.js-utilities": "^4.9.4",
 		"@sapphire/framework": "3.0.0-next.e759826.0",
@@ -35,7 +35,7 @@
 		"@sapphire/type": "^2.2.0",
 		"@sapphire/utilities": "^3.6.2",
 		"colorette": "^2.0.16",
-		"discord-api-types": "^0.31.1",
+		"discord-api-types": "^0.31.2",
 		"discord.js": "^13.6.0",
 		"dotenv": "^16.0.0",
 		"envalid": "^7.3.1",
@@ -53,14 +53,14 @@
 		"@sapphire/prettier-config": "^1.4.2",
 		"@sapphire/ts-config": "^3.3.4",
 		"@types/node": "^17.0.10",
-		"@typescript-eslint/eslint-plugin": "^5.19.0",
-		"@typescript-eslint/parser": "^5.19.0",
+		"@typescript-eslint/eslint-plugin": "^5.20.0",
+		"@typescript-eslint/parser": "^5.20.0",
 		"eslint": "^8.13.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-prettier": "^4.0.0",
 		"eslint-plugin-unicorn": "^42.0.0",
 		"husky": "^7.0.4",
-		"lint-staged": "^12.3.8",
+		"lint-staged": "^12.4.0",
 		"npm-run-all": "^4.1.5",
 		"pm2": "^5.2.0",
 		"prettier": "^2.6.2",
@@ -69,7 +69,7 @@
 		"typescript": "^4.6.3"
 	},
 	"resolutions": {
-		"@discordjs/collection": "0.5.0"
+		"@discordjs/collection": "0.6.0"
 	},
 	"engines": {
 		"node": ">=16.6",
