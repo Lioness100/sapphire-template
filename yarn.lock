@@ -517,7 +517,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^4.6.0, @sapphire/discord.js-utilities@npm:^4.9.5":
+"@sapphire/discord.js-utilities@npm:^4.6.0":
   version: 4.9.5
   resolution: "@sapphire/discord.js-utilities@npm:4.9.5"
   dependencies:
@@ -526,6 +526,18 @@ __metadata:
     "@sapphire/utilities": ^3.6.2
     tslib: ^2.3.1
   checksum: 58e8e0c285bed4d6e02e67272425ef0313614df33aa7e87c8ee483a226c105fb497a8242780d9e1575ad4bd2ae359929fbc8c0a3bc76abcd27039f70519f7119
+  languageName: node
+  linkType: hard
+
+"@sapphire/discord.js-utilities@npm:^4.9.7":
+  version: 4.9.7
+  resolution: "@sapphire/discord.js-utilities@npm:4.9.7"
+  dependencies:
+    "@sapphire/discord-utilities": ^2.10.3
+    "@sapphire/time-utilities": ^1.7.4
+    "@sapphire/utilities": ^3.6.2
+    tslib: ^2.4.0
+  checksum: c174b512c283216c3382fea518ba01ceda5ade39cd7ae8988bc4a9bb1fe37d0a7f7b7a578cd0053c3bcf6230ede2f7cee50810f08082186b311e220117b9ec50
   languageName: node
   linkType: hard
 
@@ -644,14 +656,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/type@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@sapphire/type@npm:2.2.0"
+"@sapphire/type@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "@sapphire/type@npm:2.2.4"
   dependencies:
     "@discordjs/node-pre-gyp": ^0.4.2
     nan: ^2.15.0
-    tslib: ^2.3.1
-  checksum: 24a2dc1884c72879d910aa1d216ceaab0842ce833ab961acc4b71c3c2addde621cd8080a55af96b63a710933d3acefafe9627e45e2adeca353667b5ed3688f95
+    tslib: ^2.4.0
+  checksum: c1de369f48b0f15ac8bb365f0a618f2b75ef84687d871182982bbbc3f6d2560ba78fdac0c0e62c0f1c466f149f3b2a6dcd6459c3e1540cb92592c96b16033592
   languageName: node
   linkType: hard
 
@@ -5324,14 +5336,14 @@ __metadata:
     "@commitlint/config-conventional": ^16.2.4
     "@discordjs/builders": 0.13.0
     "@sapphire/decorators": ^4.3.4
-    "@sapphire/discord.js-utilities": ^4.9.5
+    "@sapphire/discord.js-utilities": ^4.9.7
     "@sapphire/eslint-config": ^4.3.4
     "@sapphire/framework": 3.0.0-next.fd7be0b.0
     "@sapphire/plugin-logger": ^2.2.1
     "@sapphire/prettier-config": ^1.4.3
     "@sapphire/stopwatch": ^1.4.1
     "@sapphire/ts-config": ^3.3.4
-    "@sapphire/type": ^2.2.0
+    "@sapphire/type": ^2.2.4
     "@sapphire/utilities": ^3.6.2
     "@types/node": ^17.0.10
     "@typescript-eslint/eslint-plugin": ^5.21.0
@@ -6046,6 +6058,13 @@ __metadata:
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "tslib@npm:2.4.0"
+  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
   languageName: node
   linkType: hard
 
