@@ -1,5 +1,5 @@
 import type { CacheType } from 'discord.js';
-import { Command as SapphireCommand, type ChatInputCommand, type Piece } from '@sapphire/framework';
+import { ApplicationCommandRegistry, Command as SapphireCommand, type ChatInputCommand, type Piece } from '@sapphire/framework';
 import { env } from '#root/config';
 
 export abstract class Command extends SapphireCommand {
@@ -27,3 +27,18 @@ export namespace Command {
 	export type Interaction<Cache extends CacheType = CacheType> = ChatInputCommand.Interaction<Cache>;
 	export type Registry = ChatInputCommand.Registry;
 }
+
+// This is a hacky (but perfectly safe) way to have quickly updating slash commands for development. This is achieved by
+// overriding the registerChatInputCommand method and making commands guild-scoped to the dev server if NODE_ENV is
+// 'development' (which will make updates show up immediately).
+
+const target = 'registerChatInputCommand' as const;
+type Target = ApplicationCommandRegistry[typeof target];
+
+// eslint-disable-next-line @typescript-eslint/unbound-method
+const { registerChatInputCommand } = ApplicationCommandRegistry.prototype;
+Object.defineProperty(ApplicationCommandRegistry.prototype, target, {
+	value(...[command, options]: Parameters<Target>) {
+		return registerChatInputCommand.call(this, command, { guildIds: env.isDev ? [env.DEV_SERVER_ID] : undefined, ...options });
+	}
+});
