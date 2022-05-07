@@ -1,9 +1,6 @@
 # Dependencies
 node_modules/
 
-# Coverage
-coverage/
-
 # Yarn files
 yarn-error.log
 .yarn/*
@@ -11,7 +8,7 @@ yarn-error.log
 !.yarn/releases
 !.yarn/patches
 
-# Ignore the dist output
+# Compiled Javascript
 dist/
 
 # Environment variables
