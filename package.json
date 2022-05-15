@@ -35,10 +35,10 @@
 		"@sapphire/utilities": "^3.6.2",
 		"colorette": "^2.0.16",
 		"discord-api-types": "^0.32.1",
-		"discord.js": "^13.6.0",
-		"dotenv": "^16.0.0",
+		"discord.js": "^13.7.0",
+		"dotenv": "^16.0.1",
 		"envalid": "^7.3.1",
-		"fuse.js": "^6.6.1"
+		"fuse.js": "^6.6.2"
 	},
 	"optionalDependencies": {
 		"bufferutil": "^4.0.6",
@@ -50,8 +50,8 @@
 		"@sapphire/prettier-config": "^1.4.3",
 		"@sapphire/ts-config": "^3.3.4",
 		"@types/node": "^17.0.31",
-		"@typescript-eslint/eslint-plugin": "^5.22.0",
-		"@typescript-eslint/parser": "^5.22.0",
+		"@typescript-eslint/eslint-plugin": "^5.23.0",
+		"@typescript-eslint/parser": "^5.23.0",
 		"eslint": "^8.15.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-prettier": "^4.0.0",
@@ -69,5 +69,5 @@
 		"npm": ">=7"
 	},
 	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@3.2.0"
+	"packageManager": "yarn@3.2.1"
 }
