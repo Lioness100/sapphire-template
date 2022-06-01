@@ -10,6 +10,7 @@
 		"unicorn/no-nested-ternary": "off",
 		"unicorn/filename-case": "off",
 		"unicorn/explicit-length-check": "off",
-		"unicorn/no-null": "off"
+		"unicorn/no-null": "off",
+		"@typescript-eslint/member-ordering": "off"
 	}
 }

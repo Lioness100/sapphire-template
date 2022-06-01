@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import { MessageEmbed, type ColorResolvable, type CommandInteraction } from 'discord.js';
+import { type ButtonInteraction, MessageEmbed, type ColorResolvable, type CommandInteraction } from 'discord.js';
 import { EmbedColor } from '#utils/constants';
 import { italic } from '@discordjs/builders';
 
@@ -13,7 +13,11 @@ export const createEmbed = (description?: string, color: ColorResolvable = Embed
 /**
  * Sends an error response from an interaction.
  */
-export const sendError = async (interaction: CommandInteraction, description: string, options: { ephemeral?: boolean; tip?: string } = {}) => {
+export const sendError = async (
+	interaction: CommandInteraction | ButtonInteraction,
+	description: string,
+	options: { ephemeral?: boolean; tip?: string } = {}
+) => {
 	// Core sapphire errors end in ".", so that needs to be accounted for.
 	const formattedError = `❌ ${description.endsWith('.') ? description.slice(0, -1) : description}!`;
 	const formattedDescription = `${formattedError}${options.tip ? `\n${italic(`💡${options.tip}`)}` : ''}`;

@@ -100,7 +100,7 @@ export class ReloadCommand extends Command {
 							.setDescription('[owner only] Reload all stores and pieces')
 					),
 			{
-				idHints: ['936381438117412894'],
+				idHints: ['981662208855535689'],
 				guildIds: [env.DEV_SERVER_ID]
 			}
 		);
