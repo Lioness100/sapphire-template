@@ -11,6 +11,7 @@
 		"unicorn/filename-case": "off",
 		"unicorn/explicit-length-check": "off",
 		"unicorn/no-null": "off",
+		"unicorn/no-await-expression-member": "off",
 		"@typescript-eslint/member-ordering": "off"
 	}
 }
