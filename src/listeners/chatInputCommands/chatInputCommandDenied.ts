@@ -3,11 +3,10 @@ import { sendError } from '#utils/responses';
 
 export class ChatInputCommandDeniedListener extends Listener<typeof Events.ChatInputCommandDenied> {
 	public run(error: UserError, { interaction }: ChatInputCommandDeniedPayload) {
-		// eslint-disable-next-line no-new-object
-		if (Reflect.get(new Object(error.context), 'silent')) {
+		if ((error.context as { silent?: true })?.silent) {
 			return;
 		}
 
-		return sendError(interaction, error.message);
+		return sendError(interaction, error.message, { prefix: '🚫 ' });
 	}
 }

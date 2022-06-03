@@ -16,10 +16,10 @@ export const createEmbed = (description?: string, color: ColorResolvable = Embed
 export const sendError = async (
 	interaction: CommandInteraction | ButtonInteraction,
 	description: string,
-	options: { ephemeral?: boolean; tip?: string } = {}
+	options: { ephemeral?: boolean; tip?: string; prefix?: string } = {}
 ) => {
 	// Core sapphire errors end in ".", so that needs to be accounted for.
-	const formattedError = `❌ ${description.endsWith('.') ? description.slice(0, -1) : description}!`;
+	const formattedError = `${options.prefix ?? '❌ '}${description.endsWith('.') ? description.slice(0, -1) : description}!`;
 	const formattedDescription = `${formattedError}${options.tip ? `\n${italic(`💡${options.tip}`)}` : ''}`;
 
 	const payload = {
