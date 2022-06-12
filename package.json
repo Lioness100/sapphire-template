@@ -26,8 +26,8 @@
 	},
 	"dependencies": {
 		"@discordjs/builders": "0.13.0",
-		"@sapphire/decorators": "^4.3.4",
-		"@sapphire/discord.js-utilities": "^4.11.1",
+		"@sapphire/decorators": "^4.3.5",
+		"@sapphire/discord.js-utilities": "^4.11.2",
 		"@sapphire/framework": "next",
 		"@sapphire/plugin-logger": "^2.2.1",
 		"@sapphire/stopwatch": "^1.4.1",
