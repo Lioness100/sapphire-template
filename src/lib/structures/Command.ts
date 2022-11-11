@@ -24,7 +24,7 @@ export abstract class Command extends SapphireCommand {
 export namespace Command {
 	// Convenience type to save imports.
 	export type Options = ChatInputCommand.Options;
-	export type Interaction<Cache extends CacheType = CacheType> = ChatInputCommand.Interaction<Cache>;
+	export type Interaction<TCache extends CacheType = CacheType> = ChatInputCommand.Interaction<TCache>;
 	export type Registry = ChatInputCommand.Registry;
 }
 

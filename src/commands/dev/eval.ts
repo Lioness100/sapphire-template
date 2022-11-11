@@ -1,39 +1,38 @@
+import { inspect } from 'node:util';
 import { type Message, Constants, MessageActionRow, MessageButton, Modal, TextInputComponent, type ButtonInteraction } from 'discord.js';
 import { EmbedLimits } from '@sapphire/discord.js-utilities';
-import { createEmbed, sendError } from '#utils/responses';
-import { EmbedColor } from '#utils/constants';
 import { isThenable } from '@sapphire/utilities';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { codeBlock } from '@discordjs/builders';
-import { Command } from '#structures/Command';
-import { inspect } from 'node:util';
-import { Buffer } from 'node:buffer';
 import { Type } from '@sapphire/type';
+import { Command } from '#structures/Command';
+import { EmbedColor } from '#utils/constants';
+import { createEmbed, sendError } from '#utils/responses';
 import { env } from '#root/config';
 
 export class EvalCommand extends Command {
 	public override async chatInputRun(interaction: Command.Interaction) {
-		const async = interaction.options.getBoolean('async');
+		const isAsync = interaction.options.getBoolean('async');
 		await this.sendForm(interaction, {
-			async,
+			isAsync,
 			depth: interaction.options.getInteger('depth'),
 			ephemeral: interaction.options.getBoolean('ephemeral'),
-			code: async ? "// const _ = await import('');" : null
+			code: isAsync ? "// const _ = await import('');" : null
 		});
 	}
 
 	public async sendForm(
 		interaction: Command.Interaction | ButtonInteraction,
 		parameters: {
-			async: boolean | null;
 			code: string | null;
 			depth: number | null;
 			ephemeral: boolean | null;
+			isAsync: boolean | null;
 		}
 	) {
-		const codeInput = new TextInputComponent() //
+		const codeInput = new TextInputComponent()
 			.setCustomId('code-input')
-			.setLabel(`${parameters.async ? 'Async' : ''}Code`)
+			.setLabel(`${parameters.isAsync ? 'Async' : ''}Code`)
 			.setRequired(true)
 			.setStyle('PARAGRAPH');
 
@@ -82,7 +81,7 @@ export class EvalCommand extends Command {
 		const buttonInteraction = await message
 			.awaitMessageComponent({
 				componentType: Constants.MessageComponentTypes.BUTTON,
-				time: 1000 * 60 * 5,
+				time: 1000 * 60 * 30,
 				filter: async (buttonInteraction) => {
 					if (buttonInteraction.user.id !== interaction.user.id) {
 						await sendError(interaction, `This button is only for ${interaction.user}`);
@@ -105,11 +104,11 @@ export class EvalCommand extends Command {
 		interaction: Command.Interaction | ButtonInteraction,
 		code: string,
 		parameters: {
-			async: boolean | null;
 			depth: number | null;
+			isAsync: boolean | null;
 		}
 	) {
-		if (parameters.async) {
+		if (parameters.isAsync) {
 			code = `(async () => {\n${code}\n})();`;
 		}
 
@@ -121,7 +120,6 @@ export class EvalCommand extends Command {
 
 		try {
 			// This will serve as an alias for ease of use in the eval code.
-			// @ts-expect-error 6133
 			const i = interaction;
 
 			// eslint-disable-next-line no-eval
@@ -130,6 +128,7 @@ export class EvalCommand extends Command {
 
 			if (isThenable(result)) {
 				stopwatch.restart();
+				// eslint-disable-next-line @typescript-eslint/await-thenable
 				result = await result;
 				elapsed = stopwatch.toString();
 			}
@@ -138,7 +137,7 @@ export class EvalCommand extends Command {
 				elapsed = stopwatch.toString();
 			}
 
-			result = (error as Error).message ?? error;
+			result = `${error}`;
 			success = false;
 		}
 

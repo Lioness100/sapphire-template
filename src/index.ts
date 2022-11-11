@@ -4,7 +4,6 @@ import 'dotenv/config';
 import { SapphireClient, ApplicationCommandRegistries, RegisterBehavior, Piece, container } from '@sapphire/framework';
 import { PaginatedMessage } from '@sapphire/discord.js-utilities';
 import { clientOptions } from '#root/config';
-import process from 'node:process';
 
 const client = new SapphireClient(clientOptions);
 
@@ -21,7 +20,5 @@ try {
 } catch (error) {
 	client.logger.fatal(error);
 	client.destroy();
-
-	// eslint-disable-next-line unicorn/no-process-exit
 	process.exit(1);
 }

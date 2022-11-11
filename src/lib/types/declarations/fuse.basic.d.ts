@@ -2,5 +2,6 @@
 // Theoretically this should make searches faster.
 declare module 'fuse.js/dist/fuse.basic.min.js' {
 	// All types are the same.
+	// eslint-disable-next-line import/no-default-export
 	export { default } from 'fuse.js';
 }

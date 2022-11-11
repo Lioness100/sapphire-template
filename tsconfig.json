@@ -1,0 +1,14 @@
+{
+  "extends": "configs/tsconfig",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "#root/*": ["./src/*"],
+      "#types/*": ["./src/lib/types/*"],
+      "#utils/*": ["./src/lib/utils/*"],
+      "#structures/*": ["./src/lib/structures/*"]
+    }
+  },
+  "include": ["src"]
+}

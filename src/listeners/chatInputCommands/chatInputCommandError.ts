@@ -8,7 +8,7 @@ export class ChatInputCommandErrorListener extends Listener<typeof Events.ChatIn
 			return sendError(interaction, error.message);
 		}
 
-		this.container.logger.fatal(`${redBright(bold(`[/${command.name}]`))} ${error.stack || error.message}`);
+		this.container.logger.fatal(`${redBright(bold(`[/${command.name}]`))} ${error.stack ?? error.message}`);
 		return sendError(interaction, 'Something went wrong');
 	}
 }
