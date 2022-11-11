@@ -1,47 +1,59 @@
-/* eslint-disable @typescript-eslint/no-invalid-void-type */
-import { type ButtonInteraction, MessageEmbed, type ColorResolvable, type CommandInteraction } from 'discord.js';
-import { italic } from '@discordjs/builders';
-import { EmbedColor } from '#utils/constants';
+import {
+	EmbedBuilder,
+	Colors,
+	italic,
+	type ActionRow,
+	type MessageActionRowComponent,
+	type RepliableInteraction,
+	type InteractionReplyOptions,
+	type WebhookEditMessageOptions
+} from 'discord.js';
 
-/**
- * Creates an embed.
- */
-export const createEmbed = (description?: string, color: ColorResolvable = EmbedColor.Primary) => {
-	return new MessageEmbed({ color, description });
+export const safelyReply = (
+	interaction: RepliableInteraction,
+	payload: InteractionReplyOptions & WebhookEditMessageOptions
+) => {
+	if (interaction.deferred) {
+		return interaction.editReply(payload);
+	}
+
+	if (interaction.replied) {
+		return interaction.followUp(payload);
+	}
+
+	return interaction.reply(payload);
 };
 
-/**
- * Sends an error response from an interaction.
- */
+export const createEmbed = (description?: string, color: number = Colors.Aqua) => {
+	return new EmbedBuilder({ color, description });
+};
+
+export const sendSuccess = async (interaction: RepliableInteraction, description: string) => {
+	const embed = createEmbed(`✅ ${description}`);
+	return interaction.reply({ embeds: [embed] });
+};
+
 export const sendError = async (
-	interaction: CommandInteraction | ButtonInteraction,
+	interaction: RepliableInteraction,
 	description: string,
 	options: { ephemeral?: boolean; prefix?: string; tip?: string } = {}
 ) => {
 	// Core sapphire errors end in ".", so that needs to be accounted for.
-	const formattedError = `${options.prefix ?? '❌ '}${description.endsWith('.') ? description.slice(0, -1) : description}!`;
+	const formattedError = `${options.prefix ?? '❌'} ${
+		description.endsWith('.') ? description.slice(0, -1) : description
+	}!`;
 	const formattedDescription = `${formattedError}${options.tip ? `\n${italic(`💡${options.tip}`)}` : ''}`;
 
-	const payload = {
-		embeds: [createEmbed(formattedDescription, EmbedColor.Error)],
+	await safelyReply(interaction, {
+		embeds: [createEmbed(formattedDescription, Colors.Red)],
 		ephemeral: options.ephemeral ?? true
-	};
-
-	// eslint-disable-next-line @typescript-eslint/unbound-method
-	const replyFunction = interaction.replied ? interaction.followUp : interaction.deferred ? interaction.editReply : interaction.reply;
-	await replyFunction.call(interaction, payload);
+	});
 };
 
-// This method of resolving `Message` instances from interaction replies should be used if channel or guild sweeping is
-// Implemented, as it's only guarranteed to return a `Message` if the channel it was sent in is cached (and if the bot
-// Is in the guild where the message was sent, although we don't need to worry about that). Until then, we can safely
-// Cast as `Message` when using the `fetchReply` option. Note that the `Message` constructor has been private since
-// V13.2.0 (discordjs/discord.js#6732), so the Reflect.construct hack is necessary (@ts-ignore would also work).
-
-// /**
-//  * Replies to an interaction and resolves a `Message` instance from the new message.
-//  */
-// Export const replyAndFetch = async (interaction: CommandInteraction, options: Omit<Parameters<CommandInteraction['reply']>, 'fetchReply'>) => {
-// 	Const message = await interaction.reply({ ...options, fetchReply: true });
-// 	Return message instanceof Message ? message : Reflect.construct(Message, [interaction.client, message]);
-// };
+export const toggleComponents = (rows: ActionRow<MessageActionRowComponent>[]) => {
+	return rows.map((row) =>
+		row.components.map((component) => {
+			return Reflect.set(component.data, 'disabled', !component.disabled);
+		})
+	);
+};

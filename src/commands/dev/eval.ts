@@ -1,47 +1,56 @@
 import { inspect } from 'node:util';
-import { type Message, Constants, MessageActionRow, MessageButton, Modal, TextInputComponent, type ButtonInteraction } from 'discord.js';
+import {
+	Colors,
+	codeBlock,
+	TextInputBuilder,
+	TextInputStyle,
+	ButtonBuilder,
+	ButtonStyle,
+	ModalBuilder,
+	ActionRowBuilder,
+	ComponentType,
+	type ButtonInteraction
+} from 'discord.js';
 import { EmbedLimits } from '@sapphire/discord.js-utilities';
-import { isThenable } from '@sapphire/utilities';
-import { Stopwatch } from '@sapphire/stopwatch';
-import { codeBlock } from '@discordjs/builders';
-import { Type } from '@sapphire/type';
 import { Command } from '#structures/Command';
-import { EmbedColor } from '#utils/constants';
 import { createEmbed, sendError } from '#utils/responses';
 import { env } from '#root/config';
+import { createCustomId, CustomId } from '#utils/customIds';
 
 export class EvalCommand extends Command {
 	public override async chatInputRun(interaction: Command.Interaction) {
-		const isAsync = interaction.options.getBoolean('async');
+		const async = interaction.options.getBoolean('async');
 		await this.sendForm(interaction, {
-			isAsync,
+			async,
 			depth: interaction.options.getInteger('depth'),
 			ephemeral: interaction.options.getBoolean('ephemeral'),
-			code: isAsync ? "// const _ = await import('');" : null
+			code: async ? "// const _ = await import('');" : null
 		});
 	}
 
 	public async sendForm(
 		interaction: Command.Interaction | ButtonInteraction,
 		parameters: {
+			async: boolean | null;
 			code: string | null;
 			depth: number | null;
 			ephemeral: boolean | null;
-			isAsync: boolean | null;
 		}
 	) {
-		const codeInput = new TextInputComponent()
-			.setCustomId('code-input')
-			.setLabel(`${parameters.isAsync ? 'Async' : ''}Code`)
+		const codeInput = new TextInputBuilder()
+			.setCustomId(createCustomId(CustomId.Arbitrary))
+			.setLabel(`${parameters.async ? 'Async' : ''}Code`)
 			.setRequired(true)
-			.setStyle('PARAGRAPH');
+			.setStyle(TextInputStyle.Paragraph);
 
 		if (parameters.code) {
 			codeInput.setValue(parameters.code);
 		}
 
-		const row = new MessageActionRow<TextInputComponent>().setComponents(codeInput);
-		const modal = new Modal().setTitle('Code Editor').setCustomId('code-form').setComponents(row);
+		const row = new ActionRowBuilder<TextInputBuilder>({ components: [codeInput] });
+		const modal = new ModalBuilder({ components: [row] })
+			.setTitle('Code Editor')
+			.setCustomId(createCustomId(CustomId.Arbitrary));
 
 		await interaction.showModal(modal);
 		const submission = await interaction.awaitModalSubmit({ time: 0 }).catch(() => null);
@@ -50,38 +59,38 @@ export class EvalCommand extends Command {
 			return;
 		}
 
-		const message = (await submission.deferReply({ ephemeral: parameters.ephemeral ?? false, fetchReply: true })) as Message;
+		const message = await submission.deferReply({ ephemeral: parameters.ephemeral ?? false, fetchReply: true });
 		const code = submission.fields.getTextInputValue('code-input');
 
-		const { result, success, type, elapsed } = await this.eval(interaction, code, parameters);
-		const output = success ? codeBlock('js', result) : codeBlock('bash', result);
+		const { result, success } = await this.eval(interaction, code, parameters);
+		const output = success ? codeBlock('js', result) : codeBlock('sh', result);
 
 		const embedLimitReached = output.length > EmbedLimits.MaximumDescriptionLength;
 		const embed = createEmbed(
 			embedLimitReached ? 'Output was too long! The result has been sent as a file.' : output,
-			success ? EmbedColor.Primary : EmbedColor.Error
+			success ? Colors.Aqua : Colors.Red
 		);
 
-		embed
-			.setTitle(success ? 'Eval Result ✨' : 'Eval Error 💀')
-			.addField('Type 📝', codeBlock('ts', type), true)
-			.addField('Elapsed ⏱', elapsed, true);
+		embed.setTitle(success ? 'Eval Result ✨' : 'Eval Error 💀');
 
-		const files = embedLimitReached ? [{ attachment: Buffer.from(output), name: 'output.txt' }] : [];
+		const files = [
+			{ attachment: Buffer.from(code), name: 'input.txt' },
+			...(embedLimitReached ? [{ attachment: Buffer.from(output), name: 'output.txt' }] : [])
+		];
 
-		const reviseButton = new MessageButton()
-			.setCustomId('revise-code')
+		const reviseButton = new ButtonBuilder() //
+			.setCustomId(createCustomId(CustomId.Arbitrary))
 			.setEmoji('🔁')
 			.setLabel('Revise')
-			.setStyle(Constants.MessageButtonStyles.PRIMARY);
+			.setStyle(ButtonStyle.Primary);
 
-		const buttonRow = new MessageActionRow().setComponents(reviseButton);
+		const buttonRow = new ActionRowBuilder<ButtonBuilder>({ components: [reviseButton] });
 		await submission.editReply({ embeds: [embed], components: [buttonRow], files });
 
 		const buttonInteraction = await message
 			.awaitMessageComponent({
-				componentType: Constants.MessageComponentTypes.BUTTON,
-				time: 1000 * 60 * 30,
+				componentType: ComponentType.Button,
+				time: 0,
 				filter: async (buttonInteraction) => {
 					if (buttonInteraction.user.id !== interaction.user.id) {
 						await sendError(interaction, `This button is only for ${interaction.user}`);
@@ -101,55 +110,33 @@ export class EvalCommand extends Command {
 	}
 
 	private async eval(
+		// @ts-expect-error 2345
 		interaction: Command.Interaction | ButtonInteraction,
 		code: string,
 		parameters: {
+			async: boolean | null;
 			depth: number | null;
-			isAsync: boolean | null;
 		}
 	) {
-		if (parameters.isAsync) {
+		if (parameters.async) {
 			code = `(async () => {\n${code}\n})();`;
 		}
 
 		let success = true;
 		let result;
 
-		const stopwatch = new Stopwatch();
-		let elapsed = '';
-
 		try {
-			// This will serve as an alias for ease of use in the eval code.
-			const i = interaction;
-
-			// eslint-disable-next-line no-eval
-			result = eval(code);
-			elapsed = stopwatch.toString();
-
-			if (isThenable(result)) {
-				stopwatch.restart();
-				// eslint-disable-next-line @typescript-eslint/await-thenable
-				result = await result;
-				elapsed = stopwatch.toString();
-			}
+			result = await eval(code);
 		} catch (error) {
-			if (!elapsed) {
-				elapsed = stopwatch.toString();
-			}
-
 			result = `${error}`;
 			success = false;
 		}
-
-		stopwatch.stop();
-
-		const type = new Type(result).toString();
 
 		if (typeof result !== 'string') {
 			result = inspect(result, { depth: parameters.depth });
 		}
 
-		return { result, success, type, elapsed };
+		return { result, success };
 	}
 
 	public override registerApplicationCommands(registry: Command.Registry) {
@@ -161,7 +148,9 @@ export class EvalCommand extends Command {
 					.addBooleanOption((option) =>
 						option
 							.setName('async')
-							.setDescription('Whether to allow use of async/await. If set, the result will have to be returned')
+							.setDescription(
+								'Whether to allow use of async/await. If set, the result will have to be returned'
+							)
 							.setRequired(false)
 					)
 					.addBooleanOption((option) =>
@@ -176,7 +165,7 @@ export class EvalCommand extends Command {
 							.setDescription('The depth of the displayed return type')
 							.setRequired(false)
 					),
-			{ idHints: ['981662208041840640'], guildIds: [env.DEV_SERVER_ID] }
+			{ guildIds: [env.DEV_SERVER_ID] }
 		);
 	}
 }

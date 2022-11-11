@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import type { ClientOptions } from 'discord.js';
+import { type ClientOptions, GatewayIntentBits } from 'discord.js';
 import { cleanEnv, str } from 'envalid';
-import { LogLevel } from '@sapphire/framework';
+import { Logger } from '#structures/Logger';
 
 // Unless explicitly defined, set NODE_ENV to development.
 process.env.NODE_ENV ??= 'development';
@@ -13,7 +13,7 @@ export const env = cleanEnv(process.env, {
 
 export const clientOptions: ClientOptions = {
 	// Intents dictate what events the client will receive.
-	intents: 'GUILDS',
-	logger: { level: env.isProduction ? LogLevel.Info : LogLevel.Debug },
+	intents: [GatewayIntentBits.Guilds],
+	logger: { instance: new Logger() },
 	loadDefaultErrorListeners: false
 };

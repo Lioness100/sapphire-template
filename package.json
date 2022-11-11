@@ -9,53 +9,50 @@
   "type": "module",
   "private": true,
   "imports": {
-    "#root/*": "./dist/*.js",
+    "#structures/*": "./dist/lib/structures/*.js",
     "#utils/*": "./dist/lib/utils/*.js",
-    "#structures/*": "./dist/lib/structures/*.js"
+    "#root/*": "./dist/*.js"
   },
   "scripts": {
     "pm2": "pm2 start ecosystem.yml",
     "start": "node --enable-source-maps .",
     "lint": "eslint .",
     "format": "prettier --write \"{*,src/**/*}.{json,js,ts}\"",
-    "build": "tsup --config configs/tsup.config.js"
+    "build": "tsup --config @lioness100/configs/tsup.config.js"
   },
   "dependencies": {
-    "@discordjs/builders": "^1.3.0",
-    "@sapphire/decorators": "^4.3.6",
-    "@sapphire/discord.js-utilities": "^4.11.3",
-    "@sapphire/framework": "next",
-    "@sapphire/plugin-logger": "^2.2.1",
-    "@sapphire/stopwatch": "^1.4.1",
-    "@sapphire/type": "^2.2.4",
-    "@sapphire/utilities": "^3.7.0",
-    "colorette": "^2.0.16",
-    "discord.js": "^13.7.0",
-    "dotenv": "^16.0.1",
+    "@sapphire/decorators": "pr-434",
+    "@sapphire/discord.js-utilities": "pr-434",
+    "@sapphire/framework": "pr-512",
+    "@sapphire/utilities": "^3.11.0",
+    "colorette": "^2.0.19",
+    "discord.js": "^14.6.0",
+    "dotenv": "^16.0.3",
     "envalid": "^7.3.1",
-    "fuse.js": "^6.6.2"
+    "fuse.js": "^6.6.2",
+    "tslog": "^3.3.4"
   },
   "optionalDependencies": {
-    "bufferutil": "^4.0.6",
-    "utf-8-validate": "^5.0.9",
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^5.0.10",
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
-    "@types/node": "^17.0.38",
-    "configs": "npm:@lioness100/configs@1.0.3",
-    "eslint": "^8.16.0",
-    "pm2": "^5.2.0",
-    "prettier": "^2.6.2",
-    "tsup": "^6.0.1",
-    "typescript": "^4.7.2"
+    "@lioness100/configs": "^1.0.6",
+    "@types/node": "^18.11.9",
+    "eslint": "^8.27.0",
+    "pm2": "^5.2.2",
+    "prettier": "^2.7.1",
+    "tsup": "^6.4.0",
+    "typescript": "rc"
   },
   "engines": {
     "node": ">=14"
   },
-  "prettier": "configs/prettier",
+  "prettier": "@lioness100/configs/prettier",
   "eslintConfig": {
     "extends": [
-      "./node_modules/configs/.eslintrc.json"
+      "./node_modules/@lioness100/configs/.eslintrc.json"
     ]
   },
   "packageManager": "yarn@3.2.4"

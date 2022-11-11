@@ -2,13 +2,12 @@ import { readFile } from 'node:fs/promises';
 import { blue, gray, green, magenta, magentaBright, bold } from 'colorette';
 import { Listener, type Events, type Piece, type Store } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
-import { rootURL } from '#utils/constants';
 import { env } from '#root/config';
 
 @ApplyOptions<Listener.Options>({ once: true })
 export class ReadyListener extends Listener<typeof Events.ClientReady> {
 	public async run() {
-		const raw = await readFile(new URL('../package.json', rootURL), 'utf8');
+		const raw = await readFile('../package.json', 'utf8');
 		const { version } = JSON.parse(raw);
 
 		this.container.logger.info(
@@ -32,13 +31,13 @@ ___________                   .__          __           __________        __
 		const last = stores.pop()!;
 
 		for (const store of stores) {
-			this.container.logger.info(this.styleStore(store, false));
+			this.container.logger.info(this.styleStore(store));
 		}
 
 		this.container.logger.info(this.styleStore(last, true));
 	}
 
-	private styleStore(store: Store<Piece>, last: boolean) {
+	private styleStore(store: Store<Piece>, last?: boolean) {
 		return gray(`${last ? '└─' : '├─'} Loaded ${blue(store.size.toString().padEnd(3, ' '))} ${store.name}`);
 	}
 }
