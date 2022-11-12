@@ -28,14 +28,12 @@ const baseResolvers = {
 	number: createResolver({ create: (param: number) => param.toString(), parse: Number })
 };
 
+// Prevent circular references.
 const resolvers = baseResolvers;
 const customIdSeparator = '.' as const;
 
 const customIdResolver: Resolver = {
-	create: <T extends CustomId>(
-		param: T,
-		...args: T extends keyof typeof customIdParams ? CustomIdParams<typeof customIdParams[T], 'params'> : never
-	) => {
+	create: <T extends CustomId>(param: T, ...args: CreateParams<T>) => {
 		const schema = customIdParams[param as keyof typeof customIdParams];
 		if (!schema) {
 			return param;
@@ -66,15 +64,9 @@ const customIdResolver: Resolver = {
 
 		return [param, ...createdArgs].join(customIdSeparator);
 	},
-	parse: <T extends CustomId>(
-		param: string,
-		// This function will double as a check that this interaction has the custom ID(s) you're looking for.
-		wanted: T[],
-		extras?: T extends keyof typeof customIdParams
-			? { [K in typeof customIdParams[T][number]]?: CustomIdParam<K, 'parse-args'> | undefined }
-			: never
-	): Option<[T, T extends keyof typeof customIdParams ? CustomIdParams<typeof customIdParams[T], 'return'> : []]> => {
-		const [name, ...args] = param.split('.') as [T, ...string[]];
+	// This function will double as a check that this interaction has the custom ID(s) you're looking for.
+	parse: <T extends CustomId>(param: string, wanted: T[], extras?: ParseExtras<T>): ParsedCustomId<T> => {
+		const [name, ...args] = param.split(customIdSeparator) as [T, ...string[]];
 
 		if (!wanted.includes(name)) {
 			return none;
@@ -84,15 +76,11 @@ const customIdResolver: Resolver = {
 			return some([name, []] as any);
 		}
 
-		const paramResolvers = customIdParams[name as keyof typeof customIdParams].map((id) => {
+		const paramResolvers = customIdParams[name as keyof typeof customIdParams].map<[Resolver, ...any[]]>((id) => {
 			const resolver = resolvers[(id.endsWith('?') ? id.slice(0, -1) : id) as keyof typeof resolvers];
-			const extra = ((extras?.[id as keyof typeof extras] as any) ?? [])[0];
+			const extra = extras?.[id]?.[0];
 
-			if (Array.isArray(extra)) {
-				return [resolver, ...extra] as const;
-			}
-
-			return [resolver as Resolver, extra] as const;
+			return Array.isArray(extra) ? [resolver, ...extra] : [resolver, extra];
 		});
 
 		const parsedArgs = args.map((arg, idx) => {
@@ -107,7 +95,7 @@ const customIdResolver: Resolver = {
 export const createCustomId = customIdResolver.create;
 export const parseCustomId = customIdResolver.parse;
 
-// Types to resolve the types from resolver names.
+// Types to resolve the types from resolver names. Read if you dare.
 type MethodType = 'params' | 'return' | 'parse-args';
 type GetParameters<A extends any[]> = A['length'] extends 1 ? A[0] : A[0] | A;
 type ResolverParam<R extends Resolver, Method extends MethodType> = Method extends 'params'
@@ -131,3 +119,15 @@ type CustomIdParams<T extends readonly ResolverKey[], Method extends MethodType>
 		? [...CustomIdParam<First & ResolverKey, Method>, ...CustomIdParams<Tail, Method>]
 		: never
 	: [];
+
+type CreateParams<T extends CustomId> = T extends keyof typeof customIdParams
+	? CustomIdParams<typeof customIdParams[T], 'params'>
+	: never;
+
+type ParseExtras<T extends CustomId> = T extends keyof typeof customIdParams
+	? { [K in typeof customIdParams[T][number]]?: CustomIdParam<K, 'parse-args'> | undefined }
+	: never;
+
+type ParsedCustomId<T extends CustomId> = Option<
+	[T, T extends keyof typeof customIdParams ? CustomIdParams<typeof customIdParams[T], 'return'> : []]
+>;
