@@ -139,9 +139,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lioness100/configs@npm:^1.0.6":
-  version: 1.0.6
-  resolution: "@lioness100/configs@npm:1.0.6"
+"@lioness100/configs@npm:1.0.8":
+  version: 1.0.8
+  resolution: "@lioness100/configs@npm:1.0.8"
   dependencies:
     "@typescript-eslint/eslint-plugin": ^5.42.1
     "@typescript-eslint/parser": ^5.42.1
@@ -155,7 +155,7 @@ __metadata:
     eslint-plugin-unicorn: ^44.0.2
     tslib: ^2.4.1
     tsup: ^6.4.0
-  checksum: b7db09ad21a5ce27ecb4d789eab2d85f2d5c3bd0d7f7746dd0098d67f1801e78d5521fe14f74b5d4e4e5f496577d2c8ec49ba906b1c27a55b7f8260f181163c3
+  checksum: fa1abed8f3b69b547b81bca3133b26e0fe990997ee2ceca7805fc8cb359e352b8b98df998e7533db2769c6069398a3b9e9a798069b9164a091504db36080fed6
   languageName: node
   linkType: hard
 
@@ -4465,7 +4465,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sapphire-template@workspace:."
   dependencies:
-    "@lioness100/configs": ^1.0.6
+    "@lioness100/configs": 1.0.8
     "@sapphire/decorators": pr-434
     "@sapphire/discord.js-utilities": pr-434
     "@sapphire/framework": pr-512

@@ -18,7 +18,7 @@
     "start": "node --enable-source-maps .",
     "lint": "eslint .",
     "format": "prettier --write \"{*,src/**/*}.{json,js,ts}\"",
-    "build": "tsup --config @lioness100/configs/tsup.config.js"
+    "build": "tsup --config node_modules/@lioness100/configs/tsup.config.js --define.PROJECT_TYPE bot"
   },
   "dependencies": {
     "@sapphire/decorators": "pr-434",
@@ -38,7 +38,7 @@
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
-    "@lioness100/configs": "^1.0.6",
+    "@lioness100/configs": "1.0.8",
     "@types/node": "^18.11.9",
     "eslint": "^8.27.0",
     "pm2": "^5.2.2",
