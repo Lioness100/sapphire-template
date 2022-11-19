@@ -8,19 +8,20 @@ import {
 	ButtonStyle,
 	ModalBuilder,
 	ActionRowBuilder,
-	ComponentType,
-	type ButtonInteraction
+	type ButtonInteraction,
+	type Interaction
 } from 'discord.js';
 import { EmbedLimits } from '@sapphire/discord.js-utilities';
+import { Result } from '@sapphire/framework';
 import { Command } from '#structures/Command';
-import { createEmbed, sendError } from '#utils/responses';
+import { createEmbed } from '#utils/responses';
 import { env } from '#root/config';
 import { createCustomId, CustomId } from '#utils/customIds';
 
 export class EvalCommand extends Command {
 	public override async chatInputRun(interaction: Command.Interaction) {
 		const async = interaction.options.getBoolean('async');
-		await this.sendForm(interaction, {
+		await EvalCommand.sendForm(interaction, {
 			async,
 			depth: interaction.options.getInteger('depth'),
 			ephemeral: interaction.options.getBoolean('ephemeral'),
@@ -28,18 +29,13 @@ export class EvalCommand extends Command {
 		});
 	}
 
-	public async sendForm(
+	public static async sendForm(
 		interaction: Command.Interaction | ButtonInteraction,
-		parameters: {
-			async: boolean | null;
-			code: string | null;
-			depth: number | null;
-			ephemeral: boolean | null;
-		}
+		parameters: EvalCommand.Options
 	) {
 		const codeInput = new TextInputBuilder()
-			.setCustomId(createCustomId(CustomId.Arbitrary))
-			.setLabel(`${parameters.async ? 'Async' : ''}Code`)
+			.setCustomId(createCustomId(CustomId.CodeInput))
+			.setLabel(`${parameters.async ? 'Async ' : ''}Code`)
 			.setRequired(true)
 			.setStyle(TextInputStyle.Paragraph);
 
@@ -59,84 +55,55 @@ export class EvalCommand extends Command {
 			return;
 		}
 
-		const message = await submission.deferReply({ ephemeral: parameters.ephemeral ?? false, fetchReply: true });
-		const code = submission.fields.getTextInputValue('code-input');
+		await submission.deferReply({ ephemeral: parameters.ephemeral ?? true, fetchReply: true });
+		const code = submission.fields.getTextInputValue(CustomId.CodeInput);
 
-		const { result, success } = await this.eval(interaction, code, parameters);
-		const output = success ? codeBlock('js', result) : codeBlock('sh', result);
+		const input = codeBlock('js', code);
+		const inputEmbed = createEmbed(input).setTitle('Eval Input 📤');
+
+		const result = await EvalCommand.eval(interaction, code, parameters);
+		const output = codeBlock(result.isOk() ? 'js' : 'sh', result.intoOkOrErr());
 
 		const embedLimitReached = output.length > EmbedLimits.MaximumDescriptionLength;
-		const embed = createEmbed(
+		const resultEmbed = createEmbed(
 			embedLimitReached ? 'Output was too long! The result has been sent as a file.' : output,
-			success ? Colors.Aqua : Colors.Red
+			result.isErr() ? Colors.Red : undefined
+		).setTitle(`Eval ${result.isOk() ? 'Result ✨' : 'Error 💀'}`);
+
+		const reviseButtonCustomId = createCustomId(
+			CustomId.ReviseCodeButton,
+			interaction.user.id,
+			parameters.async ?? undefined,
+			parameters.depth ?? undefined,
+			parameters.ephemeral ?? undefined
 		);
 
-		embed.setTitle(success ? 'Eval Result ✨' : 'Eval Error 💀');
-
-		const files = [
-			{ attachment: Buffer.from(code), name: 'input.txt' },
-			...(embedLimitReached ? [{ attachment: Buffer.from(output), name: 'output.txt' }] : [])
-		];
-
 		const reviseButton = new ButtonBuilder() //
-			.setCustomId(createCustomId(CustomId.Arbitrary))
+			.setCustomId(reviseButtonCustomId)
 			.setEmoji('🔁')
 			.setLabel('Revise')
 			.setStyle(ButtonStyle.Primary);
 
 		const buttonRow = new ActionRowBuilder<ButtonBuilder>({ components: [reviseButton] });
-		await submission.editReply({ embeds: [embed], components: [buttonRow], files });
-
-		const buttonInteraction = await message
-			.awaitMessageComponent({
-				componentType: ComponentType.Button,
-				time: 0,
-				filter: async (buttonInteraction) => {
-					if (buttonInteraction.user.id !== interaction.user.id) {
-						await sendError(interaction, `This button is only for ${interaction.user}`);
-						return false;
-					}
-
-					return true;
-				}
-			})
-			.catch(() => null);
-
-		if (!buttonInteraction) {
-			return;
-		}
-
-		await this.sendForm(buttonInteraction, { ...parameters, code });
+		await submission.editReply({
+			embeds: [inputEmbed, resultEmbed],
+			components: [buttonRow],
+			files: embedLimitReached ? [{ attachment: Buffer.from(output), name: 'output.txt' }] : []
+		});
 	}
 
-	private async eval(
-		// @ts-expect-error 2345
-		interaction: Command.Interaction | ButtonInteraction,
-		code: string,
-		parameters: {
-			async: boolean | null;
-			depth: number | null;
-		}
-	) {
+	// @ts-expect-error 2345 - interaction should be available in the scope of eval.
+	private static async eval(interaction: Interaction, code: string, parameters: EvalCommand.Options) {
 		if (parameters.async) {
-			code = `(async () => {\n${code}\n})();`;
+			code = `(async () => {${code}})();`;
 		}
 
-		let success = true;
-		let result;
+		const result = await Result.fromAsync(async () => {
+			const result = await (0, eval)(code);
+			return typeof result === 'string' ? result : inspect(result, { depth: parameters.depth });
+		});
 
-		try {
-			result = await eval(code);
-		} catch (error) {
-			result = `${error}`;
-			success = false;
-		}
-
-		if (typeof result !== 'string') {
-			result = inspect(result, { depth: parameters.depth });
-		}
-
-		return { result, success };
+		return result.mapErr((error) => `${error}`);
 	}
 
 	public override registerApplicationCommands(registry: Command.Registry) {
@@ -165,7 +132,16 @@ export class EvalCommand extends Command {
 							.setDescription('The depth of the displayed return type')
 							.setRequired(false)
 					),
-			{ guildIds: [env.DEV_SERVER_ID] }
+			{ guildIds: [env.DEV_SERVER_ID], idHints: ['1041005977501175878'] }
 		);
+	}
+}
+
+export namespace EvalCommand {
+	export interface Options {
+		async?: boolean | null;
+		code?: string | null;
+		depth?: number | null;
+		ephemeral?: boolean | null;
 	}
 }

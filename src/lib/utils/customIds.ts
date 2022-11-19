@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-import { none, Option, some } from '@sapphire/framework';
+import { none, type Option, some } from '@sapphire/framework';
 
 export const enum CustomId {
-	Arbitrary = '**'
+	Arbitrary = '**',
+	CodeInput = 'code-input',
+	ReviseCodeButton = 'revise-code-button'
 }
 
 // `Resolver`s will be used with different data types to serialize parameters into the string. This setup assumes the
@@ -15,41 +17,37 @@ interface Resolver {
 	parse: (param: string, ...other: any) => any;
 }
 
-// Refactor builders to the "satisfies" keyword when Typescript 4.9 is released.
-// const createCustomIdParams = (keys: readonly ResolverKey[]) => keys;
-const createResolver = (resolver: Resolver) => resolver;
-
-// Remove "as" assertion when first entry is added.
-const customIdParams = {} as Record<CustomId, readonly ResolverKey[]>;
+const customIdParams = {
+	// Params: userId, async, depth, ephemeral
+	[CustomId.ReviseCodeButton]: ['string', 'boolean?', 'number?', 'boolean?'] as const,
+} satisfies Partial<Record<CustomId, readonly ResolverKey[]>>;
 
 const baseResolvers = {
-	string: createResolver({ create: (param: string) => param, parse: (param) => param }),
-	boolean: createResolver({ create: (param: boolean) => (param ? '1' : '0'), parse: (param) => param === '1' }),
-	number: createResolver({ create: (param: number) => param.toString(), parse: Number })
-};
+	string: { create: (param: string) => param, parse: (param) => param },
+	boolean: { create: (param: boolean) => (param ? '1' : '0'), parse: (param) => param === '1' },
+	number: { create: (param: number) => param.toString(), parse: Number }
+} satisfies Record<string, Resolver>;
 
 // Prevent circular references.
 const resolvers = baseResolvers;
 const customIdSeparator = '.' as const;
 
-const customIdResolver: Resolver = {
+const customIdResolver = {
 	create: <T extends CustomId>(param: T, ...args: CreateParams<T>) => {
 		const schema = customIdParams[param as keyof typeof customIdParams];
 		if (!schema) {
 			return param;
 		}
 
-		const paramResolvers = schema.map<Resolver>((id) => {
-			const resolver = (id.endsWith('?') ? id.slice(0, -1) : id) as keyof typeof resolvers;
-			return resolvers[resolver];
-		});
-
 		const createdArgs = args.map((arg, idx) => {
 			if (arg === undefined) {
 				return '';
 			}
 
-			const resolver = paramResolvers[idx];
+			const resolverId = schema[idx];
+			const resolverIdx = (resolverId.endsWith('?') ? resolverId.slice(0, -1) : resolverId);
+			const resolver = resolvers[resolverIdx as keyof typeof resolvers] as Resolver;
+
 			if (!resolver) {
 				return '';
 			}
@@ -65,32 +63,37 @@ const customIdResolver: Resolver = {
 		return [param, ...createdArgs].join(customIdSeparator);
 	},
 	// This function will double as a check that this interaction has the custom ID(s) you're looking for.
-	parse: <T extends CustomId>(param: string, wanted: T[], extras?: ParseExtras<T>): ParsedCustomId<T> => {
+	parse: <T extends CustomId>(
+		param: string,
+		options: { extras?: ParseExtras<T>; filter?: T[]; parseAgs?: boolean }
+	): ParsedCustomId<T> => {
 		const [name, ...args] = param.split(customIdSeparator) as [T, ...string[]];
 
-		if (!wanted.includes(name)) {
+		if (options.filter && !options.filter.includes(name)) {
 			return none;
 		}
 
-		if (!args.length) {
+		if (!args.length || options.parseAgs === false) {
 			return some([name, []] as any);
 		}
 
-		const paramResolvers = customIdParams[name as keyof typeof customIdParams].map<[Resolver, ...any[]]>((id) => {
-			const resolver = resolvers[(id.endsWith('?') ? id.slice(0, -1) : id) as keyof typeof resolvers];
-			const extra = extras?.[id]?.[0];
-
-			return Array.isArray(extra) ? [resolver, ...extra] : [resolver, extra];
-		});
-
 		const parsedArgs = args.map((arg, idx) => {
-			const [resolver, ...args] = paramResolvers[idx];
-			return resolver.parse(arg, ...args);
+			if (!arg) {
+				// eslint-disable-next-line array-callback-return
+				return;
+			}
+
+			const resolverId = customIdParams[name as keyof typeof customIdParams][idx];
+			const resolverIdx = (resolverId.endsWith('?') ? resolverId.slice(0, -1) : resolverId);
+			const resolver = resolvers[resolverIdx as keyof typeof resolvers] as Resolver;
+
+			const extraParams = options.extras?.[resolverId]?.[0];
+			return resolver.parse(arg, ...(Array.isArray(extraParams) ? extraParams : [extraParams]));
 		});
 
 		return some([name, parsedArgs] as any);
 	}
-};
+} satisfies Resolver;
 
 export const createCustomId = customIdResolver.create;
 export const parseCustomId = customIdResolver.parse;

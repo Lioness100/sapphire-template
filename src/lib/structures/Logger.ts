@@ -1,17 +1,13 @@
-import { container, type ILogger, type Piece } from '@sapphire/framework';
+import { LogLevel, type ILogger } from '@sapphire/framework';
 import { Logger as TSLogger } from 'tslog';
-import { redBright, bold } from 'colorette';
+import { env } from '#root/config';
 
 export class Logger extends TSLogger implements ILogger {
-	public has(): never {
-		throw new Error('Not Implemented');
+	public has(level: LogLevel) {
+		return level >= (env.isDev ? LogLevel.Debug : LogLevel.Info);
 	}
 
-	public write(): never {
+	public write() {
 		throw new Error('Not Implemented');
-	}
-
-	public static reportPieceError(error: Error, piece: Piece) {
-		container.logger.fatal(redBright(bold(`[${piece.store.name}/${piece.name}]`)), error);
 	}
 }

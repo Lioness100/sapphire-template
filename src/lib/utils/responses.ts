@@ -6,8 +6,11 @@ import {
 	type MessageActionRowComponent,
 	type RepliableInteraction,
 	type InteractionReplyOptions,
-	type WebhookEditMessageOptions
+	type WebhookEditMessageOptions,
+	ComponentType,
+	ButtonStyle
 } from 'discord.js';
+import { type CustomId, parseCustomId } from '#utils/customIds';
 
 export const safelyReply = (
 	interaction: RepliableInteraction,
@@ -38,10 +41,7 @@ export const sendError = async (
 	description: string,
 	options: { ephemeral?: boolean; prefix?: string; tip?: string } = {}
 ) => {
-	// Core sapphire errors end in ".", so that needs to be accounted for.
-	const formattedError = `${options.prefix ?? '❌'} ${
-		description.endsWith('.') ? description.slice(0, -1) : description
-	}!`;
+	const formattedError = `${options.prefix ?? '❌'} ${description.replace(/[!.?]*$/, '!')}`;
 	const formattedDescription = `${formattedError}${options.tip ? `\n${italic(`💡${options.tip}`)}` : ''}`;
 
 	await safelyReply(interaction, {
@@ -50,10 +50,24 @@ export const sendError = async (
 	});
 };
 
-export const toggleComponents = (rows: ActionRow<MessageActionRowComponent>[]) => {
+export const disableComponents = (
+	rows: ActionRow<MessageActionRowComponent>[],
+	options?: { preserveColorForOnly?: CustomId }
+) => {
 	return rows.map((row) =>
 		row.components.map((component) => {
-			return Reflect.set(component.data, 'disabled', !component.disabled);
+			if (options?.preserveColorForOnly && component.type === ComponentType.Button) {
+				const preserveColor = parseCustomId(component.customId!, {
+					filter: [options.preserveColorForOnly],
+					parseAgs: false
+				});
+
+				if (preserveColor.isNone()) {
+					Reflect.set(component.data, 'style', ButtonStyle.Secondary);
+				}
+			}
+
+			return Reflect.set(component.data, 'disabled', true);
 		})
 	);
 };

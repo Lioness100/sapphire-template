@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import 'dotenv/config';
+
 import { type ClientOptions, GatewayIntentBits } from 'discord.js';
 import { cleanEnv, str } from 'envalid';
 import { Logger } from '#structures/Logger';
@@ -14,6 +16,6 @@ export const env = cleanEnv(process.env, {
 export const clientOptions: ClientOptions = {
 	// Intents dictate what events the client will receive.
 	intents: [GatewayIntentBits.Guilds],
-	logger: { instance: new Logger() },
+	logger: { instance: new Logger({ displayFilePath: 'hidden', displayFunctionName: false }) },
 	loadDefaultErrorListeners: false
 };

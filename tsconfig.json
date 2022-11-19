@@ -3,11 +3,12 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
+    "baseUrl": "src",
     "paths": {
-      "#structures/*": ["./src/lib/structures/*"],
-      "#utils/*": ["./src/lib/utils/*"],
-      "#types/*": ["./src/lib/types/*"],
-      "#root/*": ["./src/*"]
+      "#structures/*": ["lib/structures/*"],
+      "#utils/*": ["lib/utils/*"],
+      "#types/*": ["lib/types/*"],
+      "#root/*": ["*"]
     }
   },
   "include": ["src"]

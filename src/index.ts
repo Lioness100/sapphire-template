@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import { SapphireClient, Piece, container } from '@sapphire/framework';
 import { PaginatedMessage } from '@sapphire/discord.js-utilities';
 import { clientOptions } from '#root/config';
