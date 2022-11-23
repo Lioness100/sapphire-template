@@ -19,7 +19,7 @@ interface Resolver {
 
 const customIdParams = {
 	// Params: userId, async, depth, ephemeral
-	[CustomId.ReviseCodeButton]: ['string', 'boolean?', 'number?', 'boolean?'] as const,
+	[CustomId.ReviseCodeButton]: ['string', 'boolean?', 'number?', 'boolean?'] as const
 } satisfies Partial<Record<CustomId, readonly ResolverKey[]>>;
 
 const baseResolvers = {
@@ -45,7 +45,7 @@ const customIdResolver = {
 			}
 
 			const resolverId = schema[idx];
-			const resolverIdx = (resolverId.endsWith('?') ? resolverId.slice(0, -1) : resolverId);
+			const resolverIdx = resolverId.endsWith('?') ? resolverId.slice(0, -1) : resolverId;
 			const resolver = resolvers[resolverIdx as keyof typeof resolvers] as Resolver;
 
 			if (!resolver) {
@@ -84,7 +84,7 @@ const customIdResolver = {
 			}
 
 			const resolverId = customIdParams[name as keyof typeof customIdParams][idx];
-			const resolverIdx = (resolverId.endsWith('?') ? resolverId.slice(0, -1) : resolverId);
+			const resolverIdx = resolverId.endsWith('?') ? resolverId.slice(0, -1) : resolverId;
 			const resolver = resolvers[resolverIdx as keyof typeof resolvers] as Resolver;
 
 			const extraParams = options.extras?.[resolverId]?.[0];
