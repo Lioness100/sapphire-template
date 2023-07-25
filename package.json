@@ -17,33 +17,35 @@
     "pm2": "pm2 start ecosystem.yml",
     "start": "node --enable-source-maps .",
     "lint": "eslint .",
-    "format": "prettier --write \"{*,src/**/*}.{json,js,ts}\"",
-    "build": "tsup --config node_modules/@lioness100/configs/tsup.config.js --define.PROJECT_TYPE bot"
+    "format": "prettier --write \"{*,src/**/*}.{json,js,ts,css,html}\"",
+    "build": "tsup --config node_modules/@lioness100/configs/tsup.config.js --define.PROJECT_TYPE bot",
+    "watch": "tsup --config node_modules/@lioness100/configs/tsup.config.js --define.PROJECT_TYPE bot --clean=false --watch"
   },
   "dependencies": {
-    "@sapphire/decorators": "pr-434",
-    "@sapphire/discord.js-utilities": "pr-434",
-    "@sapphire/framework": "pr-512",
-    "@sapphire/utilities": "^3.11.0",
-    "colorette": "^2.0.19",
-    "discord.js": "^14.6.0",
-    "dotenv": "^16.0.3",
+    "@sapphire/decorators": "^6.0.2",
+    "@sapphire/discord.js-utilities": "^7.0.1",
+    "@sapphire/framework": "^3.3.0-pr-512.de20326.0",
+    "@sapphire/plugin-hmr": "^2.0.1",
+    "@sapphire/utilities": "^3.13.0",
+    "colorette": "^2.0.20",
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.3.1",
     "envalid": "^7.3.1",
     "tslog": "^3.3.4"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.7",
-    "utf-8-validate": "^5.0.10",
-    "zlib-sync": "^0.1.7"
+    "utf-8-validate": "^6.0.3",
+    "zlib-sync": "^0.1.8"
   },
   "devDependencies": {
-    "@lioness100/configs": "1.0.12",
-    "@types/node": "^18.11.9",
-    "eslint": "^8.27.0",
-    "pm2": "^5.2.2",
-    "prettier": "^2.8.0",
-    "tsup": "^6.5.0",
-    "typescript": "^4.9.3"
+    "@lioness100/configs": "1.0.23",
+    "@types/node": "^20.4.5",
+    "eslint": "^8.45.0",
+    "pm2": "^5.3.0",
+    "prettier": "^2.8.8",
+    "tsup": "^7.1.0",
+    "typescript": "^5.1.6"
   },
   "engines": {
     "node": ">=16.6"

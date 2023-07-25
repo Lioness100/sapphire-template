@@ -6,12 +6,11 @@ import {
 	type ContextMenuCommandErrorPayload,
 	type InteractionHandlerError,
 	type InteractionHandlerParseError,
-	type AutocompleteInteractionPayload
+	type AutocompleteInteractionPayload,
+	type Command
 } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
-import type { RepliableInteraction } from 'discord.js';
-import { logPieceError, reportPieceError } from '#utils/logging';
-import type { Command } from '#structures/Command';
+import { logPieceError } from '#utils/logging';
 
 @ApplyOptions<Listener.Options>({ name: Events.Error })
 export class ErrorListener extends Listener<typeof Events.Error> {
@@ -47,28 +46,28 @@ export class CommandApplicationCommandRegistryErrorListener extends Listener<
 
 @ApplyOptions<Listener.Options>({ name: Events.ChatInputCommandError })
 export class ChatInputCommandErrorListener extends Listener<typeof Events.ChatInputCommandError> {
-	public run(error: Error, { command, interaction }: ChatInputCommandErrorPayload) {
-		return reportPieceError(error, command, interaction);
+	public run(error: Error, { command }: ChatInputCommandErrorPayload) {
+		logPieceError(error, command);
 	}
 }
 
 @ApplyOptions<Listener.Options>({ name: Events.ContextMenuCommandError })
 export class ContextMenuErrorListener extends Listener<typeof Events.ContextMenuCommandError> {
-	public run(error: Error, { command, interaction }: ContextMenuCommandErrorPayload) {
-		return reportPieceError(error, command, interaction as RepliableInteraction);
+	public run(error: Error, { command }: ContextMenuCommandErrorPayload) {
+		logPieceError(error, command);
 	}
 }
 
 @ApplyOptions<Listener.Options>({ name: Events.InteractionHandlerError })
 export class InteractionHandlerErrorListener extends Listener<typeof Events.InteractionHandlerError> {
-	public run(error: Error, { handler, interaction }: InteractionHandlerError) {
-		return reportPieceError(error, handler, interaction as RepliableInteraction);
+	public run(error: Error, { handler }: InteractionHandlerError) {
+		logPieceError(error, handler);
 	}
 }
 
 @ApplyOptions<Listener.Options>({ name: Events.InteractionHandlerParseError })
 export class InteractionHandlerParseErrorListener extends Listener<typeof Events.InteractionHandlerParseError> {
-	public run(error: Error, { handler, interaction }: InteractionHandlerParseError) {
-		return reportPieceError(error, handler, interaction as RepliableInteraction);
+	public run(error: Error, { handler }: InteractionHandlerParseError) {
+		logPieceError(error, handler);
 	}
 }

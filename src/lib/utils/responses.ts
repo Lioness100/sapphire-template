@@ -1,20 +1,20 @@
 import {
 	EmbedBuilder,
-	Colors,
 	italic,
 	type ActionRow,
 	type MessageActionRowComponent,
 	type RepliableInteraction,
 	type InteractionReplyOptions,
-	type WebhookEditMessageOptions,
+	type WebhookEditOptions,
 	ComponentType,
-	ButtonStyle
+	ButtonStyle,
+	Colors
 } from 'discord.js';
 import { type CustomId, parseCustomId } from '#utils/customIds';
 
 export const safelyReply = (
 	interaction: RepliableInteraction,
-	payload: InteractionReplyOptions & WebhookEditMessageOptions
+	payload: InteractionReplyOptions & WebhookEditOptions
 ) => {
 	if (interaction.deferred) {
 		return interaction.editReply(payload);
@@ -31,12 +31,16 @@ export const createEmbed = (description?: string, color: number = Colors.Aqua) =
 	return new EmbedBuilder({ color, description });
 };
 
-export const sendSuccess = async (interaction: RepliableInteraction, description: string) => {
+export const sendSuccess = async (
+	interaction: RepliableInteraction,
+	description: string,
+	options: { ephemeral?: boolean } = {}
+) => {
 	const embed = createEmbed(`✅ ${description}`);
-	return interaction.reply({ embeds: [embed] });
+	return safelyReply(interaction, { embeds: [embed], ephemeral: options.ephemeral ?? false });
 };
 
-export const sendError = async (
+export const sendError = (
 	interaction: RepliableInteraction,
 	description: string,
 	options: { ephemeral?: boolean; prefix?: string; tip?: string } = {}
@@ -44,7 +48,7 @@ export const sendError = async (
 	const formattedError = `${options.prefix ?? '❌'} ${description.replace(/[!.?]*$/, '!')}`;
 	const formattedDescription = `${formattedError}${options.tip ? `\n${italic(`💡${options.tip}`)}` : ''}`;
 
-	await safelyReply(interaction, {
+	return safelyReply(interaction, {
 		embeds: [createEmbed(formattedDescription, Colors.Red)],
 		ephemeral: options.ephemeral ?? true
 	});
@@ -52,14 +56,14 @@ export const sendError = async (
 
 export const disableComponents = (
 	rows: ActionRow<MessageActionRowComponent>[],
-	options?: { preserveColorForOnly?: CustomId }
+	options?: { enableOnly?: CustomId[]; preserveColorForOnly?: CustomId[] }
 ) => {
-	return rows.map((row) =>
-		row.components.map((component) => {
+	for (const row of rows) {
+		for (const component of row.components) {
 			if (options?.preserveColorForOnly && component.type === ComponentType.Button) {
 				const preserveColor = parseCustomId(component.customId!, {
-					filter: [options.preserveColorForOnly],
-					parseAgs: false
+					filter: options.preserveColorForOnly,
+					parseArgs: false
 				});
 
 				if (preserveColor.isNone()) {
@@ -67,7 +71,21 @@ export const disableComponents = (
 				}
 			}
 
-			return Reflect.set(component.data, 'disabled', true);
-		})
-	);
+			if (options?.enableOnly && component.type === ComponentType.Button) {
+				const enableOnly = parseCustomId(component.customId!, {
+					filter: options.enableOnly,
+					parseArgs: false
+				});
+
+				if (enableOnly.isSome()) {
+					Reflect.set(component.data, 'disabled', false);
+					continue;
+				}
+			}
+
+			Reflect.set(component.data, 'disabled', true);
+		}
+	}
+
+	return rows;
 };

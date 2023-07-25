@@ -17,10 +17,17 @@ interface Resolver {
 	parse: (param: string, ...other: any) => any;
 }
 
+const ParamType = {
+	InteractionId: 'string',
+	UserId: 'string',
+	Async: 'boolean?',
+	Depth: 'number?',
+	Ephemeral: 'boolean?'
+} satisfies Record<string, ResolverKey>;
+
 const customIdParams = {
-	// Params: userId, async, depth, ephemeral
-	[CustomId.ReviseCodeButton]: ['string', 'boolean?', 'number?', 'boolean?'] as const
-} satisfies Partial<Record<CustomId, readonly ResolverKey[]>>;
+	[CustomId.ReviseCodeButton]: [ParamType.UserId, ParamType.Async, ParamType.Depth, ParamType.Ephemeral] as const
+} as const satisfies Partial<Record<CustomId, readonly ResolverKey[]>>;
 
 const baseResolvers = {
 	string: { create: (param: string) => param, parse: (param) => param },
@@ -30,7 +37,7 @@ const baseResolvers = {
 
 // Prevent circular references.
 const resolvers = baseResolvers;
-const customIdSeparator = '.' as const;
+const customIdSeparator = '|' as const;
 
 const customIdResolver = {
 	create: <T extends CustomId>(param: T, ...args: CreateParams<T>) => {
@@ -65,7 +72,7 @@ const customIdResolver = {
 	// This function will double as a check that this interaction has the custom ID(s) you're looking for.
 	parse: <T extends CustomId>(
 		param: string,
-		options: { extras?: ParseExtras<T>; filter?: T[]; parseAgs?: boolean }
+		options: { extras?: ParseExtras<T>; filter?: T[]; parseArgs?: boolean }
 	): ParsedCustomId<T> => {
 		const [name, ...args] = param.split(customIdSeparator) as [T, ...string[]];
 
@@ -73,7 +80,7 @@ const customIdResolver = {
 			return none;
 		}
 
-		if (!args.length || options.parseAgs === false) {
+		if (!args.length || options.parseArgs === false) {
 			return some([name, []] as any);
 		}
 

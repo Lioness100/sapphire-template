@@ -13,12 +13,7 @@ export class ReadyListener extends Listener<typeof Events.ClientReady> {
 			.join('\n');
 
 		console.log(String.raw`
-___________                   .__          __           __________        __
-\__    ___/___   _____ ______ |  | _____ _/  |_  ____   \______   \ _____/  |_
-  |    |_/ __ \ /     \\____ \|  | \__  \\   __\/ __ \   |    |  _//  _ \   __\
-  |    |\  ___/|  Y Y  \  |_> >  |__/ __ \|  | \  ___/   |    |   (  <_> )  |
-  |____| \___  >__|_|  /   __/|____(____  /__|  \___  >  |______  /\____/|__|
-             \/      \/|__|             \/          \/          \/
+		${bold('Sapphire Template')}
 
   [${green('+')}] Gateway
 ${storesDisplay}

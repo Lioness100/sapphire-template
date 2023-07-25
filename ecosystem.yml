@@ -1,5 +1,6 @@
 apps:
   - script: './dist/index.js'
+    name: 'sapphire-template'
     node_args: '--enable-source-maps'
     env: { 'NODE_ENV': 'production' }
     time: true
