@@ -5,7 +5,7 @@ import { type ClientOptions, GatewayIntentBits } from 'discord.js';
 import { cleanEnv, str } from 'envalid';
 import { Logger } from '#structures/Logger';
 
-// Unless explicitly defined, set NODE_ENV to development.
+process.env.TZ = 'America/New_York';
 process.env.NODE_ENV ??= 'development';
 
 export const env = cleanEnv(process.env, {
@@ -14,9 +14,8 @@ export const env = cleanEnv(process.env, {
 });
 
 export const clientOptions: ClientOptions = {
-	// Intents dictate what events the client will receive.
 	intents: [GatewayIntentBits.Guilds],
-	logger: { instance: new Logger({ displayFilePath: 'hidden', displayFunctionName: false }) },
+	logger: { instance: new Logger() },
 	loadDefaultErrorListeners: false,
 	hmr: { enabled: env.isDev }
 };

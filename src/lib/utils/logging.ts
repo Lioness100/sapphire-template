@@ -8,7 +8,7 @@ export const logPieceSuccess = (piece: Piece, interaction: Interaction) => {
 	container.logger.debug(`${nameDisplay} - Executed by ${interaction.user.tag} (${interaction.user.id})`);
 };
 
-export const logPieceError = (error: Error, piece: Piece) => {
+export const logPieceError = (error: unknown, piece: Piece) => {
 	container.logger.fatal(redBright(bold(`[${piece.store.name}/${piece.name}]`)), error);
 };
 

@@ -17,16 +17,20 @@ interface Resolver {
 	parse: (param: string, ...other: any) => any;
 }
 
+const optional = <T extends ResolverKey>(resolver: T): `${T}?` => {
+	return `${resolver}?` as const;
+};
+
 const ParamType = {
 	InteractionId: 'string',
 	UserId: 'string',
-	Async: 'boolean?',
-	Depth: 'number?',
-	Ephemeral: 'boolean?'
+	Async: optional('boolean'),
+	Depth: optional('number'),
+	Ephemeral: optional('boolean')
 } satisfies Record<string, ResolverKey>;
 
 const customIdParams = {
-	[CustomId.ReviseCodeButton]: [ParamType.UserId, ParamType.Async, ParamType.Depth, ParamType.Ephemeral] as const
+	[CustomId.ReviseCodeButton]: [ParamType.UserId, ParamType.Async, ParamType.Depth, ParamType.Ephemeral]
 } as const satisfies Partial<Record<CustomId, readonly ResolverKey[]>>;
 
 const baseResolvers = {
@@ -94,7 +98,7 @@ const customIdResolver = {
 			const resolverIdx = resolverId.endsWith('?') ? resolverId.slice(0, -1) : resolverId;
 			const resolver = resolvers[resolverIdx as keyof typeof resolvers] as Resolver;
 
-			const extraParams = options.extras?.[resolverId]?.[0];
+			const extraParams = (options.extras as any)?.[resolverId]?.[0];
 			return resolver.parse(arg, ...(Array.isArray(extraParams) ? extraParams : [extraParams]));
 		});
 
@@ -104,6 +108,10 @@ const customIdResolver = {
 
 export const createCustomId = customIdResolver.create;
 export const parseCustomId = customIdResolver.parse;
+export const parseCustomIdArgs = <T extends CustomId>(
+	param: string,
+	options: { extras?: ParseExtras<T>; filter?: T[]; parseArgs?: boolean }
+): ParsedCustomIdArgs<T> => parseCustomId(param, options).map(([, args]) => args);
 
 // Types to resolve the types from resolver names. Read if you dare.
 type MethodType = 'params' | 'return' | 'parse-args';
@@ -117,8 +125,8 @@ type ResolverParam<R extends Resolver, Method extends MethodType> = Method exten
 	: ReturnType<R['parse']>;
 
 type CustomIdParam<T extends ResolverKey, Method extends MethodType> = T extends `${infer T2}?`
-	? [param?: ResolverParam<typeof resolvers[T2 & keyof typeof resolvers], Method>]
-	: [param: ResolverParam<typeof resolvers[T & keyof typeof resolvers], Method>];
+	? [param?: ResolverParam<(typeof resolvers)[T2 & keyof typeof resolvers], Method>]
+	: [param: ResolverParam<(typeof resolvers)[T & keyof typeof resolvers], Method>];
 
 type ResolverKey = `${keyof typeof resolvers}${'?' | ''}`;
 type CustomIdParams<T extends readonly ResolverKey[], Method extends MethodType> = T extends readonly [
@@ -131,13 +139,17 @@ type CustomIdParams<T extends readonly ResolverKey[], Method extends MethodType>
 	: [];
 
 type CreateParams<T extends CustomId> = T extends keyof typeof customIdParams
-	? CustomIdParams<typeof customIdParams[T], 'params'>
+	? CustomIdParams<(typeof customIdParams)[T], 'params'>
 	: never;
 
 type ParseExtras<T extends CustomId> = T extends keyof typeof customIdParams
-	? { [K in typeof customIdParams[T][number]]?: CustomIdParam<K, 'parse-args'> | undefined }
+	? { [K in (typeof customIdParams)[T][number]]?: CustomIdParam<K, 'parse-args'> | undefined }
 	: never;
 
 type ParsedCustomId<T extends CustomId> = Option<
-	[T, T extends keyof typeof customIdParams ? CustomIdParams<typeof customIdParams[T], 'return'> : []]
+	[T, T extends keyof typeof customIdParams ? CustomIdParams<(typeof customIdParams)[T], 'return'> : []]
 >;
+
+type ParsedCustomIdArgs<T extends CustomId> = ParsedCustomId<T> extends Option<[any, infer Args]>
+	? Option<Args>
+	: never;

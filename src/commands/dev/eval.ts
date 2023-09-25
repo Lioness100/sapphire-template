@@ -34,7 +34,7 @@ export class EvalCommand extends Command {
 		parameters: EvalCommand.Options
 	) {
 		const codeInput = new TextInputBuilder()
-			.setCustomId(createCustomId(CustomId.CodeInput))
+			.setCustomId(CustomId.CodeInput)
 			.setLabel(`${parameters.async ? 'Async ' : ''}Code`)
 			.setRequired(true)
 			.setStyle(TextInputStyle.Paragraph);
@@ -44,9 +44,7 @@ export class EvalCommand extends Command {
 		}
 
 		const row = new ActionRowBuilder<TextInputBuilder>({ components: [codeInput] });
-		const modal = new ModalBuilder({ components: [row] })
-			.setTitle('Code Editor')
-			.setCustomId(createCustomId(CustomId.Arbitrary));
+		const modal = new ModalBuilder({ components: [row] }).setTitle('Code Editor').setCustomId(CustomId.Arbitrary);
 
 		await interaction.showModal(modal);
 		const submission = await interaction.awaitModalSubmit({ time: 0 }).catch(() => null);
@@ -78,7 +76,7 @@ export class EvalCommand extends Command {
 			parameters.ephemeral ?? undefined
 		);
 
-		const reviseButton = new ButtonBuilder() //
+		const reviseButton = new ButtonBuilder()
 			.setCustomId(reviseButtonCustomId)
 			.setEmoji('🔁')
 			.setLabel('Revise')

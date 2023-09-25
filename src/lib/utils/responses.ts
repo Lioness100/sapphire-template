@@ -8,7 +8,10 @@ import {
 	type WebhookEditOptions,
 	ComponentType,
 	ButtonStyle,
-	Colors
+	Colors,
+	type CommandInteraction,
+	type MessageComponentInteraction,
+	type ModalBuilder
 } from 'discord.js';
 import { type CustomId, parseCustomId } from '#utils/customIds';
 
@@ -34,9 +37,9 @@ export const createEmbed = (description?: string, color: number = Colors.Aqua) =
 export const sendSuccess = async (
 	interaction: RepliableInteraction,
 	description: string,
-	options: { ephemeral?: boolean } = {}
+	options: { emoji?: string; ephemeral?: boolean } = {}
 ) => {
-	const embed = createEmbed(`✅ ${description}`);
+	const embed = createEmbed(`${options.emoji ?? '✅'} ${description}`);
 	return safelyReply(interaction, { embeds: [embed], ephemeral: options.ephemeral ?? false });
 };
 
@@ -88,4 +91,15 @@ export const disableComponents = (
 	}
 
 	return rows;
+};
+
+export const awaitModalSubmit = async (
+	interaction: CommandInteraction | MessageComponentInteraction,
+	modal: ModalBuilder
+) => {
+	await interaction.showModal(modal);
+	return interaction.awaitModalSubmit({
+		time: 0,
+		filter: (interaction) => interaction.customId === modal.data.custom_id
+	});
 };

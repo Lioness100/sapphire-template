@@ -1,10 +1,9 @@
+// eslint-disable-next-line import/no-unresolved
 import '@sapphire/plugin-hmr/register';
 
-import { SapphireClient, Piece, container, ApplicationCommandRegistries, RegisterBehavior } from '@sapphire/framework';
+import { SapphireClient, ApplicationCommandRegistries, RegisterBehavior } from '@sapphire/framework';
 import { PaginatedMessage } from '@sapphire/discord.js-utilities';
 import { clientOptions, env } from '#root/config';
-
-process.env.TZ = 'America/New_York';
 
 const client = new SapphireClient(clientOptions);
 
@@ -15,13 +14,9 @@ if (env.isDev) {
 	ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.BulkOverwrite);
 }
 
-// Utility - saves a lot of characters.
-Object.defineProperty(Piece.prototype, 'client', { get: () => container.client });
-
 try {
 	await client.login();
 } catch (error) {
 	client.logger.fatal(error);
-	client.destroy();
 	process.exit(1);
 }
