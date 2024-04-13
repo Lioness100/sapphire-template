@@ -2,9 +2,7 @@
 import { none, type Option, some } from '@sapphire/framework';
 
 export const enum CustomId {
-	Arbitrary = '**',
-	CodeInput = 'code-input',
-	ReviseCodeButton = 'revise-code-button'
+	Arbitrary = '**'
 }
 
 // `Resolver`s will be used with different data types to serialize parameters into the string. This setup assumes the
@@ -22,15 +20,11 @@ const optional = <T extends ResolverKey>(resolver: T): `${T}?` => {
 };
 
 const ParamType = {
-	InteractionId: 'string',
-	UserId: 'string',
-	Async: optional('boolean'),
-	Depth: optional('number'),
-	Ephemeral: optional('boolean')
+	InteractionId: 'string'
 } satisfies Record<string, ResolverKey>;
 
 const customIdParams = {
-	[CustomId.ReviseCodeButton]: [ParamType.UserId, ParamType.Async, ParamType.Depth, ParamType.Ephemeral]
+	[CustomId.Arbitrary]: [optional(ParamType.InteractionId)] as const
 } as const satisfies Partial<Record<CustomId, readonly ResolverKey[]>>;
 
 const baseResolvers = {
