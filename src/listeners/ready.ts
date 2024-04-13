@@ -6,21 +6,20 @@ import { env } from '#root/config';
 @ApplyOptions<Listener.Options>({ once: true })
 export class ReadyListener extends Listener<typeof Events.ClientReady> {
 	public run() {
-		const usedStores = this.container.stores.filter((store) => store.size).sorted((a, b) => a.size - b.size);
-		const storesDisplay = usedStores
-			.map((store) => `  [${blue(store.size)}] ${this.toTitleCase(store.name.replace('-', ' '))}`)
+		const stores = this.container.stores
+			.filter((store) => store.size)
+			.map((store) => {
+				const titleCase = store.name.replace('-', ' ').replaceAll(/\b\w/g, (char) => char.toUpperCase());
+				return `  [${blue(store.size)}] ${titleCase}`;
+			})
 			.join('\n');
 
 		console.log(String.raw`
 		${bold('Discord Bot')}
 
   [${green('+')}] Gateway
-${storesDisplay}
+${stores}
   ${magenta('<')}${magentaBright('/')}${magenta('>')} ${bold(`${env.isProduction ? 'PROD' : 'DEV'} MODE`)}
 `);
-	}
-
-	private toTitleCase(text: string) {
-		return text.replaceAll(/\b\w/g, (char) => char.toUpperCase());
 	}
 }
