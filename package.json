@@ -22,28 +22,28 @@
   },
   "dependencies": {
     "@sapphire/decorators": "^6.1.0",
-    "@sapphire/framework": "^5.1.0",
+    "@sapphire/framework": "^5.2.1",
     "@sapphire/plugin-hmr": "^3.0.1",
     "colorette": "^2.0.20",
-    "discord.js": "^14.14.1",
+    "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
     "envalid": "^8.0.0",
     "lowdb": "^7.0.1",
-    "tslog": "^4.9.2"
+    "tslog": "^4.9.3"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8",
-    "utf-8-validate": "^6.0.3",
+    "utf-8-validate": "^6.0.4",
     "zlib-sync": "^0.1.9"
   },
   "devDependencies": {
-    "@lioness100/configs": "1.0.29",
-    "@types/node": "^20.12.7",
-    "eslint": "^8.50.0",
-    "pm2": "^5.3.1",
-    "prettier": "^3.2.5",
-    "tsup": "^8.0.2",
-    "typescript": "^5.4.5"
+    "@lioness100/configs": "1.0.31",
+    "@types/node": "^20.14.9",
+    "eslint": "^8.57.0",
+    "pm2": "^5.4.1",
+    "prettier": "^3.3.2",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.2"
   },
   "engines": {
     "node": ">=16.11"

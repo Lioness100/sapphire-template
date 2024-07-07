@@ -16,3 +16,4 @@ dist/
 
 # Database
 *.sqlite
+data

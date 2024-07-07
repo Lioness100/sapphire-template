@@ -113,10 +113,10 @@ type GetParameters<A extends any[]> = A['length'] extends 1 ? A[0] : A[0] | A;
 type ResolverParam<R extends Resolver, Method extends MethodType> = Method extends 'params'
 	? GetParameters<Parameters<R['create']>>
 	: Method extends 'parse-args'
-	? Parameters<R['parse']> extends [any, ...infer U]
-		? GetParameters<U>
-		: never
-	: ReturnType<R['parse']>;
+		? Parameters<R['parse']> extends [any, ...infer U]
+			? GetParameters<U>
+			: never
+		: ReturnType<R['parse']>;
 
 type CustomIdParam<T extends ResolverKey, Method extends MethodType> = T extends `${infer T2}?`
 	? [param?: ResolverParam<(typeof resolvers)[T2 & keyof typeof resolvers], Method>]
@@ -144,6 +144,5 @@ type ParsedCustomId<T extends CustomId> = Option<
 	[T, T extends keyof typeof customIdParams ? CustomIdParams<(typeof customIdParams)[T], 'return'> : []]
 >;
 
-type ParsedCustomIdArgs<T extends CustomId> = ParsedCustomId<T> extends Option<[any, infer Args]>
-	? Option<Args>
-	: never;
+type ParsedCustomIdArgs<T extends CustomId> =
+	ParsedCustomId<T> extends Option<[any, infer Args]> ? Option<Args> : never;
