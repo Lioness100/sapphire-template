@@ -1,6 +1,6 @@
 <div align="center">
 
-# Discord Bot Template
+# Discord Bot
 
 </div>
 

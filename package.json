@@ -1,9 +1,8 @@
 {
   "name": "discord-bot",
   "version": "1.0.0",
-  "description": "Discord bot template",
+  "description": "Discord bot",
   "main": "dist/index.js",
-  "repository": "https://github.com/Lioness100/sapphire-template",
   "author": "Lioness100 <lioness.fiverr@gmail.com>",
   "type": "module",
   "private": true,
