@@ -1,5 +1,4 @@
 import { Command } from '@sapphire/framework';
-import { env } from '#root/config';
 import { sendSuccess } from '#utils/responses';
 
 export class TestCommand extends Command {
@@ -8,12 +7,10 @@ export class TestCommand extends Command {
 	}
 
 	public override registerApplicationCommands(registry: Command.Registry) {
-		registry.registerChatInputCommand(
-			(command) =>
-				command //
-					.setName('test')
-					.setDescription('test'),
-			{ guildIds: [env.DEV_SERVER_ID] }
+		registry.registerChatInputCommand((command) =>
+			command //
+				.setName('test')
+				.setDescription('test')
 		);
 	}
 }
