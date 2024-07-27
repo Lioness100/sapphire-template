@@ -13,7 +13,7 @@ import {
 	type MessageComponentInteraction,
 	type ModalBuilder
 } from 'discord.js';
-import { type CustomId, parseCustomId } from '#utils/customIds';
+import { type CustomId } from '#utils/customIds';
 
 export const safelyReply = (
 	interaction: RepliableInteraction,
@@ -64,23 +64,21 @@ export const disableComponents = (
 	for (const row of rows) {
 		for (const component of row.components) {
 			if (options?.preserveColorForOnly && component.type === ComponentType.Button) {
-				const preserveColor = parseCustomId(component.customId!, {
-					filter: options.preserveColorForOnly,
-					parseArgs: false
-				});
+				const preserveColor = options.preserveColorForOnly.some((customId) =>
+					component.customId?.startsWith(customId.toString())
+				);
 
-				if (preserveColor.isNone()) {
+				if (!preserveColor) {
 					Reflect.set(component.data, 'style', ButtonStyle.Secondary);
 				}
 			}
 
 			if (options?.enableOnly && component.type === ComponentType.Button) {
-				const enableOnly = parseCustomId(component.customId!, {
-					filter: options.enableOnly,
-					parseArgs: false
-				});
+				const enableOnly = options.enableOnly.some((customId) =>
+					component.customId?.startsWith(customId.toString())
+				);
 
-				if (enableOnly.isSome()) {
+				if (!enableOnly) {
 					Reflect.set(component.data, 'disabled', false);
 					continue;
 				}
